@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glimpsy — Safe TV & Films for Your Children</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:#f4f2ee; --cream2:#e9e5de; --cream3:#dedad2; --paper:#fefcf9;
+  --terra:#c96a3a; --terra2:#a8562e; --terra-light:#d87d4a; --terra-pale:#f5ede3;
+  --sage:#2d4a35; --sage2:#3a5a44; --sage-pale:#e4ede6; --sage-light:#4a7055;
+  --navy:#1a1814; --navy2:#2e2820; --navy3:#3d3830;
+  --warm-grey:#8a8278; --border:#ddd5c8; --border2:#ccc4b4;
+  --text:#1a1814; --muted:#8a8278; --light:#b0a898;
+  --amber:#c4a35a; --amber-pale:#f5edda;
+  --red:#b83030; --red-pale:#f5f0ee;
+  --green:#2d4a35; --green-pale:#e4ede6;
+  --shadow:0 8px 32px rgba(26,24,20,.08);
+  --shadow-sm:0 2px 12px rgba(26,24,20,.05);
+  --shadow-lg:0 20px 60px rgba(26,24,20,.12);
+  --ink:#1a1814; --gold:#c4a35a; --forest:#2d4a35; --forest-light:#4a7055;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden;font-weight:300;}
+
+/* ══ PAGE SYSTEM ══ */
+.page{display:none;min-height:100vh;}
+.page.active{display:flex;flex-direction:column;}
+
+/* ══════════════════════════════════════
+   MARKETING / LANDING PAGE
+══════════════════════════════════════ */
+#page-landing{background:var(--navy);color:white;position:relative;overflow:hidden;}
+.landing-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(45,74,53,.3) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(74,112,85,.2) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.03) 0%, transparent 60%);
+}
+.landing-grain{
+  position:absolute;inset:0;opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+.landing-nav{
+  position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;
+  padding:24px 60px;border-bottom:1px solid rgba(255,255,255,.08);
+}
+.brand{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:300;color:white;letter-spacing:.1em;}
+.brand em{font-style:italic;color:var(--forest-light);}
+.landing-nav-links{display:flex;align-items:center;gap:10px;}
+.lnk{padding:8px 18px;border-radius:8px;font-size:.82rem;font-weight:700;cursor:pointer;
+  border:none;font-family:'DM Sans',sans-serif;transition:all .15s;}
+.lnk-ghost{background:rgba(255,255,255,.06);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.12);}
+.lnk-ghost:hover{background:rgba(255,255,255,.12);color:white;}
+.lnk-primary{background:var(--forest);color:white;}
+.lnk-primary:hover{background:var(--forest-light);}
+
+.landing-hero{
+  position:relative;z-index:10;flex:1;display:flex;align-items:center;
+  padding:80px 60px 60px;gap:80px;max-width:1300px;margin:0 auto;width:100%;
+}
+.hero-left{flex:1;max-width:580px;}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(201,106,58,.15);border:1px solid rgba(201,106,58,.3);
+  border-radius:30px;padding:6px 14px;font-size:.72rem;font-weight:800;
+  color:var(--terra-light);letter-spacing:.06em;text-transform:uppercase;
+  margin-bottom:24px;
+}
+.hero-h1{
+  font-family:'Cormorant Garamond',serif;font-size:4rem;font-weight:300;
+  line-height:1.05;letter-spacing:-.01em;color:white;margin-bottom:22px;
+}
+.hero-h1 em{color:var(--terra-light);font-style:italic;}
+.hero-sub{font-size:1.05rem;color:rgba(255,255,255,.6);line-height:1.7;margin-bottom:36px;max-width:460px;}
+.hero-actions{display:flex;gap:12px;align-items:center;}
+.btn-hero{
+  padding:14px 30px;border-radius:3px;font-family:'DM Sans',sans-serif;
+  font-size:.9rem;font-weight:800;cursor:pointer;border:none;transition:all .2s;
+}
+.btn-hero-primary{background:var(--forest);color:white;box-shadow:0 4px 20px rgba(45,74,53,.3);}
+.btn-hero-primary:hover{background:var(--forest-light);transform:translateY(-1px);}
+.btn-hero-secondary{background:rgba(255,255,255,.08);color:white;border:1.5px solid rgba(255,255,255,.2);}
+.btn-hero-secondary:hover{background:rgba(255,255,255,.14);}
+.hero-note{font-size:.72rem;color:rgba(255,255,255,.35);margin-top:14px;}
+
+.hero-right{flex-shrink:0;width:420px;}
+.hero-card{
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  border-radius:24px;padding:24px;backdrop-filter:blur(10px);
+}
+.hero-card-title{font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:600;
+  color:rgba(255,255,255,.5);margin-bottom:16px;letter-spacing:.02em;}
+.mini-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.mini-card{
+  border-radius:14px;padding:14px 12px;cursor:default;
+  border:1px solid rgba(255,255,255,.08);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  background:rgba(255,255,255,.04);transition:all .2s;
+}
+.mini-card:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);}
+.mini-emoji{font-size:2rem;}
+.mini-title{font-family:'Cormorant Garamond',serif;font-size:.78rem;font-weight:600;color:white;text-align:center;}
+.mini-badge{font-size:.58rem;font-weight:800;padding:2px 8px;border-radius:20px;}
+.mb-safe{background:rgba(46,122,74,.3);color:#7adfa0;}
+.mb-warn{background:rgba(224,144,24,.2);color:#f0c060;}
+.mb-block{background:rgba(192,56,56,.2);color:#f09090;}
+
+.landing-features{
+  position:relative;z-index:10;padding:0 60px 80px;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+  max-width:1300px;margin:0 auto;width:100%;
+}
+.feat{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;padding:22px;
+}
+.feat-icon{font-size:1.6rem;margin-bottom:10px;}
+.feat-title{font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:700;color:white;margin-bottom:6px;}
+.feat-desc{font-size:.75rem;color:rgba(255,255,255,.45);line-height:1.6;}
+
+/* ══════════════════════════════════════
+   AUTH PAGE (Login / Signup)
+══════════════════════════════════════ */
+#page-auth{
+  background:var(--cream);
+  grid-template-columns:1fr 1fr;
+  min-height:100vh;
+}
+#page-auth.active{
+  display:grid!important;
+}
+.auth-left{
+  background:var(--navy);padding:60px;display:flex;flex-direction:column;
+  justify-content:space-between;position:relative;overflow:hidden;
+}
+.auth-left-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at 30% 40%,rgba(45,74,53,.25) 0%,transparent 55%),
+    radial-gradient(ellipse at 70% 80%,rgba(45,74,53,.12) 0%,transparent 50%);
+}
+.auth-brand{position:relative;font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:white;letter-spacing:.1em;}
+.auth-brand em{font-style:italic;color:var(--forest-light);}
+.auth-left-content{position:relative;}
+.auth-left h2{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;
+  color:white;line-height:1.2;margin-bottom:16px;}
+.auth-left h2 em{color:var(--forest-light);font-style:italic;}
+.auth-left p{font-size:.85rem;color:rgba(255,255,255,.5);line-height:1.7;max-width:340px;}
+.auth-testimonial{
+  position:relative;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  border-radius:4px;padding:18px 20px;
+}
+.auth-testimonial p{font-size:.8rem;color:rgba(255,255,255,.7);line-height:1.6;font-style:italic;margin-bottom:10px;}
+.auth-testimonial-author{font-size:.7rem;font-weight:800;color:var(--forest-light);}
+
+.auth-right{display:flex;align-items:center;justify-content:center;padding:60px;}
+.auth-box{width:100%;max-width:420px;}
+.auth-tabs{display:flex;gap:0;background:var(--cream2);border-radius:4px;padding:4px;margin-bottom:32px;}
+.auth-tab{
+  flex:1;padding:10px;border-radius:2px;text-align:center;cursor:pointer;
+  font-size:.82rem;font-weight:800;border:none;background:none;
+  color:var(--muted);transition:all .2s;font-family:'DM Sans',sans-serif;
+}
+.auth-tab.active{background:var(--paper);color:var(--forest);box-shadow:var(--shadow-sm);}
+.auth-title{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:var(--ink);margin-bottom:6px;letter-spacing:.02em;}
+.auth-sub{font-size:.78rem;color:var(--muted);margin-bottom:28px;line-height:1.5;}
+.form-field{margin-bottom:16px;}
+.form-label{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--muted);margin-bottom:6px;display:block;}
+.form-input{
+  width:100%;padding:12px 15px;border-radius:4px;border:1.5px solid var(--border);
+  background:var(--paper);font-family:'DM Sans',sans-serif;font-size:.88rem;
+  color:var(--text);outline:none;transition:border-color .15s;
+}
+.form-input:focus{border-color:var(--forest);}
+.form-input::placeholder{color:var(--light);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.btn-auth{
+  width:100%;padding:13px;border-radius:4px;border:none;background:var(--forest);
+  color:white;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:800;
+  cursor:pointer;transition:all .2s;margin-top:8px;
+}
+.btn-auth:hover{background:var(--forest-light);}
+.auth-divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--light);font-size:.72rem;}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--border);}
+.btn-social{
+  width:100%;padding:11px;border-radius:4px;border:1.5px solid var(--border);
+  background:var(--paper);font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:700;
+  color:var(--text);cursor:pointer;transition:all .15s;display:flex;align-items:center;
+  justify-content:center;gap:10px;margin-bottom:8px;
+}
+.btn-social:hover{border-color:var(--forest);background:var(--sage-pale);}
+.auth-footer{font-size:.72rem;color:var(--muted);text-align:center;margin-top:20px;}
+.auth-link{color:var(--forest);font-weight:700;cursor:pointer;}
+.auth-link:hover{text-decoration:underline;}
+
+/* ══════════════════════════════════════
+   ONBOARDING
+══════════════════════════════════════ */
+#page-onboard{background:var(--cream);}
+.onboard-wrap{max-width:680px;margin:0 auto;padding:60px 24px;}
+.onboard-header{text-align:center;margin-bottom:48px;}
+.onboard-brand{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;letter-spacing:.1em;
+  color:var(--terra);margin-bottom:8px;}
+.onboard-brand em{font-style:italic;color:var(--forest);}
+.onboard-step-dots{display:flex;gap:8px;justify-content:center;margin-bottom:32px;}
+.step-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:all .3s;}
+.step-dot.active{background:var(--terra);width:24px;border-radius:4px;}
+.step-dot.done{background:var(--sage);}
+.onboard-card{
+  background:var(--paper);border:1.5px solid var(--border);border-radius:24px;
+  padding:40px;box-shadow:var(--shadow-sm);
+}
+.onboard-step{display:none;}
+.onboard-step.active{display:block;}
+.step-title{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:700;
+  color:var(--navy);margin-bottom:8px;}
+.step-sub{font-size:.85rem;color:var(--muted);margin-bottom:30px;line-height:1.6;}
+.ob-field{margin-bottom:20px;}
+.ob-label{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--muted);margin-bottom:8px;display:block;}
+.ob-input{
+  width:100%;padding:12px 15px;border-radius:11px;border:1.5px solid var(--border);
+  background:var(--cream);font-family:'DM Sans',sans-serif;font-size:.9rem;
+  color:var(--text);outline:none;transition:border-color .15s;
+}
+.ob-input:focus{border-color:var(--terra);}
+.age-chips{display:flex;gap:8px;flex-wrap:wrap;}
+.age-chip{
+  padding:8px 16px;border-radius:20px;border:1.5px solid var(--border);
+  background:var(--cream);font-size:.78rem;font-weight:700;color:var(--warm-grey);
+  cursor:pointer;transition:all .15s;
+}
+.age-chip:hover{border-color:var(--terra);color:var(--terra);}
+.age-chip.selected{background:var(--terra);border-color:var(--terra);color:white;}
+.slider-row{margin-bottom:20px;}
+.slider-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+.slider-name{font-size:.82rem;font-weight:800;color:var(--text);}
+.slider-val{font-family:'DM Mono',monospace;font-size:.78rem;font-weight:500;padding:2px 10px;
+  border-radius:20px;font-weight:700;}
+.sv-0{background:var(--green-pale);color:var(--green);}
+.sv-1{background:var(--green-pale);color:var(--green);}
+.sv-2{background:var(--amber-pale);color:#906000;}
+.sv-3{background:var(--amber-pale);color:#906000;}
+.sv-4{background:var(--red-pale);color:var(--red);}
+.sv-5{background:var(--red-pale);color:var(--red);}
+.slider-desc{font-size:.68rem;color:var(--muted);margin-top:5px;line-height:1.4;}
+input[type=range]{width:100%;-webkit-appearance:none;height:5px;border-radius:3px;background:var(--border);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+  background:var(--terra);cursor:pointer;border:2px solid white;box-shadow:0 2px 6px rgba(201,106,58,.4);}
+.theme-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.theme-tile{
+  padding:10px 12px;border-radius:12px;border:1.5px solid var(--border);
+  background:var(--cream);cursor:pointer;transition:all .15s;text-align:center;
+}
+.theme-tile:hover{border-color:var(--terra);}
+.theme-tile.blocked{background:var(--red-pale);border-color:var(--red);}
+.theme-tile-icon{font-size:1.1rem;margin-bottom:3px;}
+.theme-tile-name{font-size:.65rem;font-weight:800;color:var(--text);}
+.theme-tile.blocked .theme-tile-name{color:var(--red);}
+.licence-toggle-row{
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--cream2);border-radius:12px;padding:14px 16px;margin-bottom:16px;
+}
+.licence-info{flex:1;}
+.licence-title{font-size:.85rem;font-weight:800;color:var(--text);margin-bottom:2px;}
+.licence-sub{font-size:.7rem;color:var(--muted);}
+.toggle{width:36px;height:20px;border-radius:10px;background:var(--border);
+  cursor:pointer;position:relative;transition:background .2s;flex-shrink:0;}
+.toggle.on{background:var(--sage);}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;
+  border-radius:50%;background:white;transition:transform .2s;box-shadow:0 1px 4px rgba(0,0,0,.2);}
+.toggle.on::after{transform:translateX(16px);}
+.onboard-actions{display:flex;justify-content:space-between;align-items:center;margin-top:32px;}
+.btn-ob-next{
+  padding:12px 28px;border-radius:11px;border:none;background:var(--terra);
+  color:white;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:800;
+  cursor:pointer;transition:all .2s;
+}
+.btn-ob-next:hover{background:var(--terra-light);}
+.btn-ob-back{
+  padding:12px 20px;border-radius:11px;border:1.5px solid var(--border);
+  background:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.88rem;
+  font-weight:700;cursor:pointer;transition:all .15s;
+}
+.btn-ob-back:hover{border-color:var(--terra);color:var(--terra);}
+.btn-ob-skip{font-size:.75rem;color:var(--muted);cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;}
+.btn-ob-skip:hover{color:var(--terra);}
+
+/* ══════════════════════════════════════
+   MAIN APP
+══════════════════════════════════════ */
+#page-app{background:#f0ede8;}
+
+/* ── TOP NAV ── */
+.app-topbar{
+  background:var(--paper);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;height:56px;position:sticky;top:0;z-index:100;
+  padding:0 40px;
+}
+.app-brand{
+  font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;
+  color:var(--ink);letter-spacing:.12em;cursor:pointer;white-space:nowrap;
+  margin-right:48px;
+}
+.app-brand em{font-style:italic;color:var(--forest);}
+.app-nav{display:flex;gap:0;flex:1;}
+.app-nav-btn{
+  padding:0 18px;height:56px;font-size:.68rem;font-weight:500;cursor:pointer;
+  border:none;background:none;color:var(--muted);transition:all .15s;
+  font-family:'DM Sans',sans-serif;letter-spacing:.1em;text-transform:uppercase;
+  border-bottom:2px solid transparent;margin-bottom:-1px;
+}
+.app-nav-btn:hover{color:var(--ink);}
+.app-nav-btn.active{color:var(--ink);border-bottom-color:var(--ink);}
+.app-topbar-right{display:flex;align-items:center;gap:12px;margin-left:auto;}
+.profile-switcher{
+  display:flex;align-items:center;gap:8px;
+  cursor:pointer;transition:all .15s;
+}
+.profile-switcher:hover .p-name{color:var(--forest);}
+.p-dot{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:.7rem;font-weight:500;color:white;letter-spacing:.04em;}
+.p-name{font-size:.72rem;font-weight:400;color:var(--ink2);letter-spacing:.04em;}
+.p-caret{font-size:.55rem;color:var(--muted);}
+.btn-signout{padding:6px 14px;border-radius:2px;border:1px solid var(--border);
+  background:none;font-family:'DM Sans',sans-serif;font-size:.65rem;font-weight:400;
+  color:var(--muted);cursor:pointer;transition:all .15s;letter-spacing:.06em;text-transform:uppercase;}
+.btn-signout:hover{border-color:var(--ink);color:var(--ink);}
+
+/* ── LAYOUT ── */
+.app-body{display:flex;min-height:calc(100vh - 56px);}
+.app-body-inner{display:flex;flex:1;max-width:1440px;margin:0 auto;width:100%;}
+.app-sidebar{
+  width:220px;flex-shrink:0;background:#faf8f4;border-right:1px solid var(--border);
+  padding:28px 20px;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;
+}
+.app-main{flex:1;padding:0;min-width:0;overflow:hidden;}
+.app-screen{display:none;}
+.app-screen.active{display:block;}
+
+/* ── SIDEBAR ── */
+.sb-section{margin-bottom:24px;}
+.sb-heading{
+  font-size:.58rem;font-weight:500;text-transform:uppercase;letter-spacing:.14em;
+  color:var(--muted);margin-bottom:10px;padding-left:0;
+}
+.filter-chips{display:flex;flex-wrap:wrap;gap:4px;}
+.chip{
+  padding:4px 12px;border-radius:2px;border:1px solid var(--border);
+  background:transparent;font-size:.65rem;font-weight:400;color:var(--muted);
+  cursor:pointer;transition:all .15s;user-select:none;letter-spacing:.03em;
+}
+.chip:hover{border-color:var(--ink);color:var(--ink);}
+.chip.active{background:var(--forest);border-color:var(--forest);color:white;}
+.chip.active-green{background:var(--forest);border-color:var(--forest);color:white;}
+.chip.blocked{background:var(--red-pale);border-color:var(--red);color:var(--red);}
+.sb-slider{padding:4px 0 10px;}
+.sb-slider-label{display:flex;justify-content:space-between;font-size:.68rem;margin-bottom:8px;}
+.sb-slider-label span{font-weight:500;color:var(--ink2);}
+.sb-slider-label small{color:var(--muted);font-size:.62rem;}
+.plat-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--cream2);}
+.plat-name{font-size:.68rem;font-weight:400;color:var(--ink2);}
+
+/* Content Grid */
+.browse-bar{display:flex;align-items:center;gap:14px;margin-bottom:22px;}
+.browse-h{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--ink);}
+.browse-count{font-size:.72rem;color:var(--muted);font-weight:600;margin-left:auto;}
+.search-wrap{position:relative;flex:1;max-width:380px;}
+.search-input{
+  width:100%;padding:10px 16px 10px 40px;border-radius:11px;border:1.5px solid var(--border);
+  background:var(--paper);font-family:'DM Sans',sans-serif;font-size:.85rem;color:var(--text);
+  outline:none;transition:border-color .15s;box-shadow:var(--shadow-sm);
+}
+.search-input:focus{border-color:var(--forest);}
+.search-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:.9rem;color:var(--muted);}
+.content-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:16px;padding:24px 28px;}
+.c-card{
+  background:var(--paper);border:1.5px solid var(--border);border-radius:4px;
+  overflow:hidden;cursor:pointer;transition:all .22s;box-shadow:var(--shadow-sm);
+}
+.c-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--forest);}
+.c-poster{
+  width:100%;aspect-ratio:2/3;display:flex;align-items:center;justify-content:center;
+  font-size:3.4rem;position:relative;overflow:hidden;
+}
+.c-badge{
+  position:absolute;top:8px;left:8px;padding:3px 8px;border-radius:4px;
+  font-size:.58rem;font-weight:700;letter-spacing:.04em;
+}
+.cb-safe{background:var(--forest);color:white;}
+.cb-theatre{background:#f0e8ff;color:#6b3fa0;border:1.5px solid rgba(107,63,160,.2);}
+.cb-warn{background:var(--amber);color:white;}
+.cb-block{background:var(--red);color:white;}
+.c-body{padding:10px 12px 13px;}
+.c-title{font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:600;
+  color:var(--text);margin-bottom:3px;line-height:1.2;}
+.c-meta{font-size:.63rem;color:var(--muted);margin-bottom:6px;}
+.c-platforms{display:flex;gap:4px;flex-wrap:wrap;}
+.c-plat{font-size:.56rem;font-weight:700;padding:2px 6px;border-radius:4px;
+  background:var(--cream2);color:var(--warm-grey);border:1px solid var(--border);}
+
+/* Detail */
+/* Detail layout wrapper */
+.detail-wrap{max-width:1200px;margin:0 auto;padding:24px 32px;}
+.detail-hero-box{
+  display:flex;gap:28px;align-items:flex-start;
+  background:#faf8f4;border:1px solid var(--border);
+  padding:28px;border-radius:2px;margin-bottom:16px;
+}
+.detail-cols-wrap{
+  display:grid;grid-template-columns:3fr 2fr 280px;gap:16px;align-items:start;
+}
+.detail-back{
+  display:inline-flex;align-items:center;gap:6px;font-size:.65rem;font-weight:400;
+  color:var(--muted);cursor:pointer;margin-bottom:16px;
+  background:none;border:none;transition:all .15s;padding:0;
+  font-family:'DM Sans',sans-serif;letter-spacing:.06em;text-transform:uppercase;
+}
+.detail-back:hover{color:var(--forest);}
+.detail-hero{display:none;}
+.d-poster{
+  width:130px;height:170px;flex-shrink:0;border-radius:4px;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;font-size:4rem;
+}
+.d-info{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;}
+.d-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:var(--ink);margin-bottom:4px;letter-spacing:-.01em;line-height:1.1;}
+.d-meta{font-size:.75rem;color:var(--muted);margin-bottom:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+.verdict{
+  padding:4px 12px;border-radius:2px;font-size:.62rem;font-weight:500;
+  display:inline-flex;align-items:center;gap:6px;margin-bottom:12px;
+  letter-spacing:.08em;text-transform:uppercase;
+}
+.v-safe{background:var(--sage-pale);color:var(--forest);border:1px solid rgba(45,74,53,.2);}
+.v-warn{background:var(--amber-pale);color:#7a5000;border:1px solid rgba(196,163,90,.3);}
+.v-block{background:var(--red-pale);color:var(--red);border:1px solid rgba(184,48,48,.2);}
+.d-synopsis{font-size:.8rem;color:var(--warm-grey);line-height:1.7;margin:0;}
+.detail-cols{display:none;}
+.d-section{
+  background:#faf8f4;border:1px solid var(--border);border-radius:2px;
+  padding:18px 20px;margin-bottom:10px;
+}
+.d-section:last-child{margin-bottom:0;}
+.d-section-title{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:400;color:var(--ink);margin-bottom:14px;letter-spacing:.02em;}
+.ratings-cap{}
+.rb-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+.rb-name{font-size:.7rem;font-weight:700;width:110px;flex-shrink:0;color:var(--text);}
+.rb-track{flex:1;height:6px;border-radius:3px;background:var(--cream2);overflow:hidden;}
+.rb-fill{height:100%;border-radius:3px;transition:width .6s ease;}
+.rb-val{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--muted);width:24px;text-align:right;}
+.theme-pills{display:flex;flex-wrap:wrap;gap:6px;}
+.t-pill{padding:3px 9px;border-radius:2px;font-size:.62rem;font-weight:400;border:1px solid;letter-spacing:.04em;}
+.tp-ok{background:var(--green-pale);color:var(--green);border-color:rgba(46,122,74,.25);}
+.tp-warn{background:var(--amber-pale);color:#906000;border-color:rgba(224,144,24,.25);}
+.tp-block{background:var(--red-pale);color:var(--red);border-color:rgba(192,56,56,.2);}
+.ep-list{display:flex;flex-direction:column;gap:7px;}
+.ep-row{
+  display:flex;align-items:center;gap:10px;padding:9px 12px;
+  border-radius:2px;background:var(--cream);border:1px solid var(--border);
+  cursor:pointer;transition:all .15s;
+}
+.ep-row:hover{border-color:var(--forest);background:var(--sage-pale);}
+.ep-n{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--muted);width:40px;flex-shrink:0;}
+.ep-t{flex:1;font-size:.73rem;font-weight:700;color:var(--text);}
+.ep-d{font-size:.62rem;color:var(--muted);}
+.ep-dots{display:flex;gap:3px;}
+.ep-dot{width:7px;height:7px;border-radius:50%;}
+.ep-row{flex-wrap:wrap;}
+.ep-header{display:flex;align-items:center;gap:10px;width:100%;}
+.ep-expand{
+  width:100%;overflow:hidden;max-height:0;
+  transition:max-height .28s ease, opacity .25s ease, padding .25s ease;
+  opacity:0;padding-top:0;
+}
+.ep-row.open .ep-expand{max-height:120px;opacity:1;padding-top:10px;}
+.ep-row.open{border-color:var(--forest);background:var(--sage-pale);}
+.ep-synopsis{font-size:.68rem;color:var(--warm-grey);line-height:1.5;margin-bottom:8px;font-style:italic;}
+.ep-theme-pills{display:flex;flex-wrap:wrap;gap:4px;}
+.ep-pill{padding:3px 9px;border-radius:20px;font-size:.62rem;font-weight:700;border:1.5px solid;}
+.ep-caret{font-size:.6rem;color:var(--muted);transition:transform .2s;flex-shrink:0;}
+.ep-row.open .ep-caret{transform:rotate(180deg);}
+.where-row{
+  display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:2px;
+  background:var(--cream);border:1px solid var(--border);margin-bottom:6px;
+  cursor:pointer;transition:all .15s;
+}
+.where-row:hover{border-color:var(--forest);background:var(--sage-pale);}
+.w-icon{font-size:1.3rem;}
+.w-name{font-size:.77rem;font-weight:800;color:var(--text);}
+.w-type{font-size:.63rem;color:var(--muted);margin-top:1px;}
+.w-cta{margin-left:auto;font-size:.6rem;font-weight:500;padding:4px 10px;border-radius:2px;
+  background:var(--ink);color:white;border:none;cursor:pointer;transition:background .15s;
+  font-family:'DM Sans',sans-serif;letter-spacing:.04em;}
+.where-row:hover .w-cta{background:var(--terra);}
+.lic-note{
+  background:var(--amber-pale);border:1px solid rgba(196,163,90,.3);
+  border-radius:2px;padding:9px 13px;font-size:.68rem;color:#7a5000;line-height:1.5;margin-bottom:8px;
+}
+.match-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--cream2);font-size:.7rem;}
+.match-row:last-child{border-bottom:none;}
+
+/* Profiles */
+.profiles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:8px;}
+.p-card{
+  background:var(--paper);border:1px solid var(--border);border-radius:4px;
+  padding:22px;cursor:pointer;transition:all .2s;box-shadow:var(--shadow-sm);
+}
+.p-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:var(--forest);}
+.p-card.selected{border-color:var(--forest);background:var(--sage-pale);}
+.p-card-avatar{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:1.3rem;font-weight:800;color:white;margin-bottom:12px;}
+.p-card-name{font-family:'Cormorant Garamond',serif;font-size:1.08rem;font-weight:700;color:var(--navy);margin-bottom:3px;}
+.p-card-age{font-size:.72rem;color:var(--muted);margin-bottom:12px;}
+.p-card-stats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+.ps{font-size:.62rem;font-weight:700;padding:3px 8px;border-radius:6px;}
+.ps-g{background:var(--green-pale);color:var(--green);}
+.ps-a{background:var(--amber-pale);color:#906000;}
+.ps-r{background:var(--red-pale);color:var(--red);}
+.p-card-btn{width:100%;padding:8px;border-radius:9px;border:1.5px solid var(--border);
+  background:white;font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:700;
+  color:var(--muted);cursor:pointer;transition:all .15s;}
+.p-card-btn:hover{border-color:var(--terra);color:var(--terra);}
+.add-p-card{
+  background:var(--cream);border:2px dashed var(--border);border-radius:20px;
+  padding:22px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;min-height:200px;text-align:center;gap:10px;
+}
+.add-p-card:hover{border-color:var(--terra);background:var(--terra-pale);}
+
+/* Modal */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(26,37,53,.55);z-index:200;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .2s;
+}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{
+  background:var(--paper);border-radius:4px;padding:30px;max-width:480px;width:100%;
+  max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);
+  transform:translateY(22px);transition:transform .22s;
+}
+.modal-overlay.open .modal{transform:translateY(0);}
+.modal-h{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--navy);margin-bottom:20px;}
+.m-field{margin-bottom:15px;}
+.m-label{font-size:.67rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:5px;display:block;}
+.m-input{width:100%;padding:10px 13px;border-radius:10px;border:1.5px solid var(--border);
+  background:var(--cream);font-family:'DM Sans',sans-serif;font-size:.85rem;color:var(--text);
+  outline:none;transition:border-color .15s;}
+.m-input:focus{border-color:var(--forest);}
+.m-actions{display:flex;gap:10px;margin-top:20px;}
+.btn-mok{flex:1;padding:11px;border-radius:3px;border:none;background:var(--forest);color:white;
+  font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:800;cursor:pointer;}
+.btn-mok:hover{background:var(--forest-light);}
+.btn-mcancel{flex:1;padding:11px;border-radius:10px;border:1.5px solid var(--border);
+  background:white;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:800;cursor:pointer;}
+.btn-mcancel:hover{border-color:var(--terra);color:var(--terra);}
+
+/* Toast */
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:var(--ink);color:white;padding:10px 22px;border-radius:2px;
+  font-size:.8rem;font-weight:700;z-index:300;transition:transform .3s;
+  box-shadow:0 8px 28px rgba(0,0,0,.25);pointer-events:none;
+}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+.c-card{animation:fadeUp .3s ease both;}
+.onboard-card{animation:fadeIn .3s ease;}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:var(--forest);}
+
+/* ── CALM SCORE ── */
+.calm-hero{
+  display:flex;align-items:center;gap:18px;
+  background:var(--sage-pale);
+  border:1px solid rgba(45,74,53,.15);border-radius:2px;
+  padding:16px 20px;margin-bottom:14px;
+}
+.calm-leaves{display:flex;gap:4px;align-items:center;}
+.calm-leaf{font-size:.9rem;transition:opacity .2s;line-height:1;color:#2d5a3d;}
+.calm-leaf.dim{opacity:.15;}
+.calm-label{flex:1;}
+.calm-title{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:400;color:var(--forest);margin-bottom:2px;letter-spacing:.02em;}
+.calm-sub{font-size:.67rem;color:#5a8a6a;line-height:1.4;}
+.calm-badge{
+  font-family:'DM Mono',monospace;font-size:.82rem;font-weight:500;
+  color:var(--forest);background:white;border:1px solid rgba(45,74,53,.2);
+  border-radius:2px;padding:4px 10px;white-space:nowrap;
+}
+.calm-breakdown{
+  display:flex;flex-direction:column;gap:6px;
+  margin-top:0;
+}
+.calm-stat{
+  display:flex;flex-direction:column;
+  background:white;border:1px solid rgba(45,74,53,.12);border-radius:2px;
+  padding:8px 12px;cursor:pointer;
+}
+.calm-stat-row{display:flex;align-items:center;gap:10px;}
+.calm-stat-val{font-family:'DM Mono',monospace;font-size:.82rem;font-weight:400;color:#2d5a3d;width:30px;text-align:right;flex-shrink:0;}
+.calm-stat-label{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:#7aaa8a;width:108px;flex-shrink:0;}
+.calm-stat-bar{flex:1;height:5px;border-radius:3px;background:#deeee4;overflow:hidden;}
+.calm-stat-fill{height:100%;border-radius:3px;background:#4a7055;}
+.calm-stat-why{
+  font-size:.65rem;color:#5a8a6a;line-height:1.55;
+  max-height:0;overflow:hidden;opacity:0;
+  transition:max-height .25s ease, opacity .2s ease, padding .2s ease;
+  padding-top:0;border-top:0px solid rgba(74,112,85,.1);
+  grid-column:1/-1;
+}
+.calm-stat.open .calm-stat-why{
+  max-height:80px;opacity:1;padding-top:8px;
+  border-top:1px solid rgba(74,112,85,.12);margin-top:4px;
+}
+.calm-stat{cursor:pointer;}
+.calm-stat-caret{font-size:.55rem;color:#7aaa8a;flex-shrink:0;transition:transform .2s;}
+.calm-stat.open .calm-stat-caret{transform:rotate(180deg);}
+.calm-stat{flex-wrap:wrap;}
+.calm-stat-row{display:flex;align-items:center;gap:10px;width:100%;}
+/* Browse card calm pip */
+.calm-pip{font-size:.63rem;color:var(--muted);margin-bottom:4px;}
+.calm-pip strong{font-weight:600;color:var(--forest);}
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-h" id="modal-h"></div>
+    <div id="modal-body"></div>
+    <div class="m-actions">
+      <button class="btn-mcancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-mok" onclick="saveProfile()">Save Profile</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════
+     LANDING PAGE
+════════════════════════════ -->
+<div id="page-landing" class="page active">
+  <div class="landing-bg"></div>
+  <div class="landing-grain"></div>
+  <nav class="landing-nav">
+    <div class="brand">glimps<em>y</em></div>
+    <div class="landing-nav-links">
+      <button class="lnk lnk-ghost" onclick="showPage('auth'); setAuthTab('login')">Log in</button>
+      <button class="lnk lnk-primary" onclick="showPage('auth'); setAuthTab('signup')">Get started free</button>
+    </div>
+  </nav>
+
+  <div class="landing-hero">
+    <div class="hero-left">
+      <div class="hero-tag">🛡️ Safe streaming for families</div>
+      <h1 class="hero-h1">Know exactly what your kids<br>are <em>actually</em> watching</h1>
+      <p class="hero-sub">Glimpsy checks every show, film and YouTube channel against your child's specific age and sensitivities — violence levels, scary themes, language and more. One dashboard. Every platform.</p>
+      <div class="hero-actions">
+        <button class="btn-hero btn-hero-primary" onclick="showPage('auth'); setAuthTab('signup')">Create free account →</button>
+        <button class="btn-hero btn-hero-secondary" onclick="showPage('auth'); setAuthTab('login')">Log in</button>
+      </div>
+      <p class="hero-note">Free to start · No credit card · Works with Netflix, BBC iPlayer, Disney+, Prime & more</p>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-card">
+        <div class="hero-card-title">Filtered for Isla, age 5</div>
+        <div class="mini-cards">
+          <div class="mini-card">
+            <div class="mini-emoji">🐕</div>
+            <div class="mini-title">Bluey</div>
+            <span class="mini-badge mb-safe">✓ Safe</span>
+          </div>
+          <div class="mini-card">
+            <div class="mini-emoji">🐷</div>
+            <div class="mini-title">Peppa Pig</div>
+            <span class="mini-badge mb-safe">✓ Safe</span>
+          </div>
+          <div class="mini-card">
+            <div class="mini-emoji">💀</div>
+            <div class="mini-title">Horrible Histories</div>
+            <span class="mini-badge mb-block">✗ Blocked</span>
+          </div>
+          <div class="mini-card">
+            <div class="mini-emoji">🧸</div>
+            <div class="mini-title">Paddington</div>
+            <span class="mini-badge mb-warn">⚠ Review</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="landing-features">
+    <div class="feat">
+      <div class="feat-icon">👶</div>
+      <div class="feat-title">Per-child profiles</div>
+      <div class="feat-desc">Set different thresholds for each child. What's fine for your 10-year-old might not be right for your 4-year-old.</div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">🎭</div>
+      <div class="feat-title">Deep theme detection</div>
+      <div class="feat-desc">We flag death, divorce, monsters, bullying, jump-scares and 20+ other themes at the individual episode level.</div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">📺</div>
+      <div class="feat-title">Every UK platform</div>
+      <div class="feat-desc">BBC iPlayer, Netflix, Disney+, Prime Video, ITVX and YouTube — with TV licence notices built in.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════
+     AUTH PAGE
+════════════════════════════ -->
+<div id="page-auth" class="page">
+  <div class="auth-left">
+    <div class="auth-left-bg"></div>
+    <div class="auth-brand">glimps<em>y</em></div>
+    <div class="auth-left-content">
+      <h2>Your family's<br><em>safe space</em><br>to watch.</h2>
+      <p>Know exactly what themes, language and content appear in every episode — before your children watch it.</p>
+    </div>
+    <div class="auth-testimonial">
+      <p>"Finally an app that lets me say yes more, because I actually know what's in a show before pressing play."</p>
+      <div class="auth-testimonial-author">— Sarah, mum of three, Bristol</div>
+    </div>
+  </div>
+
+  <div class="auth-right">
+    <div class="auth-box">
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tab-login" onclick="setAuthTab('login')">Log in</button>
+        <button class="auth-tab" id="tab-signup" onclick="setAuthTab('signup')">Sign up</button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div id="auth-login">
+        <div class="auth-title">Welcome back</div>
+        <div class="auth-sub">Log in to see what's safe for your family today.</div>
+        <div class="form-field">
+          <label class="form-label">Email address</label>
+          <input class="form-input" type="email" placeholder="you@example.com" id="login-email">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Password</label>
+          <input class="form-input" type="password" placeholder="••••••••" id="login-pass">
+        </div>
+        <button class="btn-auth" onclick="doLogin()">Log in →</button>
+        <div class="auth-divider">or</div>
+        <button class="btn-social" onclick="doLogin()">
+          <span>🌐</span> Continue with Google
+        </button>
+        <div class="auth-footer">
+          Don't have an account? <span class="auth-link" onclick="setAuthTab('signup')">Sign up free</span>
+        </div>
+      </div>
+
+      <!-- SIGNUP FORM -->
+      <div id="auth-signup" style="display:none">
+        <div class="auth-title">Create your account</div>
+        <div class="auth-sub">Free forever for families. No credit card needed.</div>
+        <div class="form-row">
+          <div class="form-field">
+            <label class="form-label">First name</label>
+            <input class="form-input" type="text" placeholder="Sarah" id="signup-first">
+          </div>
+          <div class="form-field">
+            <label class="form-label">Last name</label>
+            <input class="form-input" type="text" placeholder="Smith" id="signup-last">
+          </div>
+        </div>
+        <div class="form-field">
+          <label class="form-label">Email address</label>
+          <input class="form-input" type="email" placeholder="you@example.com" id="signup-email">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Password</label>
+          <input class="form-input" type="password" placeholder="At least 8 characters" id="signup-pass">
+        </div>
+        <button class="btn-auth" onclick="doSignup()">Create account →</button>
+        <div class="auth-divider">or</div>
+        <button class="btn-social" onclick="doSignup()">
+          <span>🌐</span> Continue with Google
+        </button>
+        <div class="auth-footer">
+          Already have an account? <span class="auth-link" onclick="setAuthTab('login')">Log in</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════
+     ONBOARDING
+════════════════════════════ -->
+<div id="page-onboard" class="page">
+  <div class="onboard-wrap">
+    <div class="onboard-header">
+      <div class="onboard-brand">glimps<em>y</em></div>
+    </div>
+    <div class="onboard-step-dots">
+      <div class="step-dot active" id="dot-0"></div>
+      <div class="step-dot" id="dot-1"></div>
+      <div class="step-dot" id="dot-2"></div>
+      <div class="step-dot" id="dot-3"></div>
+    </div>
+    <div class="onboard-card">
+
+      <!-- STEP 0: Welcome -->
+      <div class="onboard-step active" id="ob-step-0">
+        <div class="step-title">Welcome! Let's set up your family 👋</div>
+        <div class="step-sub">It'll take about 2 minutes to set up your first child profile. You can always change these settings later.</div>
+        <div class="ob-field">
+          <label class="ob-label">Your child's name</label>
+          <input class="ob-input" id="ob-name" placeholder="e.g. Isla">
+        </div>
+        <div class="ob-field">
+          <label class="ob-label">How old are they?</label>
+          <div class="age-chips">
+            <div class="age-chip" onclick="selectAge(this,'Under 2')">Under 2</div>
+            <div class="age-chip" onclick="selectAge(this,'2–4')">2–4</div>
+            <div class="age-chip selected" onclick="selectAge(this,'5–6')">5–6</div>
+            <div class="age-chip" onclick="selectAge(this,'7–9')">7–9</div>
+            <div class="age-chip" onclick="selectAge(this,'10–12')">10–12</div>
+            <div class="age-chip" onclick="selectAge(this,'13+')">13+</div>
+          </div>
+        </div>
+        <div class="ob-field">
+          <label class="ob-label">Country</label>
+          <select class="ob-input" id="ob-country">
+            <option>🇬🇧 United Kingdom</option>
+            <option>🇺🇸 United States</option>
+            <option>🇦🇺 Australia</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="onboard-actions">
+          <div></div>
+          <button class="btn-ob-next" onclick="obNext()">Next →</button>
+        </div>
+      </div>
+
+      <!-- STEP 1: Content thresholds -->
+      <div class="onboard-step" id="ob-step-1">
+        <div class="step-title">What levels are you comfortable with?</div>
+        <div class="step-sub">Drag the sliders to set maximums for your child. Glimpsy will automatically filter out anything above these levels.</div>
+
+        <div class="slider-row">
+          <div class="slider-top">
+            <span class="slider-name">🗡 Violence</span>
+            <span class="slider-val sv-0" id="sv-violence">None</span>
+          </div>
+          <input type="range" min="0" max="5" value="0" id="sl-violence" oninput="updateSlider('violence',this.value)">
+          <div class="slider-desc" id="sd-violence">No violence of any kind</div>
+        </div>
+        <div class="slider-row">
+          <div class="slider-top">
+            <span class="slider-name">👻 Fear / Scary content</span>
+            <span class="slider-val sv-1" id="sv-fear">Mild only</span>
+          </div>
+          <input type="range" min="0" max="5" value="1" id="sl-fear" oninput="updateSlider('fear',this.value)">
+          <div class="slider-desc" id="sd-fear">Mild peril or tension only — nothing genuinely frightening</div>
+        </div>
+        <div class="slider-row">
+          <div class="slider-top">
+            <span class="slider-name">🗣 Language</span>
+            <span class="slider-val sv-0" id="sv-language">None</span>
+          </div>
+          <input type="range" min="0" max="5" value="0" id="sl-language" oninput="updateSlider('language',this.value)">
+          <div class="slider-desc" id="sd-language">No bad language at all</div>
+        </div>
+
+        <div class="onboard-actions">
+          <button class="btn-ob-back" onclick="obBack()">← Back</button>
+          <button class="btn-ob-next" onclick="obNext()">Next →</button>
+        </div>
+      </div>
+
+      <!-- STEP 2: Block themes -->
+      <div class="onboard-step" id="ob-step-2">
+        <div class="step-title">Any themes to block?</div>
+        <div class="step-sub">Tap any theme to block it. Even if a show is rated U, Glimpsy will flag it if these themes appear in an episode.</div>
+        <div class="theme-grid" id="ob-theme-grid">
+          <div class="theme-tile blocked" onclick="this.classList.toggle('blocked')" data-t="death"><div class="theme-tile-icon">💀</div><div class="theme-tile-name">Death</div></div>
+          <div class="theme-tile blocked" onclick="this.classList.toggle('blocked')" data-t="monsters"><div class="theme-tile-icon">👻</div><div class="theme-tile-name">Monsters</div></div>
+          <div class="theme-tile" onclick="this.classList.toggle('blocked')" data-t="bullying"><div class="theme-tile-icon">😢</div><div class="theme-tile-name">Bullying</div></div>
+          <div class="theme-tile" onclick="this.classList.toggle('blocked')" data-t="divorce"><div class="theme-tile-icon">💔</div><div class="theme-tile-name">Divorce</div></div>
+          <div class="theme-tile" onclick="this.classList.toggle('blocked')" data-t="scary"><div class="theme-tile-icon">😱</div><div class="theme-tile-name">Jump scares</div></div>
+          <div class="theme-tile" onclick="this.classList.toggle('blocked')" data-t="mild-violence"><div class="theme-tile-icon">⚡</div><div class="theme-tile-name">Mild violence</div></div>
+          <div class="theme-tile" onclick="this.classList.toggle('blocked')" data-t="guns"><div class="theme-tile-icon">🔫</div><div class="theme-tile-name">Guns/weapons</div></div>
+          <div class="theme-tile" onclick="this.classList.toggle('blocked')" data-t="toilet-humour"><div class="theme-tile-icon">🚽</div><div class="theme-tile-name">Toilet humour</div></div>
+          <div class="theme-tile" onclick="this.classList.toggle('blocked')" data-t="grief"><div class="theme-tile-icon">😭</div><div class="theme-tile-name">Grief / Loss</div></div>
+        </div>
+        <div class="onboard-actions">
+          <button class="btn-ob-back" onclick="obBack()">← Back</button>
+          <button class="btn-ob-next" onclick="obNext()">Next →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Platform & Licence -->
+      <div class="onboard-step" id="ob-step-3">
+        <div class="step-title">One last thing 📺</div>
+        <div class="step-sub">This helps us show the right streaming info for your family.</div>
+
+        <div class="licence-toggle-row">
+          <div class="licence-info">
+            <div class="licence-title">Do you have a UK TV Licence?</div>
+            <div class="licence-sub">We'll show BBC iPlayer as an option if you do</div>
+          </div>
+          <div class="toggle on" id="ob-licence" onclick="this.classList.toggle('on')"></div>
+        </div>
+
+        <div class="ob-field" style="margin-top:8px">
+          <label class="ob-label">Which platforms do you have?</label>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px">
+            <div class="age-chip selected" onclick="this.classList.toggle('selected')" data-plat="Netflix">🎬 Netflix</div>
+            <div class="age-chip selected" onclick="this.classList.toggle('selected')" data-plat="Disney+">✨ Disney+</div>
+            <div class="age-chip" onclick="this.classList.toggle('selected')" data-plat="Prime Video">📦 Prime Video</div>
+            <div class="age-chip selected" onclick="this.classList.toggle('selected')" data-plat="YouTube">▶️ YouTube</div>
+            <div class="age-chip" onclick="this.classList.toggle('selected')" data-plat="ITVX">📺 ITVX</div>
+          </div>
+        </div>
+
+        <div class="onboard-actions">
+          <button class="btn-ob-back" onclick="obBack()">← Back</button>
+          <button class="btn-ob-next" onclick="finishOnboard()" style="background:var(--sage)">🎉 Take me to Glimpsy</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════
+     MAIN APP
+════════════════════════════ -->
+<div id="page-app" class="page">
+  <div class="app-topbar">
+    <div class="app-brand" onclick="showAppScreen('browse')">glimps<em>y</em></div>
+    <div class="app-nav">
+      <button class="app-nav-btn active" id="anav-browse" onclick="showAppScreen('browse')">Browse</button>
+      <button class="app-nav-btn" id="anav-profiles" onclick="showAppScreen('profiles')">Profiles</button>
+    </div>
+    <div class="app-topbar-right">
+      <div class="profile-switcher" onclick="showAppScreen('profiles')">
+        <div class="p-dot" id="tb-dot" style="background:#8a8278">+</div>
+        <span class="p-name" id="tb-name">Add profile</span>
+        <span class="p-caret">▾</span>
+      </div>
+      <button class="btn-signout" onclick="showPage('landing')">Sign out</button>
+    </div>
+  </div>
+
+  <div class="app-body">
+  <div class="app-body-inner">
+    <!-- SIDEBAR -->
+    <div class="app-sidebar" id="app-sidebar">
+      <div class="sb-section">
+        <div class="sb-heading">Type</div>
+        <div class="filter-chips">
+          <div class="chip active" onclick="setType(this,'all')" data-v="all">All</div>
+          <div class="chip" onclick="setType(this,'tv')" data-v="tv">📺 TV</div>
+          <div class="chip" onclick="setType(this,'movie')" data-v="movie">🎬 Film</div>
+          <div class="chip" onclick="setType(this,'book')" data-v="book">📚 Books</div>
+          <div class="chip" onclick="setType(this,'youtube')" data-v="youtube">▶️ YouTube</div>
+          <div class="chip" onclick="setType(this,'theatre')" data-v="theatre">🎭 Theatre</div>
+        </div>
+      </div>
+      <div class="sb-section">
+        <div class="sb-heading">Safety</div>
+        <div class="filter-chips">
+          <div class="chip active active-green" onclick="setSafety(this,'safe')">✅ Safe only</div>
+          <div class="chip" onclick="setSafety(this,'all')">Show all</div>
+        </div>
+      </div>
+      <div class="sb-section">
+        <div class="sb-heading">Max Duration</div>
+        <div class="sb-slider">
+          <div class="sb-slider-label"><span id="dur-lbl">Any length</span><small>mins</small></div>
+          <input type="range" min="5" max="120" value="120" step="5" oninput="setDur(this.value)">
+        </div>
+      </div>
+      <div class="sb-section">
+        <div class="sb-heading">Platforms</div>
+        <div class="plat-row"><span class="plat-name">📺 BBC iPlayer</span><div class="toggle on" onclick="togglePlat(this,'BBC iPlayer')"></div></div>
+        <div class="plat-row"><span class="plat-name">🎬 Netflix</span><div class="toggle on" onclick="togglePlat(this,'Netflix')"></div></div>
+        <div class="plat-row"><span class="plat-name">✨ Disney+</span><div class="toggle on" onclick="togglePlat(this,'Disney+')"></div></div>
+        <div class="plat-row"><span class="plat-name">📦 Prime Video</span><div class="toggle on" onclick="togglePlat(this,'Prime Video')"></div></div>
+        <div class="plat-row"><span class="plat-name">▶️ YouTube</span><div class="toggle on" onclick="togglePlat(this,'YouTube')"></div></div>
+      </div>
+      <div class="sb-section">
+        <div class="sb-heading">Block Themes</div>
+        <div class="filter-chips">
+          <div class="chip blocked" onclick="toggleTheme(this)" data-t="death">💀 Death</div>
+          <div class="chip blocked" onclick="toggleTheme(this)" data-t="monsters">👻 Monsters</div>
+          <div class="chip" onclick="toggleTheme(this)" data-t="bullying">😢 Bullying</div>
+          <div class="chip" onclick="toggleTheme(this)" data-t="toilet-humour">🚽 Toilet humour</div>
+          <div class="chip" onclick="toggleTheme(this)" data-t="mild-violence">⚡ Mild violence</div>
+          <div class="chip" onclick="toggleTheme(this)" data-t="scary">😱 Scary</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREENS -->
+    <div class="app-main">
+      <!-- BROWSE -->
+      <div class="app-screen active" id="as-browse">
+        <div class="browse-bar" style="padding:24px 28px 0;">
+          <div class="browse-h" id="browse-h">Add a profile to get started</div>
+          <div class="search-wrap">
+            <span class="search-icon">🔍</span>
+            <input class="search-input" type="text" placeholder="Search shows, films, books…" oninput="renderGrid()" id="search-in">
+          </div>
+          <div class="browse-count" id="browse-cnt"></div>
+        </div>
+        <div class="content-grid" id="content-grid"></div>
+      </div>
+
+            <!-- DETAIL -->
+      <div class="app-screen" id="as-detail">
+        <div id="detail-slot"></div>
+      </div>
+
+      <!-- PROFILES -->
+      <div class="app-screen" id="as-profiles">
+        <div class="browse-bar"><div class="browse-h">Profiles</div></div>
+        <div class="profiles-grid" id="profiles-grid"></div>
+      </div>
+    </div>
+  </div><!-- /app-body-inner -->
+  </div>
+</div>
+
+
+
+<script>
+
+
+// ═══════════════ DATA ═══════════════
+const TMDB_KEY='a7d3cc4ab198a61fd4473e5f90b0c745';
+const TMDB_IMG='https://image.tmdb.org/t/p/w342';
+const GBOOKS_KEY='AIzaSyAkBlwO870lkIoUroU9qp6TRNMrZZ0DFJw';
+
+// poster: TMDb poster_path — these are fetched live from TMDb's CDN
+const CONTENT=[
+  {id:1,type:'tv',title:'Bluey',emoji:'🐕',bg:'#b8d4e8',poster:'/b9mY0X5T20ZM073hoa5n0dgmbfN.jpg',age:'All ages',seasons:3,dur:7,rating:'U',csm:2,genres:['Animation'],
+   v:0,f:0,l:0,s:0,pos:5,roles:5,con:1,dr:0,calm:5,cuts:4,colour:3,pace:2,
+   themes:['positive-friendship','positive-empathy','family-values','educational','toilet-humour'],
+   platforms:[{n:'BBC iPlayer',i:'📺',t:'Free',lic:true},{n:'Disney+',i:'✨',t:'Subscription'}],
+   synopsis:'The Heeler family navigate parenting, play and life in Brisbane. Wildly loved by both kids and parents alike.',
+   eps:[{n:'S1 E1',t:'Daddy Rabbit',d:7,th:['positive-friendship','family-values'],synopsis:'Bluey and Bingo play Daddy Rabbit with their dad, turning the living room into an adventure.'},
+        {n:'S1 E2',t:'Camping',d:7,th:['positive-empathy','educational'],synopsis:'The Heeler family go camping and Bluey makes a new friend, learning about different families.'},
+        {n:'S1 E3',t:'Keepy Uppy',d:7,th:['positive-friendship','toilet-humour'],synopsis:'The whole family tries to keep a balloon off the ground — chaos and laughter ensue.'}]},
+  {id:2,type:'tv',title:'Hey Duggee',emoji:'🐻',bg:'#f5e6a8',poster:'/y0r27LkhX6AZNqo2Q5FUYmwi5wz.jpg',age:'2–5',seasons:4,dur:7,rating:'U',csm:3,genres:['Pre-school'],
+   v:0,f:0,l:0,s:0,pos:5,roles:4,con:0,dr:0,calm:5,cuts:3,colour:3,pace:2,
+   themes:['positive-friendship','educational','positive-empathy'],
+   platforms:[{n:'BBC iPlayer',i:'📺',t:'Free',lic:true},{n:'Netflix',i:'🎬',t:'Subscription'}],
+   synopsis:'Duggee the big dog runs the Squirrel Club where young animals earn badges by doing and learning.',
+   eps:[{n:'S1 E1',t:'The Hug Badge',d:7,th:['positive-empathy'],synopsis:'The Squirrels learn that hugs are the best way to make someone feel better when they are sad.'},{n:'S1 E2',t:'The Stick Badge',d:7,th:['educational'],synopsis:'Duggee teaches the Squirrels about the wonderful, many uses of a simple stick.'}]},
+  {id:3,type:'movie',title:'Paddington',emoji:'🧸',bg:'#e8c878',poster:'/wpchRGhRhvhtU083PfX2yixXtiw.jpg',age:'All ages',seasons:null,dur:95,rating:'PG',csm:5,genres:['Family'],
+   v:1,f:1,l:0,s:0,pos:4,roles:4,con:1,dr:0,calm:4,cuts:5,colour:3,pace:3,
+   themes:['positive-friendship','positive-empathy','family-conflict','mild-violence'],
+   platforms:[{n:'Netflix',i:'🎬',t:'Subscription'},{n:'BBC iPlayer',i:'📺',t:'Free',lic:true}],
+   synopsis:'A young bear from Peru travels to London and is taken in by the Brown family. Charming and heartwarming.',eps:[]},
+  {id:4,type:'tv',title:'Horrible Histories',emoji:'💀',bg:'#c8a8e8',poster:'/fwj7zkWHtveXUaB9cwrQIMvmgeQ.jpg',age:'7+',seasons:9,dur:25,rating:'PG',csm:7,genres:['Comedy'],
+   v:2,f:1,l:1,s:0,pos:4,roles:3,con:0,dr:1,calm:3,cuts:8,colour:3,pace:3,
+   themes:['death','mild-violence','educational','toilet-humour'],
+   platforms:[{n:'BBC iPlayer',i:'📺',t:'Free',lic:true},{n:'Prime Video',i:'📦',t:'Subscription'}],
+   synopsis:'History told through sketches with gross bits, battles and executions — kids love it and actually learn.',
+   eps:[{n:'S1 E1',t:'Vile Victorians',d:25,th:['death','educational','mild-violence'],synopsis:'A sketch-based look at Victorian life — child labour, deadly medicine and gruesome punishments.'},{n:'S1 E2',t:'Woeful WWII',d:25,th:['death','mild-violence'],synopsis:'Sketches covering wartime life including rationing, air raids and the experiences of soldiers.'}]},
+  {id:5,type:'book',title:'The Gruffalo',emoji:'📗',bg:'#c8e8c8',poster:'http://books.google.com/books/content?id=JEvFDAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api',posterType:'book',age:'2–6',seasons:null,dur:null,rating:'U',csm:3,genres:['Picture Book'],
+   v:0,f:1,l:0,s:0,pos:4,roles:3,con:0,dr:0,calm:5,cuts:2,colour:3,pace:1,
+   themes:['monsters','scary','positive-friendship'],
+   platforms:[{n:'Amazon',i:'📦',t:'Buy £6.99'},{n:'Waterstones',i:'📚',t:'Buy £7.99'}],
+   synopsis:'A mouse outwits a series of hungry predators by inventing a monster called the Gruffalo — who turns out to be real.',eps:[]},
+  {id:6,type:'youtube',title:'Numberblocks',emoji:'🔢',bg:'#f8d4b8',poster:'/vt872bR11jYDRSzTSfLuOmb2SMt.jpg',age:'3–6',seasons:null,dur:5,rating:'U',csm:3,genres:['Education'],
+   v:0,f:0,l:0,s:0,pos:5,roles:5,con:0,dr:0,calm:4,cuts:5,colour:4,pace:3,
+   themes:['educational','positive-friendship'],
+   platforms:[{n:'YouTube',i:'▶️',t:'Free'},{n:'BBC iPlayer',i:'📺',t:'Free',lic:true}],
+   synopsis:'Animated number characters help pre-schoolers understand maths through songs and adventures.',
+   eps:[{n:'S1 E1',t:'One',d:5,th:['educational'],synopsis:'Meet One — a cheerful little block who discovers what being a number really means.'},{n:'S1 E2',t:'Another One',d:5,th:['educational','positive-friendship'],synopsis:'One meets another One and they discover that together they make Two!'}]},
+  {id:7,type:'movie',title:'The BFG',emoji:'👶',bg:'#d8e8f8',poster:'/w17Mc2x2olB5CtewznUFxgpvne0.jpg',age:'6+',seasons:null,dur:117,rating:'PG',csm:6,genres:['Fantasy'],
+   v:1,f:2,l:0,s:0,pos:4,roles:4,con:0,dr:0,calm:3,cuts:6,colour:3,pace:3,
+   themes:['scary','mild-violence','positive-friendship','positive-empathy'],
+   platforms:[{n:'Disney+',i:'✨',t:'Subscription'},{n:'Prime Video',i:'📦',t:'Subscription'}],
+   synopsis:"Roald Dahl's classic about a girl who befriends the Big Friendly Giant and together they visit the Queen.",eps:[]},
+  {id:8,type:'tv',title:'Octonauts',emoji:'🐙',bg:'#a8d8f8',poster:'/iYUhUSKWKpSBahaWLUQIPckAy8p.jpg',age:'3–7',seasons:5,dur:11,rating:'U',csm:4,genres:['Education'],
+   v:0,f:0,l:0,s:0,pos:5,roles:5,con:0,dr:0,calm:4,cuts:5,colour:3,pace:3,
+   themes:['educational','positive-friendship','positive-empathy'],
+   platforms:[{n:'Netflix',i:'🎬',t:'Subscription'},{n:'Disney+',i:'✨',t:'Subscription'}],
+   synopsis:'A crew of animal explorers dive into the ocean having adventures and learning about sea creatures.',
+   eps:[{n:'S1 E1',t:'The Blobfish',d:11,th:['educational','positive-friendship'],synopsis:'The crew discover a sad-looking blobfish and learn why it looks so different outside the deep sea.'},{n:'S1 E2',t:'The Seahorse',d:11,th:['educational'],synopsis:'Captain Barnacles helps a seahorse dad who is about to give birth — yes, dads give birth in seahorse families!'}]},
+  {id:9,type:'book',title:'Charlie & Chocolate Factory',emoji:'📘',bg:'#e8f8d8',poster:'http://books.google.com/books/content?id=7tYWAQAAMAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api',posterType:'book',age:'7+',seasons:null,dur:null,rating:'U',csm:7,genres:['Novel'],
+   v:1,f:1,l:0,s:0,pos:3,roles:3,con:2,dr:0,calm:3,cuts:7,colour:4,pace:4,
+   themes:['positive-friendship','mild-violence','scary'],
+   platforms:[{n:'Amazon',i:'📦',t:'Buy £7.99'},{n:'Library',i:'📚',t:'Free'}],
+   synopsis:"Roald Dahl's classic about a poor boy who wins a golden ticket to Willy Wonka's mysterious factory.",eps:[]},
+  {id:10,type:'tv',title:'Peppa Pig',emoji:'🐷',bg:'#f8d8e8',poster:'/iwKVo3HlsyVNXCzFEkd0xHz3kGi.jpg',age:'2–5',seasons:8,dur:5,rating:'U',csm:3,genres:['Pre-school'],
+   v:0,f:0,l:0,s:0,pos:3,roles:3,con:1,dr:0,calm:2,cuts:12,colour:5,pace:5,
+   themes:['family-values','toilet-humour','positive-friendship'],
+   platforms:[{n:'BBC iPlayer',i:'📺',t:'Free',lic:true},{n:'Netflix',i:'🎬',t:'Subscription'}],
+   synopsis:'Peppa Pig and her family go on everyday adventures. A staple of the British pre-school diet.',
+   eps:[{n:'S1 E1',t:'Muddy Puddles',d:5,th:['family-values','toilet-humour'],synopsis:'Peppa and George go outside after the rain and discover the joy of jumping in muddy puddles.'},{n:'S1 E2',t:'The Playground',d:5,th:['positive-friendship'],synopsis:'Peppa makes new friends at the playground and learns about taking turns on the slide.'}]},
+  {id:11,type:'youtube',title:'CBeebies Storytime',emoji:'🌟',bg:'#fff0c8',poster:'/7g3audp5xqQUMuMrXoNNSKZ0Hn6.jpg',age:'2–5',seasons:null,dur:8,rating:'U',csm:2,genres:['Story'],
+   v:0,f:0,l:0,s:0,pos:5,roles:5,con:0,dr:0,calm:5,cuts:1,colour:2,pace:1,
+   themes:['educational','positive-friendship','positive-empathy'],
+   platforms:[{n:'YouTube',i:'▶️',t:'Free'},{n:'BBC iPlayer',i:'📺',t:'Free',lic:true}],
+   synopsis:'Bedtime stories read aloud by CBeebies presenters. Perfect for winding down before sleep.',eps:[]},
+  {id:12,type:'movie',title:'Matilda the Musical',emoji:'🎭',bg:'#d8c8f8',poster:'/ga8R3OiOMMgSvZ4cOj8x7prUNYZ.jpg',age:'6+',seasons:null,dur:117,rating:'PG',csm:6,genres:['Musical'],
+   v:1,f:1,l:0,s:0,pos:5,roles:4,con:0,dr:0,calm:3,cuts:8,colour:4,pace:4,
+   themes:['bullying','mild-violence','positive-empathy','educational'],
+   platforms:[{n:'Netflix',i:'🎬',t:'Subscription'}],
+   synopsis:"Roald Dahl's story of a brilliant girl with telekinetic powers who outwits the terrifying Miss Trunchbull.",eps:[]},
+  {id:13,type:'theatre',title:'Matilda the Musical',emoji:'ð­',bg:'#e8d4f8',poster:'/ga8R3OiOMMgSvZ4cOj8x7prUNYZ.jpg',posterType:'theatre',age:'6+',seasons:null,dur:155,rating:'PG',csm:6,genres:['Musical'],
+   v:1,f:1,l:0,s:0,pos:5,roles:5,con:0,dr:0,calm:4,cuts:null,colour:4,pace:3,
+   themes:['bullying','mild-violence','positive-empathy','educational','positive-friendship'],
+   venue:'Cambridge Theatre, West End',city:'London',running:'Now — open ended',minAge:'6+',
+   platforms:[{n:'Book Tickets',i:'ðï¸',t:'From £25'}],
+   synopsis:"Roald Dahl's beloved story brought to life on stage. A girl with extraordinary powers takes on the fearsome Miss Trunchbull. Winner of 16 Olivier Awards.",eps:[]},
+  {id:14,type:'theatre',title:'The Lion King',emoji:'ð¦',bg:'#f8e8b8',poster:'/4U4MFaTg4MmPJqTkFRkOfKPLznp.jpg',posterType:'theatre',age:'6+',seasons:null,dur:150,rating:'PG',csm:5,genres:['Musical'],
+   v:1,f:2,l:0,s:0,pos:5,roles:5,con:0,dr:0,calm:3,cuts:null,colour:5,pace:3,
+   themes:['death','family-values','positive-friendship','positive-empathy','mild-violence'],
+   venue:'Lyceum Theatre, West End',city:'London',running:'Now — open ended',minAge:'6+',
+   platforms:[{n:'Book Tickets',i:'ðï¸',t:'From £35'}],
+   synopsis:"Disney's iconic story of Simba's journey from cub to king. Spectacular costumes, puppetry and music make this one of the most celebrated musicals of all time.",eps:[]},
+  {id:15,type:'theatre',title:'Harry Potter & the Cursed Child',emoji:'⚡',bg:'#c8d8f8',poster:'/4TCzEqpfMFi7uiXLxDVGp3omVjM.jpg',posterType:'theatre',age:'10+',seasons:null,dur:165,rating:'12A',csm:8,genres:['Fantasy'],
+   v:1,f:2,l:1,s:0,pos:4,roles:4,con:0,dr:0,calm:3,cuts:null,colour:4,pace:4,
+   themes:['death','scary','mild-violence','positive-friendship','family-values'],
+   venue:'Palace Theatre, West End',city:'London',running:'Now — open ended',minAge:'10+',
+   platforms:[{n:'Book Tickets',i:'ðï¸',t:'From £40'}],
+   synopsis:"Harry Potter's son Albus struggles with the weight of a famous legacy. A stunning magical production with breathtaking stagecraft and illusions.",eps:[]}
+];
+
+const PROFILES=[];
+
+let activeProfileId=null;
+let editProfileId=null;
+let activeType='all';
+let activeSafety='safe';
+let maxDur=120;
+let blockedThemes=['death','monsters'];
+let enabledPlats=['BBC iPlayer','Netflix','Disney+','Prime Video','YouTube'];
+let obStep=0;
+let obAge='5–6';
+
+const SLIDER_DESCS={
+  violence:['No violence of any kind','Cartoon slapstick only','Some action violence','Moderate violence','Strong violence','Very graphic violence'],
+  fear:['Nothing scary at all','Mild peril or tension only','Some scary moments','Genuinely frightening','Very frightening','Extreme horror content'],
+  language:['No bad language at all','Very mild only (e.g. "stupid")','Mild language','Moderate language','Strong language','Very strong language']
+};
+
+// ═══════════════ PAGE SYSTEM ═══════════════
+function showPage(p){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  if(p==='app')renderGrid();
+}
+
+// ═══════════════ AUTH ═══════════════
+function setAuthTab(tab){
+  ['login','signup'].forEach(t=>{
+    document.getElementById('tab-'+t).classList.toggle('active',t===tab);
+    document.getElementById('auth-'+t).style.display=t===tab?'block':'none';
+  });
+}
+function doLogin(){
+  // Prototype: skip all validation, just go straight in
+  showPage('app');
+  renderGrid();
+  toast('👋 Welcome back!');
+}
+function doSignup(){
+  // Prototype: skip all validation, just go to onboarding
+  showPage('onboard');
+  obStep=0;
+  showObStep(0);
+}
+
+// ═══════════════ ONBOARDING ═══════════════
+function showObStep(n){
+  document.querySelectorAll('.onboard-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('ob-step-'+n).classList.add('active');
+  for(let i=0;i<4;i++){
+    const d=document.getElementById('dot-'+i);
+    d.classList.remove('active','done');
+    if(i<n)d.classList.add('done');
+    else if(i===n)d.classList.add('active');
+  }
+}
+function selectAge(el,age){
+  el.closest('.age-chips').querySelectorAll('.age-chip').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  obAge=age;
+}
+function obNext(){
+  if(obStep<3){obStep++;showObStep(obStep);}
+}
+function obBack(){
+  if(obStep>0){obStep--;showObStep(obStep);}
+}
+function updateSlider(type,val){
+  const v=parseInt(val);
+  const el=document.getElementById('sv-'+type);
+  const descs=['None','Mild only','Some','Moderate','Strong','Very strong'];
+  el.textContent=descs[v];
+  el.className='slider-val sv-'+v;
+  document.getElementById('sd-'+type).textContent=SLIDER_DESCS[type][v];
+}
+function finishOnboard(){
+  const name=document.getElementById('ob-name').value.trim()||'My Child';
+  const violence=parseInt(document.getElementById('sl-violence').value);
+  const fear=parseInt(document.getElementById('sl-fear').value);
+  const lang=parseInt(document.getElementById('sl-language').value);
+  const blocked=[...document.querySelectorAll('#ob-theme-grid .theme-tile.blocked')].map(t=>t.dataset.t);
+  const hasLic=document.getElementById('ob-licence').classList.contains('on');
+
+  // Update or replace first profile with onboarding data
+  PROFILES[0]={id:1,name,age:parseInt(obAge)||5,color:'#c96a3a',
+    mv:violence,mf:fear,ml:lang,ms:0,blocked,lic:hasLic,country:'UK'};
+  activeProfileId=1;
+  blockedThemes=[...blocked];
+
+  document.getElementById('tb-dot').textContent=name[0];
+  document.getElementById('tb-name').textContent=name;
+  showPage('app');
+  toast('🎉 Welcome, '+name+"'s family!");
+}
+
+// ═══════════════ APP SCREENS ═══════════════
+function showAppScreen(s){
+  document.querySelectorAll('.app-screen').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.app-nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('as-'+s).classList.add('active');
+  const nb=document.getElementById('anav-'+s);
+  if(nb)nb.classList.add('active');
+  document.getElementById('app-sidebar').style.display=s==='browse'?'':'none';
+  if(s==='profiles')renderProfiles();
+  if(s==='browse')renderGrid();
+}
+
+// ═══════════════ FILTER STATE ═══════════════
+function getProf(){return PROFILES.find(p=>p.id===activeProfileId);}
+
+function setType(el,val){
+  el.closest('.filter-chips').querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  activeType=val;renderGrid();
+}
+function setSafety(el,val){
+  el.closest('.filter-chips').querySelectorAll('.chip').forEach(c=>c.classList.remove('active','active-green'));
+  el.classList.add('active');
+  if(val==='safe')el.classList.add('active-green');
+  activeSafety=val;renderGrid();
+}
+function setDur(v){
+  maxDur=parseInt(v);
+  document.getElementById('dur-lbl').textContent=maxDur>=120?'Any length':'Up to '+maxDur+'min';
+  renderGrid();
+}
+function togglePlat(el,name){
+  el.classList.toggle('on');
+  if(el.classList.contains('on')){if(!enabledPlats.includes(name))enabledPlats.push(name);}
+  else enabledPlats=enabledPlats.filter(p=>p!==name);
+  renderGrid();
+}
+function toggleTheme(el){
+  const t=el.dataset.t;
+  if(el.classList.contains('blocked')){
+    el.classList.remove('blocked');
+    blockedThemes=blockedThemes.filter(x=>x!==t);
+    toast('✅ "'+t.replace(/-/g,' ')+'" unblocked');
+  } else {
+    el.classList.add('blocked');
+    blockedThemes.push(t);
+    toast('🚫 "'+t.replace(/-/g,' ')+'" blocked');
+  }
+  renderGrid();
+}
+
+// ═══════════════ SAFETY CALC ═══════════════
+function getSafety(item){
+  const p=getProf();
+  if((item.themes||[]).some(t=>blockedThemes.includes(t)))return 'block';
+  if(item.v>p.mv||item.f>p.mf||item.l>p.ml)return 'warn';
+  return 'safe';
+}
+function themeStatus(t){
+  if(blockedThemes.includes(t))return 'block';
+  const pos=['positive-friendship','positive-empathy','educational','family-values','positive-role-models'];
+  return pos.includes(t)?'ok':'warn';
+}
+function rcol(v,isPos){
+  if(isPos)return '#2e7a4a';
+  if(v===0)return '#2e7a4a';
+  if(v/5<=.3)return '#2e7a4a';
+  if(v/5<=.6)return '#e09018';
+  return '#c03838';
+}
+function fmtD(m){if(!m)return null;return m<60?m+'m':Math.floor(m/60)+'h '+(m%60)+'m';}
+
+// ═══════════════ GRID ═══════════════
+function renderGrid(){
+  const q=(document.getElementById('search-in')?.value||'').toLowerCase();
+  const p=getProf();
+  if(!p){
+    document.getElementById('browse-h').textContent='Add a profile to get started';
+    document.getElementById('browse-cnt').textContent='';
+    document.getElementById('content-grid').innerHTML='<div style="grid-column:1/-1;padding:60px 20px;text-align:center;color:var(--muted)"><p style="font-size:1.1rem;margin-bottom:16px">No profile selected</p><p>Go to <strong>Profiles</strong> to create your first child profile.</p></div>';
+    return;
+  }
+  let items=CONTENT.filter(item=>{
+    if(q&&!item.title.toLowerCase().includes(q))return false;
+    if(activeType!=='all'&&item.type!==activeType)return false;
+    if(maxDur<120&&item.dur&&item.dur>maxDur)return false;
+    const hasPl=item.type==='theatre'||item.type==='book'||item.platforms.some(pl=>enabledPlats.some(ep=>pl.n.includes(ep.split(' ')[0])));
+    if(!hasPl&&item.platforms.length>0&&item.type!=='book')return false;
+    if(activeSafety==='safe'){
+      if((item.themes||[]).some(t=>blockedThemes.includes(t)))return false;
+      if(item.v>p.mv||item.f>p.mf)return false;
+    }
+    return true;
+  });
+  document.getElementById('browse-h').textContent='Safe for '+p.name;
+  document.getElementById('browse-cnt').textContent=items.length+' title'+(items.length!==1?'s':'')+' found';
+  document.getElementById('content-grid').innerHTML=items.map((item,i)=>{
+    const s=getSafety(item);
+    const isTheatre=item.type==='theatre';
+    const bTxt=isTheatre?'🎭 Live':s==='safe'?'✓ Safe':s==='warn'?'⚠ Review':'✗ Blocked';
+    const bCls=isTheatre?'cb-theatre':'cb-'+s;
+    const pils=item.platforms.slice(0,2).map(pl=>`<span class="c-plat">${pl.i||''} ${pl.n}</span>`).join('');
+    const meta=isTheatre?[item.age,fmtD(item.dur),item.city].filter(Boolean).join(' · '):[item.age,fmtD(item.dur),item.genres[0]].filter(Boolean).join(' · ');
+    const posterHTML = item.poster
+      ? `<img src="${item.posterType==='book' ? item.poster : TMDB_IMG+item.poster}" alt="${item.title}" style="width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">`+
+        `<span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:3.2rem;position:absolute;">${item.emoji}</span>`
+      : `<span style="font-size:3.2rem">${item.emoji}</span>`;
+    const calmPip=item.calm?`<div class="calm-pip">Sensory <strong>${item.calm}/5</strong></div>`:'';
+    const posterH=item.poster?`<img src="${item.posterType==='book'?item.poster:TMDB_IMG+item.poster}" alt="${item.title}" style="width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">`+`<span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:3.2rem;position:absolute;">${item.emoji}</span>`:`<span style="font-size:3.2rem">${item.emoji}</span>`;
+    return `<div class="c-card" style="animation-delay:${i*.04}s" onclick="showDetail(${item.id})">
+      <div class="c-poster" style="background:${item.bg};position:relative;">
+        ${posterH}
+        <div class="c-badge ${bCls}" style="position:absolute;top:8px;left:8px;z-index:2">${bTxt}</div>
+      </div>
+      <div class="c-body">
+        <div class="c-title">${item.title}</div>
+        <div class="c-meta">${meta}</div>
+        ${calmPip}
+        <div class="c-platforms">${pils}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════ DETAIL ═══════════════
+function buildEpSection(item){
+  const rows = item.eps.map(function(ep, ei){
+    const epId = 'ep-' + item.id + '-' + ei;
+    const dots = (ep.th||[]).map(function(t){
+      const ts = themeStatus(t);
+      const col = ts==='ok' ? '#2e7a4a' : ts==='block' ? '#c03838' : '#e09018';
+      return '<div class="ep-dot" style="background:'+col+'"></div>';
+    }).join('');
+    const pills = (ep.th||[]).map(function(t){
+      const ts = themeStatus(t);
+      const cls = ts==='ok' ? 'tp-ok' : ts==='block' ? 'tp-block' : 'tp-warn';
+      const icon = ts==='ok' ? '&#10003;' : ts==='block' ? '&#10007;' : '&#9888;';
+      return '<span class="ep-pill '+cls+'">'+icon+' '+t.replace(/-/g,' ')+'</span>';
+    }).join('');
+    const synopsis = ep.synopsis ? '<div class="ep-synopsis">'+ep.synopsis+'</div>' : '';
+    return '<div class="ep-row" onclick="toggleEp(event)">'
+      + '<div class="ep-header">'
+      + '<span class="ep-n">'+ep.n+'</span>'
+      + '<span class="ep-t">'+ep.t+'</span>'
+      + '<span class="ep-d">'+ep.d+'m</span>'
+      + '<div class="ep-dots">'+dots+'</div>'
+      + '<span class="ep-caret">&#9660;</span>'
+      + '</div>'
+      + '<div class="ep-expand">'+synopsis+'<div class="ep-theme-pills">'+pills+'</div></div>'
+      + '</div>';
+  }).join('');
+  return '<div class="d-section"><div class="d-section-title">Episodes</div><div class="ep-list">'+rows+'</div></div>';
+}
+
+function showDetail(id){
+  const item=CONTENT.find(c=>c.id===id);
+  const p=getProf();
+  const s=getSafety(item);
+  const vCls='v-'+s;
+  const vTxt=s==='safe'?'✅ Safe for '+p.name:s==='warn'?'⚠️ Some content to review for '+p.name:'❌ Not recommended for '+p.name;
+
+  const dims=[
+    {n:'Violence',v:item.v,pos:false},{n:'Fear',v:item.f,pos:false},
+    {n:'Language',v:item.l,pos:false},{n:'Sex / Nudity',v:item.s,pos:false},
+    {n:'Positive messages',v:item.pos,pos:true},{n:'Role models',v:item.roles,pos:true},
+    {n:'Consumerism',v:item.con,pos:false},{n:'Drink / Drugs',v:item.dr,pos:false}
+  ];
+
+  const bars=dims.map(d=>`
+    <div class="rb-row">
+      <div class="rb-name">${d.n}</div>
+      <div class="rb-track"><div class="rb-fill" style="width:${d.v/5*100}%;background:${rcol(d.v,d.pos)}"></div></div>
+      <div class="rb-val">${d.v}/5</div>
+    </div>`).join('');
+
+  const pills=(item.themes||[]).map(t=>{
+    const ts=themeStatus(t);
+    const cls=ts==='ok'?'tp-ok':ts==='block'?'tp-block':'tp-warn';
+    const icon=ts==='ok'?'✓':ts==='block'?'✗':'⚠';
+    return `<span class="t-pill ${cls}">${icon} ${t.replace(/-/g,' ')}</span>`;
+  }).join('');
+
+  const epSection=item.eps.length>0 ? buildEpSection(item) : '';
+
+  const where=item.platforms.map(pl=>`
+    <div class="where-row">
+      <div class="w-icon">${pl.i}</div>
+      <div><div class="w-name">${pl.n}</div><div class="w-type">${pl.t}</div></div>
+      <button class="w-cta" onclick="event.stopPropagation();toast('Opening ${pl.n}…')">Watch →</button>
+    </div>
+    ${pl.lic?'<div class="lic-note">📋 Requires a valid UK TV Licence to watch</div>':''}`).join('');
+
+  const meta=item.type==='theatre'?[item.age,fmtD(item.dur),item.venue,item.running].filter(Boolean):[item.age,item.seasons?item.seasons+' seasons':null,fmtD(item.dur),item.rating?'BBFC: '+item.rating:null,'Glimpsy age: '+item.csm+'+'].filter(Boolean);
+
+  const matchRows=dims.slice(0,4).map(d=>{
+    const lim=d.n==='Violence'?p.mv:d.n==='Fear'?p.mf:d.n==='Language'?p.ml:p.ms;
+    const ok=d.v<=lim;
+    return `<div class="match-row">
+      <span style="color:${ok?'var(--green)':'var(--red)'};font-size:.85rem">${ok?'✓':'✗'}</span>
+      <span style="flex:1;font-weight:700;color:var(--text)">${d.n}</span>
+      <span style="font-family:'DM Mono',monospace;color:var(--muted);font-size:.68rem">${d.v} / max ${lim}</span>
+    </div>`;
+  }).join('');
+
+
+  // Build calm score section
+  const calmScore = item.calm || 3;
+  const calmCuts = item.cuts || '?';
+  const calmColour = item.colour || 3;
+  const calmPace = item.pace || 3;
+  const calmLabels = ['','Very stimulating','Quite stimulating','Moderate','Mostly calm','Very calm'];
+  const calmDesc = calmLabels[calmScore] || 'Moderate';
+  const calmLeaves = [1,2,3,4,5].map(i =>
+    `<span class="calm-leaf${i>calmScore?' dim':''}">●</span>`
+  ).join('');
+  const calmSection = `
+    <div class="calm-hero">
+      <div class="calm-leaves">${calmLeaves}</div>
+      <div class="calm-label">
+        <div class="calm-title">Sensory Index — ${calmDesc}</div>
+        <div class="calm-sub">How stimulating is this for young minds?</div>
+      </div>
+      <div class="calm-badge">${calmScore}/5</div>
+    </div>`;
+
+  const calmBreakdown = `
+    <div class="calm-breakdown">
+      <div class="calm-stat" onclick="this.classList.toggle('open')">
+        <div class="calm-stat-row">
+          <div class="calm-stat-label">Scene cuts</div>
+          <div class="calm-stat-bar"><div class="calm-stat-fill" style="width:${Math.min(calmCuts/15*100,100)}%;background:${calmCuts>10?'#c96a3a':calmCuts>6?'#e09018':'#4a7055'}"></div></div>
+          <div class="calm-stat-val">${calmCuts}/m</div>
+          <span class="calm-stat-caret">▾</span>
+        </div>
+        <div class="calm-stat-why">How often the camera cuts to a new scene per minute. Young brains are still developing the ability to track rapid visual changes — frequent cuts over 8/min can overstimulate and reduce attention span over time.</div>
+      </div>
+      <div class="calm-stat" onclick="this.classList.toggle('open')">
+        <div class="calm-stat-row">
+          <div class="calm-stat-label">Colour intensity</div>
+          <div class="calm-stat-bar"><div class="calm-stat-fill" style="width:${calmColour/5*100}%;background:${calmColour>=4?'#c96a3a':calmColour>=3?'#e09018':'#4a7055'}"></div></div>
+          <div class="calm-stat-val">${calmColour}/5</div>
+          <span class="calm-stat-caret">▾</span>
+        </div>
+        <div class="calm-stat-why">How saturated and vivid the colours are on screen. Highly saturated palettes are deliberately used to hold attention — the same principle used in advertising. Softer, more natural tones are easier on the developing visual system.</div>
+      </div>
+      <div class="calm-stat" onclick="this.classList.toggle('open')">
+        <div class="calm-stat-row">
+          <div class="calm-stat-label">Edit pace</div>
+          <div class="calm-stat-bar"><div class="calm-stat-fill" style="width:${calmPace/5*100}%;background:${calmPace>=4?'#c96a3a':calmPace>=3?'#e09018':'#4a7055'}"></div></div>
+          <div class="calm-stat-val">${calmPace}/5</div>
+          <span class="calm-stat-caret">▾</span>
+        </div>
+        <div class="calm-stat-why">The overall rhythm of the show — how fast dialogue, action and music are layered together. Slow-paced shows leave room for children to think, imagine and process what they are watching. Fast-paced shows leave no gaps, training the brain to expect constant stimulation.</div>
+      </div>
+    </div>`;
+
+  document.getElementById('detail-slot').innerHTML=`
+    <div class="detail-wrap">
+      <button class="detail-back" onclick="showAppScreen('browse')">← Back to results</button>
+      <div class="detail-hero-box">
+        <div class="d-poster" style="background:${item.bg};overflow:hidden;position:relative">${item.poster ? '<img src="' + (item.posterType==='book' ? item.poster : TMDB_IMG+item.poster) + '" style="width:100%;height:100%;object-fit:cover">' : item.emoji}</div>
+        <div class="d-info">
+          <div class="d-title">${item.title}</div>
+          <div class="d-meta">${meta.map(m=>`<span>${m}</span>`).join('')}</div>
+          <div class="verdict ${vCls}">${vTxt}</div>
+          <p class="d-synopsis">${item.synopsis}</p>
+        </div>
+      </div>
+      <div class="detail-cols-wrap">
+        <!-- LEFT: Sensory Index + Glimpsy Assessment + Themes -->
+        <div>
+          ${calmSection}
+          <div class="d-section"><div class="d-section-title">Glimpsy Assessment</div><div class="ratings-cap">${bars}</div></div>
+          <div class="d-section"><div class="d-section-title">Themes detected by AI</div>
+            <div class="theme-pills">${pills}</div>
+            <p style="font-size:.63rem;color:var(--muted);margin-top:10px">✓ green = fine for ${p.name} · ⚠ amber = present · ✗ red = blocked</p>
+          </div>
+        </div>
+        <!-- MIDDLE: Stats + Episodes -->
+        <div>
+          ${item.type!=='theatre' ? `<div class="d-section"><div class="d-section-title">Pacing & Stimulation</div>${calmBreakdown}</div>` : ''}
+          ${epSection}
+        </div>
+        <!-- RIGHT: Where to watch + Profile match -->
+        <div>
+          <div class="d-section"><div class="d-section-title">Where to watch</div>${where}</div>
+          <div class="d-section"><div class="d-section-title">Profile match — ${p.name}</div>${matchRows}</div>
+        </div>
+      </div>
+    </div>`;
+  showAppScreen('detail');
+}
+
+// ═══════════════ PROFILES ═══════════════
+function renderProfiles(){
+  document.getElementById('profiles-grid').innerHTML=PROFILES.map(p=>{
+    const isAct=p.id===activeProfileId;
+    const stats=[
+      {l:'Max violence: '+p.mv+'/5',c:p.mv<=1?'ps-g':p.mv<=3?'ps-a':'ps-r'},
+      {l:'Max fear: '+p.mf+'/5',c:p.mf<=1?'ps-g':p.mf<=3?'ps-a':'ps-r'},
+      {l:p.blocked.length+' blocked themes',c:'ps-a'}
+    ];
+    return `<div class="p-card${isAct?' selected':''}" onclick="selectProf(${p.id})">
+      <div class="p-card-avatar" style="background:${p.color}">${p.name[0]}</div>
+      <div class="p-card-name">${p.name}</div>
+      <div class="p-card-age">Age ${p.age} · ${p.country}${p.lic?' · TV licence ✓':''}</div>
+      <div class="p-card-stats">${stats.map(s=>`<span class="ps ${s.c}">${s.l}</span>`).join('')}</div>
+      <button class="p-card-btn" onclick="event.stopPropagation();openEdit(${p.id})">✏️ Edit filters</button>
+    </div>`;
+  }).join('')+`<div class="add-p-card" onclick="openAdd()">
+    <div style="font-size:2rem">➕</div>
+    <div style="font-size:.8rem;font-weight:800;color:var(--muted)">Add a child</div>
+  </div>`;
+}
+
+function selectProf(id){
+  activeProfileId=id;
+  const p=PROFILES.find(x=>x.id===id);
+  blockedThemes=[...p.blocked];
+  document.getElementById('tb-dot').textContent=p.name[0];
+  document.getElementById('tb-dot').style.background=p.color;
+  document.getElementById('tb-name').textContent=p.name;
+  renderProfiles();
+  toast('Switched to '+p.name+"'s profile");
+}
+
+function openEdit(id){
+  editProfileId=id;
+  const p=PROFILES.find(x=>x.id===id);
+  const allT=['death','monsters','bullying','toilet-humour','mild-violence','scary','divorce','grief','guns'];
+  document.getElementById('modal-h').textContent="Edit "+p.name+"'s Filters";
+  document.getElementById('modal-body').innerHTML=`
+    <div class="m-field"><div class="m-label">Name</div><input class="m-input" id="e-name" value="${p.name}"></div>
+    <div class="m-field"><div class="m-label">Age</div><input class="m-input" type="number" id="e-age" value="${p.age}" min="1" max="17"></div>
+    <div class="m-field">
+      <div class="m-label">Max Violence (${p.mv}/5)</div>
+      <input type="range" min="0" max="5" value="${p.mv}" id="e-v">
+      <div style="font-size:.66rem;color:var(--muted);margin-top:3px">0 = none · 2 = cartoon · 5 = any</div>
+    </div>
+    <div class="m-field">
+      <div class="m-label">Max Fear (${p.mf}/5)</div>
+      <input type="range" min="0" max="5" value="${p.mf}" id="e-f">
+    </div>
+    <div class="m-field">
+      <div class="m-label">Block Themes</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:5px">
+        ${allT.map(t=>`<div class="chip${p.blocked.includes(t)?' blocked':''}" onclick="this.classList.toggle('blocked')" data-t="${t}">${t.replace(/-/g,' ')}</div>`).join('')}
+      </div>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function openAdd(){
+  editProfileId=null;
+  document.getElementById('modal-h').textContent='Add Child Profile';
+  document.getElementById('modal-body').innerHTML=`
+    <div class="m-field"><div class="m-label">Name</div><input class="m-input" id="e-name" placeholder="e.g. Lily"></div>
+    <div class="m-field"><div class="m-label">Age</div><input class="m-input" type="number" id="e-age" placeholder="6" min="1" max="17"></div>
+    <div class="m-field">
+      <div class="m-label">Max Violence (0/5)</div>
+      <input type="range" min="0" max="5" value="0" id="e-v">
+    </div>
+    <div class="m-field">
+      <div class="m-label">Max Fear (0/5)</div>
+      <input type="range" min="0" max="5" value="0" id="e-f">
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function saveProfile(){
+  const name=document.getElementById('e-name').value.trim();
+  const age=parseInt(document.getElementById('e-age').value)||5;
+  const mv=parseInt(document.getElementById('e-v').value);
+  const mf=parseInt(document.getElementById('e-f').value);
+  const newBlocked=[...document.querySelectorAll('#modal-body .chip.blocked')].map(c=>c.dataset.t).filter(Boolean);
+  if(!name){toast('Please enter a name');return;}
+  if(editProfileId){
+    const p=PROFILES.find(x=>x.id===editProfileId);
+    p.name=name;p.age=age;p.mv=mv;p.mf=mf;p.blocked=newBlocked;
+    if(activeProfileId===editProfileId){
+      blockedThemes=[...newBlocked];
+      document.getElementById('tb-name').textContent=name;
+      document.getElementById('tb-dot').textContent=name[0];
+    }
+    toast('✅ '+name+"'s profile saved");
+  } else {
+    const cols=['#3a7a8a','#7a5abf','#3a8a5a','#c9703a'];
+    PROFILES.push({id:Date.now(),name,age,color:cols[PROFILES.length%cols.length],
+      mv,mf,ml:0,ms:0,blocked:newBlocked,lic:true,country:'UK'});
+    toast('✅ '+name+' added!');
+  }
+  closeModal();
+  renderProfiles();
+  renderGrid();
+}
+
+function closeModal(e){
+  if(e&&e.target!==document.getElementById('modal-overlay'))return;
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+
+function toggleEp(e){
+  const el=e.currentTarget;
+  if(el)el.classList.toggle('open');
+}
+
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+
+</script>
+</body>
+</html>
