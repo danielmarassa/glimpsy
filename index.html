@@ -2891,8 +2891,49 @@
     const TMDB_IMG = 'https://image.tmdb.org/t/p/w342';
     const GBOOKS_KEY = 'AIzaSyAZdi_tqd_o44lbF0WEjlvqKgcuc3oPoUE';
 
-    // poster: TMDb poster_path — these are fetched live from TMDb's CDN
-    const CONTENT = [
+    const SUPABASE_URL = 'https://adbhrxslhzevrfkrudvw.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_Z3cI6vhaMUAP-MOo4WH3MQ_wDH_5ikU';
+
+    // Live content — loaded from Supabase on app init
+    let CONTENT = [];
+
+    async function loadContent() {
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/shows?select=*&order=id.asc`, {
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_KEY,
+            'Content-Type': 'application/json'
+          }
+        });
+        if (!res.ok) throw new Error('Supabase fetch failed: ' + res.status);
+        const rows = await res.json();
+        // Map snake_case DB columns back to camelCase used by the app
+        CONTENT = rows.map(r => ({
+          id: r.id, type: r.type, title: r.title, emoji: r.emoji, bg: r.bg,
+          poster: r.poster, posterType: r.poster_type,
+          age: r.age, seasons: r.seasons, dur: r.dur, rating: r.rating, csm: r.csm,
+          genres: r.genres || [], v: r.v, f: r.f, l: r.l, s: r.s,
+          pos: r.pos, roles: r.roles, con: r.con, dr: r.dr,
+          calm: r.calm, cuts: r.cuts, colour: r.colour, pace: r.pace,
+          themes: r.themes || [], platforms: r.platforms || [],
+          synopsis: r.synopsis, eps: r.eps || [],
+          // theatre-specific fields
+          venue: r.venue, city: r.city, running: r.running, minAge: r.min_age
+        }));
+        renderGrid();
+      } catch (err) {
+        console.error('Failed to load shows from Supabase:', err);
+        // Show error state in grid
+        const grid = document.getElementById('content-grid');
+        if (grid) grid.innerHTML = `<div style="padding:40px;color:var(--muted);font-size:.85rem;grid-column:1/-1">
+      ⚠️ Could not load content. Check your connection and try refreshing.
+    </div>`;
+      }
+    }
+
+    // ── LEGACY FALLBACK (kept for reference, not used) ──
+    const _CONTENT_LEGACY = [
       {
         id: 1, type: 'tv', title: 'Bluey', emoji: '🐕', bg: '#b8d4e8', poster: '/b9mY0X5T20ZM073hoa5n0dgmbfN.jpg', age: 'All ages', seasons: 3, dur: 7, rating: 'U', csm: 2, genres: ['Animation'],
         v: 0, f: 0, l: 0, s: 0, pos: 5, roles: 5, con: 1, dr: 0, calm: 5, cuts: 4, colour: 3, pace: 2,
@@ -3009,7 +3050,7 @@
         platforms: [{ n: 'Book Tickets', i: '🎟️', t: 'From £40', url: 'https://www.harrypottertheplay.com' }],
         synopsis: "Harry Potter's son Albus struggles with the weight of a famous legacy. A stunning magical production with breathtaking stagecraft and illusions.", eps: []
       }
-    ];
+    ]; // end _CONTENT_LEGACY
 
     const PROFILES = [];
 
@@ -3038,7 +3079,15 @@
     function showPage(p) {
       document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
       document.getElementById('page-' + p).classList.add('active');
-      if (p === 'app') renderGrid();
+      if (p === 'app') {
+        const grid = document.getElementById('content-grid');
+        if (grid && CONTENT.length === 0) {
+          grid.innerHTML = `<div style="padding:40px;color:var(--muted);font-size:.85rem;grid-column:1/-1">⏳ Loading shows…</div>`;
+          loadContent();
+        } else {
+          renderGrid();
+        }
+      }
     }
 
     // ═══════════════ AUTH ═══════════════
