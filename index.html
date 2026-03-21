@@ -3296,7 +3296,7 @@
     <div class="where-row">
       <div class="w-icon">${pl.i}</div>
       <div><div class="w-name">${pl.n}</div><div class="w-type">${pl.t}</div></div>
-      <button class="w-cta" onclick="event.stopPropagation();pl.url?window.open(pl.url,'_blank'):toast('${pl.n} — link coming soon')">Watch →</button>
+      <button class="w-cta" onclick="event.stopPropagation();${pl.url ? `window.open('${pl.url}','_blank')` : `toast('No link yet')`}">Watch →</button>
     </div>
     ${pl.lic ? '<div class="lic-note">📋 Requires a valid UK TV Licence to watch</div>' : ''}`).join('');
 
