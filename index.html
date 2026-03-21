@@ -2421,8 +2421,8 @@
     <nav class="landing-nav">
       <div class="brand">glimps<em>y</em></div>
       <div class="landing-nav-links">
-        <button class="lnk lnk-ghost" onclick="showPage('auth'); setAuthTab('login')">Log in</button>
-        <button class="lnk lnk-primary" onclick="showPage('auth'); setAuthTab('signup')">Get started free</button>
+        <button class="lnk lnk-primary" onclick="showPage('onboard');obStep=0;showObStep(0)">Set up your family
+          →</button>
       </div>
     </nav>
 
@@ -2433,11 +2433,11 @@
         <p class="hero-sub">Glimpsy checks every show, film and YouTube channel against your child's specific age and
           sensitivities — violence levels, scary themes, language and more. One dashboard. Every platform.</p>
         <div class="hero-actions">
-          <button class="btn-hero btn-hero-primary" onclick="showPage('auth'); setAuthTab('signup')">Create free account
-            →</button>
-          <button class="btn-hero btn-hero-secondary" onclick="showPage('auth'); setAuthTab('login')">Log in</button>
+          <button class="btn-hero btn-hero-primary" onclick="showPage('onboard');obStep=0;showObStep(0)">Get started —
+            it's free →</button>
         </div>
-        <p class="hero-note">Free to start · No credit card · Works with Netflix, BBC iPlayer, Disney+, Prime & more</p>
+        <p class="hero-note">Free forever · No account needed · Works with Netflix, BBC iPlayer, Disney+, Prime & more
+        </p>
       </div>
 
       <div class="hero-right">
@@ -2784,7 +2784,7 @@
           <span class="p-name" id="tb-name">Add profile</span>
           <span class="p-caret">▾</span>
         </div>
-        <button class="btn-signout" onclick="showPage('landing')">Sign out</button>
+        <button class="btn-signout" onclick="showPage('landing')">← Home</button>
       </div>
     </div>
 
@@ -2897,7 +2897,7 @@
         id: 1, type: 'tv', title: 'Bluey', emoji: '🐕', bg: '#b8d4e8', poster: '/b9mY0X5T20ZM073hoa5n0dgmbfN.jpg', age: 'All ages', seasons: 3, dur: 7, rating: 'U', csm: 2, genres: ['Animation'],
         v: 0, f: 0, l: 0, s: 0, pos: 5, roles: 5, con: 1, dr: 0, calm: 5, cuts: 4, colour: 3, pace: 2,
         themes: ['positive-friendship', 'positive-empathy', 'family-values', 'educational', 'toilet-humour'],
-        platforms: [{ n: 'BBC iPlayer', i: '📺', t: 'Free', lic: true }, { n: 'Disney+', i: '✨', t: 'Subscription' }],
+        platforms: [{ n: 'BBC iPlayer', i: '📺', t: 'Free', lic: true, url: 'https://www.bbc.co.uk/iplayer' }, { n: 'Disney+', i: '✨', t: 'Subscription', url: 'https://www.disneyplus.com' }],
         synopsis: 'The Heeler family navigate parenting, play and life in Brisbane. Wildly loved by both kids and parents alike.',
         eps: [{ n: 'S1 E1', t: 'Daddy Rabbit', d: 7, th: ['positive-friendship', 'family-values'], synopsis: 'Bluey and Bingo play Daddy Rabbit with their dad, turning the living room into an adventure.' },
         { n: 'S1 E2', t: 'Camping', d: 7, th: ['positive-empathy', 'educational'], synopsis: 'The Heeler family go camping and Bluey makes a new friend, learning about different families.' },
@@ -2907,7 +2907,7 @@
         id: 2, type: 'tv', title: 'Hey Duggee', emoji: '🐻', bg: '#f5e6a8', poster: '/y0r27LkhX6AZNqo2Q5FUYmwi5wz.jpg', age: '2–5', seasons: 4, dur: 7, rating: 'U', csm: 3, genres: ['Pre-school'],
         v: 0, f: 0, l: 0, s: 0, pos: 5, roles: 4, con: 0, dr: 0, calm: 5, cuts: 3, colour: 3, pace: 2,
         themes: ['positive-friendship', 'educational', 'positive-empathy'],
-        platforms: [{ n: 'BBC iPlayer', i: '📺', t: 'Free', lic: true }, { n: 'Netflix', i: '🎬', t: 'Subscription' }],
+        platforms: [{ n: 'BBC iPlayer', i: '📺', t: 'Free', lic: true, url: 'https://www.bbc.co.uk/iplayer' }, { n: 'Netflix', i: '🎬', t: 'Subscription', url: 'https://www.netflix.com' }],
         synopsis: 'Duggee the big dog runs the Squirrel Club where young animals earn badges by doing and learning.',
         eps: [{ n: 'S1 E1', t: 'The Hug Badge', d: 7, th: ['positive-empathy'], synopsis: 'The Squirrels learn that hugs are the best way to make someone feel better when they are sad.' }, { n: 'S1 E2', t: 'The Stick Badge', d: 7, th: ['educational'], synopsis: 'Duggee teaches the Squirrels about the wonderful, many uses of a simple stick.' }]
       },
@@ -2915,14 +2915,14 @@
         id: 3, type: 'movie', title: 'Paddington', emoji: '🧸', bg: '#e8c878', poster: '/wpchRGhRhvhtU083PfX2yixXtiw.jpg', age: 'All ages', seasons: null, dur: 95, rating: 'PG', csm: 5, genres: ['Family'],
         v: 1, f: 1, l: 0, s: 0, pos: 4, roles: 4, con: 1, dr: 0, calm: 4, cuts: 5, colour: 3, pace: 3,
         themes: ['positive-friendship', 'positive-empathy', 'family-conflict', 'mild-violence'],
-        platforms: [{ n: 'Netflix', i: '🎬', t: 'Subscription' }, { n: 'BBC iPlayer', i: '📺', t: 'Free', lic: true }],
+        platforms: [{ n: 'Netflix', i: '🎬', t: 'Subscription', url: 'https://www.netflix.com' }, { n: 'BBC iPlayer', i: '📺', t: 'Free', lic: true, url: 'https://www.bbc.co.uk/iplayer' }],
         synopsis: 'A young bear from Peru travels to London and is taken in by the Brown family. Charming and heartwarming.', eps: []
       },
       {
         id: 4, type: 'tv', title: 'Horrible Histories', emoji: '💀', bg: '#c8a8e8', poster: '/fwj7zkWHtveXUaB9cwrQIMvmgeQ.jpg', age: '7+', seasons: 9, dur: 25, rating: 'PG', csm: 7, genres: ['Comedy'],
         v: 2, f: 1, l: 1, s: 0, pos: 4, roles: 3, con: 0, dr: 1, calm: 3, cuts: 8, colour: 3, pace: 3,
         themes: ['death', 'mild-violence', 'educational', 'toilet-humour'],
-        platforms: [{ n: 'BBC iPlayer', i: '📺', t: 'Free', lic: true }, { n: 'Prime Video', i: '📦', t: 'Subscription' }],
+        platforms: [{ n: 'BBC iPlayer', i: '📺', t: 'Free', lic: true, url: 'https://www.bbc.co.uk/iplayer' }, { n: 'Prime Video', i: '📦', t: 'Subscription', url: 'https://www.amazon.co.uk/primevideo' }],
         synopsis: 'History told through sketches with gross bits, battles and executions — kids love it and actually learn.',
         eps: [{ n: 'S1 E1', t: 'Vile Victorians', d: 25, th: ['death', 'educational', 'mild-violence'], synopsis: 'A sketch-based look at Victorian life — child labour, deadly medicine and gruesome punishments.' }, { n: 'S1 E2', t: 'Woeful WWII', d: 25, th: ['death', 'mild-violence'], synopsis: 'Sketches covering wartime life including rationing, air raids and the experiences of soldiers.' }]
       },
@@ -2930,14 +2930,14 @@
         id: 5, type: 'book', title: 'The Gruffalo', emoji: '📗', bg: '#c8e8c8', poster: 'http://books.google.com/books/content?id=JEvFDAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api', posterType: 'book', age: '2–6', seasons: null, dur: null, rating: 'U', csm: 3, genres: ['Picture Book'],
         v: 0, f: 1, l: 0, s: 0, pos: 4, roles: 3, con: 0, dr: 0, calm: 5, cuts: 2, colour: 3, pace: 1,
         themes: ['monsters', 'scary', 'positive-friendship'],
-        platforms: [{ n: 'Amazon', i: '📦', t: 'Buy £6.99' }, { n: 'Waterstones', i: '📚', t: 'Buy £7.99' }],
+        platforms: [{ n: 'Amazon', i: '📦', t: 'Buy £6.99', url: 'https://www.amazon.co.uk' }, { n: 'Waterstones', i: '📚', t: 'Buy £7.99', url: 'https://www.waterstones.com' }],
         synopsis: 'A mouse outwits a series of hungry predators by inventing a monster called the Gruffalo — who turns out to be real.', eps: []
       },
       {
         id: 6, type: 'youtube', title: 'Numberblocks', emoji: '🔢', bg: '#f8d4b8', poster: '/vt872bR11jYDRSzTSfLuOmb2SMt.jpg', age: '3–6', seasons: null, dur: 5, rating: 'U', csm: 3, genres: ['Education'],
         v: 0, f: 0, l: 0, s: 0, pos: 5, roles: 5, con: 0, dr: 0, calm: 4, cuts: 5, colour: 4, pace: 3,
         themes: ['educational', 'positive-friendship'],
-        platforms: [{ n: 'YouTube', i: '▶️', t: 'Free' }, { n: 'BBC iPlayer', i: '📺', t: 'Free', lic: true }],
+        platforms: [{ n: 'YouTube', i: '▶️', t: 'Free', url: 'https://www.youtube.com' }, { n: 'BBC iPlayer', i: '📺', t: 'Free', lic: true, url: 'https://www.bbc.co.uk/iplayer' }],
         synopsis: 'Animated number characters help pre-schoolers understand maths through songs and adventures.',
         eps: [{ n: 'S1 E1', t: 'One', d: 5, th: ['educational'], synopsis: 'Meet One — a cheerful little block who discovers what being a number really means.' }, { n: 'S1 E2', t: 'Another One', d: 5, th: ['educational', 'positive-friendship'], synopsis: 'One meets another One and they discover that together they make Two!' }]
       },
@@ -2945,14 +2945,14 @@
         id: 7, type: 'movie', title: 'The BFG', emoji: '👶', bg: '#d8e8f8', poster: '/w17Mc2x2olB5CtewznUFxgpvne0.jpg', age: '6+', seasons: null, dur: 117, rating: 'PG', csm: 6, genres: ['Fantasy'],
         v: 1, f: 2, l: 0, s: 0, pos: 4, roles: 4, con: 0, dr: 0, calm: 3, cuts: 6, colour: 3, pace: 3,
         themes: ['scary', 'mild-violence', 'positive-friendship', 'positive-empathy'],
-        platforms: [{ n: 'Disney+', i: '✨', t: 'Subscription' }, { n: 'Prime Video', i: '📦', t: 'Subscription' }],
+        platforms: [{ n: 'Disney+', i: '✨', t: 'Subscription', url: 'https://www.disneyplus.com' }, { n: 'Prime Video', i: '📦', t: 'Subscription', url: 'https://www.amazon.co.uk/primevideo' }],
         synopsis: "Roald Dahl's classic about a girl who befriends the Big Friendly Giant and together they visit the Queen.", eps: []
       },
       {
         id: 8, type: 'tv', title: 'Octonauts', emoji: '🐙', bg: '#a8d8f8', poster: '/iYUhUSKWKpSBahaWLUQIPckAy8p.jpg', age: '3–7', seasons: 5, dur: 11, rating: 'U', csm: 4, genres: ['Education'],
         v: 0, f: 0, l: 0, s: 0, pos: 5, roles: 5, con: 0, dr: 0, calm: 4, cuts: 5, colour: 3, pace: 3,
         themes: ['educational', 'positive-friendship', 'positive-empathy'],
-        platforms: [{ n: 'Netflix', i: '🎬', t: 'Subscription' }, { n: 'Disney+', i: '✨', t: 'Subscription' }],
+        platforms: [{ n: 'Netflix', i: '🎬', t: 'Subscription', url: 'https://www.netflix.com' }, { n: 'Disney+', i: '✨', t: 'Subscription', url: 'https://www.disneyplus.com' }],
         synopsis: 'A crew of animal explorers dive into the ocean having adventures and learning about sea creatures.',
         eps: [{ n: 'S1 E1', t: 'The Blobfish', d: 11, th: ['educational', 'positive-friendship'], synopsis: 'The crew discover a sad-looking blobfish and learn why it looks so different outside the deep sea.' }, { n: 'S1 E2', t: 'The Seahorse', d: 11, th: ['educational'], synopsis: 'Captain Barnacles helps a seahorse dad who is about to give birth — yes, dads give birth in seahorse families!' }]
       },
@@ -2960,14 +2960,14 @@
         id: 9, type: 'book', title: 'Charlie & Chocolate Factory', emoji: '📘', bg: '#e8f8d8', poster: 'http://books.google.com/books/content?id=7tYWAQAAMAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api', posterType: 'book', age: '7+', seasons: null, dur: null, rating: 'U', csm: 7, genres: ['Novel'],
         v: 1, f: 1, l: 0, s: 0, pos: 3, roles: 3, con: 2, dr: 0, calm: 3, cuts: 7, colour: 4, pace: 4,
         themes: ['positive-friendship', 'mild-violence', 'scary'],
-        platforms: [{ n: 'Amazon', i: '📦', t: 'Buy £7.99' }, { n: 'Library', i: '📚', t: 'Free' }],
+        platforms: [{ n: 'Amazon', i: '📦', t: 'Buy £7.99', url: 'https://www.amazon.co.uk' }, { n: 'Library', i: '📚', t: 'Free', url: 'https://www.librarieswest.org.uk' }],
         synopsis: "Roald Dahl's classic about a poor boy who wins a golden ticket to Willy Wonka's mysterious factory.", eps: []
       },
       {
         id: 10, type: 'tv', title: 'Peppa Pig', emoji: '🐷', bg: '#f8d8e8', poster: '/iwKVo3HlsyVNXCzFEkd0xHz3kGi.jpg', age: '2–5', seasons: 8, dur: 5, rating: 'U', csm: 3, genres: ['Pre-school'],
         v: 0, f: 0, l: 0, s: 0, pos: 3, roles: 3, con: 1, dr: 0, calm: 2, cuts: 12, colour: 5, pace: 5,
         themes: ['family-values', 'toilet-humour', 'positive-friendship'],
-        platforms: [{ n: 'BBC iPlayer', i: '📺', t: 'Free', lic: true }, { n: 'Netflix', i: '🎬', t: 'Subscription' }],
+        platforms: [{ n: 'BBC iPlayer', i: '📺', t: 'Free', lic: true, url: 'https://www.bbc.co.uk/iplayer' }, { n: 'Netflix', i: '🎬', t: 'Subscription', url: 'https://www.netflix.com' }],
         synopsis: 'Peppa Pig and her family go on everyday adventures. A staple of the British pre-school diet.',
         eps: [{ n: 'S1 E1', t: 'Muddy Puddles', d: 5, th: ['family-values', 'toilet-humour'], synopsis: 'Peppa and George go outside after the rain and discover the joy of jumping in muddy puddles.' }, { n: 'S1 E2', t: 'The Playground', d: 5, th: ['positive-friendship'], synopsis: 'Peppa makes new friends at the playground and learns about taking turns on the slide.' }]
       },
@@ -2975,14 +2975,14 @@
         id: 11, type: 'youtube', title: 'CBeebies Storytime', emoji: '🌟', bg: '#fff0c8', poster: 'https://ichef.bbci.co.uk/images/ic/1200x675/p0f5csl8.jpg', posterType: 'external', age: '2–5', seasons: null, dur: 8, rating: 'U', csm: 2, genres: ['Story'],
         v: 0, f: 0, l: 0, s: 0, pos: 5, roles: 5, con: 0, dr: 0, calm: 5, cuts: 1, colour: 2, pace: 1,
         themes: ['educational', 'positive-friendship', 'positive-empathy'],
-        platforms: [{ n: 'YouTube', i: '▶️', t: 'Free' }, { n: 'BBC iPlayer', i: '📺', t: 'Free', lic: true }],
+        platforms: [{ n: 'YouTube', i: '▶️', t: 'Free', url: 'https://www.youtube.com' }, { n: 'BBC iPlayer', i: '📺', t: 'Free', lic: true, url: 'https://www.bbc.co.uk/iplayer' }],
         synopsis: 'Bedtime stories read aloud by CBeebies presenters. Perfect for winding down before sleep.', eps: []
       },
       {
         id: 12, type: 'movie', title: 'Matilda the Musical', emoji: '🎭', bg: '#d8c8f8', poster: '/ga8R3OiOMMgSvZ4cOj8x7prUNYZ.jpg', age: '6+', seasons: null, dur: 117, rating: 'PG', csm: 6, genres: ['Musical'],
         v: 1, f: 1, l: 0, s: 0, pos: 5, roles: 4, con: 0, dr: 0, calm: 3, cuts: 8, colour: 4, pace: 4,
         themes: ['bullying', 'mild-violence', 'positive-empathy', 'educational'],
-        platforms: [{ n: 'Netflix', i: '🎬', t: 'Subscription' }],
+        platforms: [{ n: 'Netflix', i: '🎬', t: 'Subscription', url: 'https://www.netflix.com' }],
         synopsis: "Roald Dahl's story of a brilliant girl with telekinetic powers who outwits the terrifying Miss Trunchbull.", eps: []
       },
       {
@@ -2990,7 +2990,7 @@
         v: 1, f: 1, l: 0, s: 0, pos: 5, roles: 5, con: 0, dr: 0, calm: 4, cuts: null, colour: 4, pace: 3,
         themes: ['bullying', 'mild-violence', 'positive-empathy', 'educational', 'positive-friendship'],
         venue: 'Cambridge Theatre, West End', city: 'London', running: 'Now — open ended', minAge: '6+',
-        platforms: [{ n: 'Book Tickets', i: 'ðï¸', t: 'From £25' }],
+        platforms: [{ n: 'Book Tickets', i: '🎟️', t: 'From £25', url: 'https://www.rsc.org.uk' }],
         synopsis: "Roald Dahl's beloved story brought to life on stage. A girl with extraordinary powers takes on the fearsome Miss Trunchbull. Winner of 16 Olivier Awards.", eps: []
       },
       {
@@ -2998,7 +2998,7 @@
         v: 1, f: 2, l: 0, s: 0, pos: 5, roles: 5, con: 0, dr: 0, calm: 3, cuts: null, colour: 5, pace: 3,
         themes: ['death', 'family-values', 'positive-friendship', 'positive-empathy', 'mild-violence'],
         venue: 'Lyceum Theatre, West End', city: 'London', running: 'Now — open ended', minAge: '6+',
-        platforms: [{ n: 'Book Tickets', i: 'ðï¸', t: 'From £35' }],
+        platforms: [{ n: 'Book Tickets', i: '🎟️', t: 'From £35', url: 'https://www.lwtheatres.co.uk' }],
         synopsis: "Disney's iconic story of Simba's journey from cub to king. Spectacular costumes, puppetry and music make this one of the most celebrated musicals of all time.", eps: []
       },
       {
@@ -3006,7 +3006,7 @@
         v: 1, f: 2, l: 1, s: 0, pos: 4, roles: 4, con: 0, dr: 0, calm: 3, cuts: null, colour: 4, pace: 4,
         themes: ['death', 'scary', 'mild-violence', 'positive-friendship', 'family-values'],
         venue: 'Palace Theatre, West End', city: 'London', running: 'Now — open ended', minAge: '10+',
-        platforms: [{ n: 'Book Tickets', i: 'ðï¸', t: 'From £40' }],
+        platforms: [{ n: 'Book Tickets', i: '🎟️', t: 'From £40', url: 'https://www.harrypottertheplay.com' }],
         synopsis: "Harry Potter's son Albus struggles with the weight of a famous legacy. A stunning magical production with breathtaking stagecraft and illusions.", eps: []
       }
     ];
@@ -3212,11 +3212,11 @@
         const pils = item.platforms.slice(0, 2).map(pl => `<span class="c-plat">${pl.i || ''} ${pl.n}</span>`).join('');
         const meta = isTheatre ? [item.age, fmtD(item.dur), item.city].filter(Boolean).join(' · ') : [item.age, fmtD(item.dur), item.genres[0]].filter(Boolean).join(' · ');
         const posterHTML = item.poster
-          ? `<img src="${(item.posterType === 'book' || item.posterType === 'external') ? item.poster : TMDB_IMG + item.poster}" alt="${item.title}" style="width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">` +
+          ? `<img src="${(item.posterType === 'book' || item.posterType === 'external') ? item.poster : TMDB_IMG + item.poster}" alt="${item.title}" style="width:100%;height:100%;object-fit:cover;object-position:center center;position:absolute;top:0;left:0;" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">` +
           `<span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:3.2rem;position:absolute;">${item.emoji}</span>`
           : `<span style="font-size:3.2rem">${item.emoji}</span>`;
         const calmPip = item.calm ? `<div class="calm-pip">Sensory <strong>${item.calm}/5</strong></div>` : '';
-        const posterH = item.poster ? `<img src="${item.posterType === 'book' ? item.poster : TMDB_IMG + item.poster}" alt="${item.title}" style="width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">` + `<span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:3.2rem;position:absolute;">${item.emoji}</span>` : `<span style="font-size:3.2rem">${item.emoji}</span>`;
+        const posterH = item.poster ? `<img src="${item.posterType === 'book' ? item.poster : TMDB_IMG + item.poster}" alt="${item.title}" style="width:100%;height:100%;object-fit:cover;object-position:center center;position:absolute;top:0;left:0;" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">` + `<span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:3.2rem;position:absolute;">${item.emoji}</span>` : `<span style="font-size:3.2rem">${item.emoji}</span>`;
         return `<div class="c-card" style="animation-delay:${i * .04}s" onclick="showDetail(${item.id})">
       <div class="c-poster" style="background:${item.bg};position:relative;">
         ${posterH}
@@ -3296,7 +3296,7 @@
     <div class="where-row">
       <div class="w-icon">${pl.i}</div>
       <div><div class="w-name">${pl.n}</div><div class="w-type">${pl.t}</div></div>
-      <button class="w-cta" onclick="event.stopPropagation();toast('Opening ${pl.n}…')">Watch →</button>
+      <button class="w-cta" onclick="event.stopPropagation();pl.url?window.open(pl.url,'_blank'):toast('${pl.n} — link coming soon')">Watch →</button>
     </div>
     ${pl.lic ? '<div class="lic-note">📋 Requires a valid UK TV Licence to watch</div>' : ''}`).join('');
 
