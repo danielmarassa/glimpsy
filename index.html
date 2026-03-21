@@ -292,33 +292,61 @@
     }
 
     .mini-card {
-      border-radius: 14px;
-      padding: 14px 12px;
+      border-radius: 12px;
+      overflow: hidden;
       cursor: default;
-      border: 1px solid rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .1);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
+      gap: 0;
       background: rgba(255, 255, 255, .04);
       transition: all .2s;
     }
 
     .mini-card:hover {
-      background: rgba(255, 255, 255, .08);
-      border-color: rgba(255, 255, 255, .15);
+      border-color: rgba(255, 255, 255, .2);
+      transform: translateY(-2px);
+    }
+
+    .mini-poster {
+      width: 100%;
+      aspect-ratio: 2/3;
+      object-fit: cover;
+      display: block;
+    }
+
+    .mini-poster-placeholder {
+      width: 100%;
+      aspect-ratio: 2/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      background: rgba(255, 255, 255, .06);
+    }
+
+    .mini-card-body {
+      padding: 8px 10px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
     }
 
     .mini-emoji {
-      font-size: 2rem;
+      display: none;
     }
 
     .mini-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: .78rem;
+      font-size: .72rem;
       font-weight: 600;
-      color: white;
-      text-align: center;
+      color: rgba(255, 255, 255, .85);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .mini-badge {
@@ -2417,24 +2445,41 @@
           <div class="hero-card-title">Filtered for Isla, age 5</div>
           <div class="mini-cards">
             <div class="mini-card">
-              <div class="mini-emoji">🐕</div>
-              <div class="mini-title">Bluey</div>
-              <span class="mini-badge mb-safe">✓ Safe</span>
+              <img class="mini-poster" src="https://image.tmdb.org/t/p/w342/b9mY0X5T20ZM073hoa5n0dgmbfN.jpg" alt="Bluey"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+              <div class="mini-poster-placeholder" style="display:none">🐕</div>
+              <div class="mini-card-body">
+                <div class="mini-title">Bluey</div>
+                <span class="mini-badge mb-safe">✓ Safe</span>
+              </div>
             </div>
             <div class="mini-card">
-              <div class="mini-emoji">🐷</div>
-              <div class="mini-title">Peppa Pig</div>
-              <span class="mini-badge mb-safe">✓ Safe</span>
+              <img class="mini-poster" src="https://image.tmdb.org/t/p/w342/iwKVo3HlsyVNXCzFEkd0xHz3kGi.jpg"
+                alt="Peppa Pig" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+              <div class="mini-poster-placeholder" style="display:none">🐷</div>
+              <div class="mini-card-body">
+                <div class="mini-title">Peppa Pig</div>
+                <span class="mini-badge mb-safe">✓ Safe</span>
+              </div>
             </div>
             <div class="mini-card">
-              <div class="mini-emoji">💀</div>
-              <div class="mini-title">Horrible Histories</div>
-              <span class="mini-badge mb-block">✗ Blocked</span>
+              <img class="mini-poster" src="https://image.tmdb.org/t/p/w342/fwj7zkWHtveXUaB9cwrQIMvmgeQ.jpg"
+                alt="Horrible Histories"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+              <div class="mini-poster-placeholder" style="display:none">💀</div>
+              <div class="mini-card-body">
+                <div class="mini-title">Horrible Histories</div>
+                <span class="mini-badge mb-block">✗ Blocked</span>
+              </div>
             </div>
             <div class="mini-card">
-              <div class="mini-emoji">🧸</div>
-              <div class="mini-title">Paddington</div>
-              <span class="mini-badge mb-warn">⚠ Review</span>
+              <img class="mini-poster" src="https://image.tmdb.org/t/p/w342/wpchRGhRhvhtU083PfX2yixXtiw.jpg"
+                alt="Paddington" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+              <div class="mini-poster-placeholder" style="display:none">🧸</div>
+              <div class="mini-card-body">
+                <div class="mini-title">Paddington</div>
+                <span class="mini-badge mb-warn">⚠ Review</span>
+              </div>
             </div>
           </div>
         </div>
