@@ -743,15 +743,20 @@ function openEditForm(dbRow, enriched) {
 
     <div class="section-divider">Sensory Index <span>For neurodivergent filtering</span></div>
     <div class="slider-group">
-      ${['calm:Calm / pacing','cuts:Cuts per min','colour:Colour intensity','pace:Overall pace'].map(x=>{
-        const [k,name]=x.split(':');
+      ${[
+        {k:'calm',name:'Calm / Pacing',hint:'10 = very calm like Bluey · 0 = chaotic like Peppa'},
+        {k:'cuts',name:'Cuts per min',hint:'0 = slow/few cuts · 10 = very rapid editing'},
+        {k:'colour',name:'Colour Intensity',hint:'0 = muted/grey tones · 5 = extremely bright & saturated'},
+        {k:'pace',name:'Overall Pace',hint:'0 = very slow · 5 = very fast'}
+      ].map(({k,name,hint})=>{
         const val = e[k] ?? 3;
         return `<div class="slider-row">
           <div class="slider-top">
             <span class="slider-name">${name}</span>
-            <span class="slider-val sv-${val}" id="sv-${k}">${val}</span>
+            <span class="slider-val sv-${Math.min(5,Math.round(val/2))}" id="sv-${k}">${val}</span>
           </div>
           <input type="range" min="0" max="10" value="${val}" id="f-${k}" oninput="updateSliderVal('${k}',this.value)">
+          <div style="font-size:.6rem;color:var(--light);margin-top:3px;">${hint}</div>
         </div>`;
       }).join('')}
     </div>
