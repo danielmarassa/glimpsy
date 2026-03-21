@@ -492,36 +492,90 @@ async function selectResult(i) {
 }
 
 async function getAIScores(e) {
-  const prompt = `You are a children's media expert helping rate content for Glimpsy, a parental guidance app for families with neurodivergent children.
+  const prompt = `You are a children's content analyst for Glimpsy, a parental guidance platform for families with neurodivergent children. Always address parents, never children.
 
-Title: "${e.title}"
-Type: ${e.type}
-Genres: ${(e.genres||[]).join(', ')}
-UK Rating: ${e.rating || 'unknown'}
-Synopsis: "${e.overview || 'not available'}"
+TITLE: "${e.title}"
+TYPE: ${e.type}
+GENRES: ${(e.genres||[]).join(', ')}
+AGE RATING: ${e.rating || 'unknown'}
+SYNOPSIS: "${e.overview || 'not available'}"
 
-Return ONLY a valid JSON object with no explanation or markdown fences.
+Return ONLY a valid JSON object — no preamble, no markdown fences.
 
-Fields:
-- v: violence 0-5 (0=none, 1=cartoon slapstick, 2=mild action, 3=moderate, 4=strong, 5=graphic)
-- f: fear/scary 0-5 (0=nothing, 1=mild tension, 2=some scary moments, 3=genuinely frightening, 4=very scary, 5=extreme)
-- l: language 0-5 (0=none, 1=very mild, 2=mild, 3=moderate, 4=strong, 5=very strong)
-- s: sexual content 0-5 (0=none, 5=explicit)
-- pos: positive values 0-5
-- roles: role models 0-5
-- con: consumerism 0-5
-- dr: drinking/drugs 0-5
-- calm: how calm 0-10 (10=very calm like Bluey, 0=chaotic)
-- cuts: editing pace 0-10 (0=slow, 10=very rapid like Peppa Pig)
-- colour: colour intensity 0-5 (0=muted, 5=extremely bright)
-- pace: overall pace 0-5
-- csm: overall stimulation 1-10
-- age: age range string e.g. "3-7", "All ages", "10+", "2-5"
-- emoji: single best emoji for this title
-- bg: soft muted hex colour e.g. "#b8d4e8"
-- themes: array from ONLY: ["death","monsters","bullying","toilet-humour","mild-violence","scary","divorce","grief","guns","educational","positive-friendship","positive-empathy","family-values","family-conflict","mild-language","nudity","sexual-content","drug-use","gambling"]
+FIELDS AND SCORING GUIDES:
 
-Example: {"v":0,"f":1,"l":0,"s":0,"pos":5,"roles":5,"con":1,"dr":0,"calm":8,"cuts":4,"colour":3,"pace":2,"csm":2,"age":"All ages","emoji":"\ud83d\udc15","bg":"#b8d4e8","themes":["positive-friendship","educational"]}`;
+violence (0–5):
+  0=none, 1=cartoon slapstick only, 2=mild action no injury, 3=some combat/injury not graphic, 4=strong violence serious injury, 5=graphic or sustained
+
+fear_fantasy (0–5) — cartoon/fantasy threat, monsters, witches, imaginary danger:
+  0=nothing scary, 1=mild fantasy peril easily resolved, 2=some fantasy scary moments, 3=genuinely frightening fantasy, 4=very frightening may cause nightmares, 5=extreme fantasy horror
+
+fear_realistic (0–5) — real-world threat, danger, death, realistic peril:
+  0=no realistic threat, 1=mild real-world tension, 2=some realistic peril resolves safely, 3=genuinely frightening realistic, 4=very frightening realistic, 5=extreme realistic horror
+
+language_mild (0–5) — severity of worst language:
+  0=none, 1=very mild (stupid/idiot), 2=mild occasional moderate words, 3=moderate, 4=strong, 5=very strong or discriminatory
+
+language_freq (0–5) — how often bad language appears:
+  0=none, 1=single instance, 2=occasional, 3=recurring several times per episode, 4=frequent, 5=constant
+
+sex_nudity (0–5): 0=none, 1=innocent romance, 2=kissing, 3=suggestive, 4=partial nudity, 5=explicit
+
+social_safety (0–5) — bullying, exclusion, peer harm:
+  0=characters treat each other with respect, 1=minor friction resolves positively, 2=some bullying addressed, 3=bullying present not always resolved, 4=significant bullying normalised, 5=bullying glorified
+
+positive_messages (0–5): 0=none, 1=minimal, 2=some, 3=good, 4=strong throughout, 5=exceptional core theme is kindness/empathy/learning
+
+role_models (0–5): 0=none, 1=weak/absent, 2=mixed, 3=generally positive, 4=strong, 5=exceptional
+
+consumerism (0–5): 0=none, 1=minimal brand awareness, 2=some product placement, 3=noticeable, 4=heavy toy tie-ins, 5=entire premise is commercial
+
+drink_drugs (0–5): 0=none, 1=brief reference, 2=alcohol shown normalised, 3=drinking shown positively, 4=drug/alcohol in detail, 5=glorified
+
+calm (0–10): 10=very calm like Bluey, 5=average children's TV, 0=extremely chaotic
+cuts (0–10): actual scene cuts per minute mapped — 0=almost no cuts, 10=very rapid like Peppa Pig
+colour (0–5): 0=greyscale/near-monochrome, 1=very muted pastel, 2=soft, 3=normal children's TV, 4=vivid saturated, 5=extremely bright neon
+pace (0–5): 0=static/very slow long shots, 1=very slow, 2=gentle, 3=moderate average children's TV, 4=fast quick cuts, 5=very fast rapid fire
+csm (1–10): overall stimulation — 1=very gentle like Pocoyo, 5=average, 10=very intense
+
+age: age range string e.g. "2-5", "3-7", "All ages", "10+"
+emoji: single best fitting emoji for this title
+bg: soft muted hex colour fitting the show mood e.g. "#b8d4e8"
+one_line_summary: one sentence max 20 words describing the content FOR PARENTS (not children)
+
+themes: array from ONLY these values:
+  ["death","monsters","bullying","toilet-humour","mild-violence","scary","divorce","grief","guns",
+   "educational","positive-friendship","positive-empathy","family-values","family-conflict",
+   "mild-language","nudity","sexual-content","drug-use","gambling",
+   "social-skills","sensory-friendly","repetitive-structure","clear-narrative",
+   "loud-music","flashing-lights","social-exclusion","cyberbullying"]
+
+neuro_pills: array from ONLY these values based on the scores above:
+  - "low-sensory-load" if calm>=7 AND colour<=2
+  - "autism-friendly" if calm>=7 AND colour<=2 AND cuts<=3
+  - "stimming-friendly" if themes includes repetitive-structure AND calm>=7
+  - "adhd-engagement" if pace>=2 AND pace<=3 AND social_safety<=2 AND positive_messages>=3
+  - "calming-transition" if calm>=7 AND pace<=2
+  - "executive-function" if themes includes clear-narrative AND positive_messages>=3
+  - "co-viewing-recommended" if csm>=7 OR fear_fantasy>=3 OR fear_realistic>=3
+  - "bedtime-safe" if calm>=8 AND pace<=1
+
+loud_sudden_sounds: true/false — any sudden audio shocks or jump sounds
+flashing_lights: true/false — any rapid flashing or strobing visuals
+violence_detected: true/false
+scary_content_detected: true/false
+
+sensory_notes: one sentence describing the overall sensory experience for parents
+
+Return as JSON with exactly these keys:
+violence, fear_fantasy, fear_realistic, language_mild, language_freq, sex_nudity,
+social_safety, positive_messages, role_models, consumerism, drink_drugs,
+calm, cuts, colour, pace, csm, age, emoji, bg, one_line_summary, themes, neuro_pills,
+loud_sudden_sounds, flashing_lights, violence_detected, scary_content_detected, sensory_notes
+
+Map these to the existing DB fields on return:
+v=violence, f=fear_fantasy, l=language_mild, s=sex_nudity, pos=positive_messages,
+roles=role_models, con=consumerism, dr=drink_drugs`;
 
   const res = await fetch('/api/score', {
     method: 'POST',
@@ -534,7 +588,37 @@ Example: {"v":0,"f":1,"l":0,"s":0,"pos":5,"roles":5,"con":1,"dr":0,"calm":8,"cut
   const data = await res.json();
   const text = data.content?.[0]?.text || '{}';
   const clean = text.replace(/```json|```/g, '').trim();
-  return JSON.parse(clean);
+  const r = JSON.parse(clean);
+
+  // Map full schema fields back to DB column names
+  return {
+    v: r.violence ?? r.v ?? 0,
+    f: r.fear_fantasy ?? r.f ?? 0,
+    l: r.language_mild ?? r.l ?? 0,
+    s: r.sex_nudity ?? r.s ?? 0,
+    pos: r.positive_messages ?? r.pos ?? 3,
+    roles: r.role_models ?? r.roles ?? 3,
+    con: r.consumerism ?? r.con ?? 1,
+    dr: r.drink_drugs ?? r.dr ?? 0,
+    calm: r.calm ?? 5,
+    cuts: r.cuts ?? 5,
+    colour: r.colour ?? 3,
+    pace: r.pace ?? 3,
+    csm: r.csm ?? 5,
+    age: r.age || 'All ages',
+    emoji: r.emoji || '🎬',
+    bg: r.bg || '#c8d8e8',
+    // Store extra rich fields for display
+    _fear_realistic: r.fear_realistic ?? 0,
+    _language_freq: r.language_freq ?? 0,
+    _social_safety: r.social_safety ?? 0,
+    _neuro_pills: r.neuro_pills || [],
+    _loud_sudden_sounds: r.loud_sudden_sounds ?? false,
+    _flashing_lights: r.flashing_lights ?? false,
+    _one_line_summary: r.one_line_summary || '',
+    _sensory_notes: r.sensory_notes || '',
+    themes: r.themes || []
+  };
 }
 
 function extractUKRating(results) {
@@ -760,6 +844,23 @@ function openEditForm(dbRow, enriched) {
         </div>`;
       }).join('')}
     </div>
+
+    ${e._one_line_summary || e._sensory_notes || (e._neuro_pills && e._neuro_pills.length) ? `
+    <div class="section-divider">AI Assessment Summary</div>
+    <div style="background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:16px;margin-bottom:16px;">
+      ${e._one_line_summary ? `<div style="font-size:.82rem;color:var(--text);margin-bottom:10px;line-height:1.5;">💬 <strong>For parents:</strong> ${e._one_line_summary}</div>` : ''}
+      ${e._sensory_notes ? `<div style="font-size:.75rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">🧠 <strong>Sensory:</strong> ${e._sensory_notes}</div>` : ''}
+      ${e._neuro_pills && e._neuro_pills.length ? `
+        <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--light);margin-bottom:8px;">Neuro Pills suggested by AI</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          ${e._neuro_pills.map(p => `<span style="padding:4px 12px;border-radius:20px;background:var(--sage-pale);border:1px solid rgba(74,112,85,.3);color:var(--sage-light);font-size:.65rem;font-weight:700;">${p}</span>`).join('')}
+        </div>` : ''}
+      ${e._loud_sudden_sounds || e._flashing_lights ? `
+        <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
+          ${e._loud_sudden_sounds ? `<span style="padding:4px 12px;border-radius:20px;background:var(--red-pale);border:1px solid rgba(192,64,64,.2);color:#e08080;font-size:.65rem;font-weight:700;">⚠ Loud sudden sounds</span>` : ''}
+          ${e._flashing_lights ? `<span style="padding:4px 12px;border-radius:20px;background:var(--red-pale);border:1px solid rgba(192,64,64,.2);color:#e08080;font-size:.65rem;font-weight:700;">⚠ Flashing lights</span>` : ''}
+        </div>` : ''}
+    </div>` : ''}
 
     <div class="section-divider">Themes</div>
     <div class="chips-wrap" id="themes-wrap">
