@@ -844,9 +844,17 @@ async function saveShow() {
   if (statusEl) { statusEl.className = 'save-status'; statusEl.textContent = 'Saving…'; }
 
   try {
-    const id = parseInt(document.getElementById('f-id').value);
     const dbId = document.getElementById('f-dbid').value;
     const isUpdate = !!dbId;
+    // For new shows, fetch the real max ID from Supabase to avoid conflicts
+    let id;
+    if (isUpdate) {
+      id = parseInt(document.getElementById('f-id').value);
+    } else {
+      const maxRes = await sbFetch('shows?select=id&order=id.desc&limit=1');
+      id = maxRes && maxRes.length ? maxRes[0].id + 1 : 1;
+      document.getElementById('f-id').value = id;
+    }
 
     // Gather themes
     const themes = [...document.querySelectorAll('#themes-wrap .chip.on')].map(c => c.dataset.theme);
