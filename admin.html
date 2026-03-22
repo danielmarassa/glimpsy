@@ -34,837 +34,125 @@
       --shadow: 0 8px 32px rgba(0, 0, 0, .4);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0
-    }
-
-    html {
-      scroll-behavior: smooth
-    }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      font-weight: 300
-    }
-
-    .admin-wrap {
-      display: grid;
-      grid-template-columns: 320px 1fr;
-      min-height: 100vh
-    }
-
-    .sidebar {
-      background: var(--bg2);
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      overflow: hidden
-    }
-
-    .sidebar-head {
-      padding: 28px 24px 20px;
-      border-bottom: 1px solid var(--border)
-    }
-
-    .brand {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.5rem;
-      font-weight: 300;
-      letter-spacing: .1em;
-      color: var(--text)
-    }
-
-    .brand em {
-      font-style: italic;
-      color: var(--terra-light)
-    }
-
-    .brand-sub {
-      font-size: .65rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      color: var(--muted);
-      margin-top: 3px
-    }
-
-    .sidebar-section {
-      padding: 20px 24px 0;
-      font-size: .6rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      color: var(--light)
-    }
-
-    .show-list {
-      flex: 1;
-      overflow-y: auto;
-      padding: 12px 12px 20px
-    }
-
-    .show-list::-webkit-scrollbar {
-      width: 4px
-    }
-
-    .show-list::-webkit-scrollbar-track {
-      background: transparent
-    }
-
-    .show-list::-webkit-scrollbar-thumb {
-      background: var(--border2);
-      border-radius: 2px
-    }
-
-    .show-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all .15s;
-      border: 1px solid transparent;
-      margin-bottom: 4px
-    }
-
-    .show-item:hover {
-      background: var(--surface);
-      border-color: var(--border)
-    }
-
-    .show-item.active {
-      background: var(--terra-pale);
-      border-color: rgba(201, 106, 58, .3)
-    }
-
-    .si-emoji {
-      font-size: 1.1rem;
-      flex-shrink: 0
-    }
-
-    .si-info {
-      flex: 1;
-      min-width: 0
-    }
-
-    .si-title {
-      font-size: .78rem;
-      font-weight: 500;
-      color: var(--text);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis
-    }
-
-    .si-meta {
-      font-size: .6rem;
-      color: var(--muted);
-      margin-top: 1px
-    }
-
-    .si-del {
-      opacity: 0;
-      background: none;
-      border: none;
-      color: var(--red);
-      cursor: pointer;
-      font-size: .8rem;
-      padding: 2px 5px;
-      border-radius: 3px;
-      transition: all .15s;
-      flex-shrink: 0
-    }
-
-    .show-item:hover .si-del {
-      opacity: 1
-    }
-
-    .si-del:hover {
-      background: var(--red-pale)
-    }
-
-    .sidebar-add {
-      padding: 16px 12px;
-      border-top: 1px solid var(--border)
-    }
-
-    .btn-add {
-      width: 100%;
-      padding: 11px;
-      border-radius: 6px;
-      border: 1.5px dashed var(--border2);
-      background: none;
-      color: var(--muted);
-      font-family: 'DM Sans', sans-serif;
-      font-size: .78rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all .2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px
-    }
-
-    .btn-add:hover {
-      border-color: var(--terra);
-      color: var(--terra);
-      background: var(--terra-pale)
-    }
-
-    .main {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh
-    }
-
-    .topbar {
-      background: var(--bg2);
-      border-bottom: 1px solid var(--border);
-      padding: 16px 32px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      position: sticky;
-      top: 0;
-      z-index: 50
-    }
-
-    .topbar-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      font-weight: 400;
-      color: var(--muted)
-    }
-
-    .topbar-title strong {
-      color: var(--text);
-      font-weight: 600
-    }
-
-    .topbar-actions {
-      margin-left: auto;
-      display: flex;
-      gap: 10px
-    }
-
-    .btn {
-      padding: 9px 18px;
-      border-radius: 5px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: .78rem;
-      font-weight: 700;
-      cursor: pointer;
-      border: none;
-      transition: all .18s
-    }
-
-    .btn-ghost {
-      background: rgba(255, 255, 255, .06);
-      color: var(--muted);
-      border: 1px solid var(--border2)
-    }
-
-    .btn-ghost:hover {
-      background: rgba(255, 255, 255, .1);
-      color: var(--text)
-    }
-
-    .btn-primary {
-      background: var(--terra);
-      color: white
-    }
-
-    .btn-primary:hover {
-      background: var(--terra-light)
-    }
-
-    .btn-primary:disabled {
-      background: var(--light);
-      cursor: not-allowed
-    }
-
-    .btn-danger {
-      background: var(--red-pale);
-      color: var(--red);
-      border: 1px solid rgba(192, 64, 64, .2)
-    }
-
-    .btn-danger:hover {
-      background: var(--red);
-      color: white
-    }
-
-    .content-area {
-      flex: 1;
-      padding: 32px
-    }
-
-    .search-panel {
-      max-width: 700px;
-      margin: 0 auto
-    }
-
-    .search-head {
-      text-align: center;
-      margin-bottom: 36px
-    }
-
-    .search-head h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.4rem;
-      font-weight: 300;
-      color: var(--text);
-      margin-bottom: 8px
-    }
-
-    .search-head h1 em {
-      color: var(--terra-light);
-      font-style: italic
-    }
-
-    .search-head p {
-      font-size: .82rem;
-      color: var(--muted);
-      line-height: 1.6
-    }
-
-    .search-type-row {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      margin-bottom: 20px
-    }
-
-    .type-btn {
-      padding: 7px 16px;
-      border-radius: 20px;
-      border: 1.5px solid var(--border2);
-      background: none;
-      color: var(--muted);
-      font-family: 'DM Sans', sans-serif;
-      font-size: .72rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all .15s
-    }
-
-    .type-btn.active {
-      background: var(--terra);
-      border-color: var(--terra);
-      color: white
-    }
-
-    .type-btn:hover:not(.active) {
-      border-color: var(--terra);
-      color: var(--terra)
-    }
-
-    .search-bar {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 28px
-    }
-
-    .search-input {
-      flex: 1;
-      padding: 13px 18px;
-      border-radius: 6px;
-      border: 1.5px solid var(--border2);
-      background: var(--surface);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: .9rem;
-      outline: none;
-      transition: border-color .15s
-    }
-
-    .search-input:focus {
-      border-color: var(--terra)
-    }
-
-    .search-input::placeholder {
-      color: var(--light)
-    }
-
-    .btn-search {
-      padding: 13px 22px;
-      border-radius: 6px;
-      background: var(--terra);
-      color: white;
-      border: none;
-      font-family: 'DM Sans', sans-serif;
-      font-size: .85rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all .18s;
-      white-space: nowrap
-    }
-
-    .btn-search:hover {
-      background: var(--terra-light)
-    }
-
-    .search-results {
-      display: flex;
-      flex-direction: column;
-      gap: 10px
-    }
-
-    .result-card {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 14px 16px;
-      border-radius: 8px;
-      border: 1.5px solid var(--border);
-      background: var(--surface);
-      cursor: pointer;
-      transition: all .18s
-    }
-
-    .result-card:hover {
-      border-color: var(--terra);
-      background: var(--surface2)
-    }
-
-    .result-poster {
-      width: 44px;
-      height: 60px;
-      border-radius: 4px;
-      object-fit: cover;
-      background: var(--bg3);
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem
-    }
-
-    .result-poster img {
-      width: 44px;
-      height: 60px;
-      border-radius: 4px;
-      object-fit: cover
-    }
-
-    .result-info {
-      flex: 1
-    }
-
-    .result-title {
-      font-size: .88rem;
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 3px
-    }
-
-    .result-meta {
-      font-size: .68rem;
-      color: var(--muted)
-    }
-
-    .result-action {
-      font-size: .68rem;
-      font-weight: 700;
-      color: var(--terra);
-      white-space: nowrap
-    }
-
-    .no-results {
-      text-align: center;
-      padding: 40px;
-      color: var(--muted);
-      font-size: .82rem
-    }
-
-    .edit-form {
-      max-width: 900px
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 16px
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 6px
-    }
-
-    .field.full {
-      grid-column: 1/-1
-    }
-
-    .label {
-      font-size: .6rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .1em;
-      color: var(--muted)
-    }
-
-    .input {
-      padding: 10px 13px;
-      border-radius: 5px;
-      border: 1.5px solid var(--border2);
-      background: var(--surface);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: .85rem;
-      outline: none;
-      transition: border-color .15s
-    }
-
-    .input:focus {
-      border-color: var(--terra)
-    }
-
-    .input::placeholder {
-      color: var(--light)
-    }
-
-    textarea.input {
-      resize: vertical;
-      min-height: 80px;
-      line-height: 1.5
-    }
-
-    select.input {
-      cursor: pointer
-    }
-
-    .section-divider {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--text);
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 10px;
-      margin: 24px 0 16px;
-      letter-spacing: .02em
-    }
-
-    .section-divider span {
-      color: var(--muted);
-      font-size: .7rem;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 400;
-      margin-left: 8px
-    }
-
-    .slider-group {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 16px
-    }
-
-    .slider-row {
-      display: flex;
-      flex-direction: column;
-      gap: 6px
-    }
-
-    .slider-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center
-    }
-
-    .slider-name {
-      font-size: .65rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      color: var(--muted)
-    }
-
-    .slider-val {
-      font-family: 'DM Mono', monospace;
-      font-size: .72rem;
-      font-weight: 500;
-      padding: 2px 8px;
-      border-radius: 10px
-    }
-
-    .sv-0,
-    .sv-1 {
-      background: rgba(74, 138, 90, .2);
-      color: #6abf7a
-    }
-
-    .sv-2,
-    .sv-3 {
-      background: rgba(196, 163, 90, .15);
-      color: var(--amber)
-    }
-
-    .sv-4,
-    .sv-5 {
-      background: rgba(192, 64, 64, .15);
-      color: #e08080
-    }
-
-    input[type=range] {
-      width: 100%;
-      -webkit-appearance: none;
-      height: 4px;
-      border-radius: 2px;
-      background: var(--border2);
-      outline: none;
-      cursor: pointer
-    }
-
-    input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: var(--terra);
-      cursor: pointer;
-      border: 2px solid var(--bg2)
-    }
-
-    .chips-wrap {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 4px
-    }
-
-    .chip {
-      padding: 5px 12px;
-      border-radius: 20px;
-      border: 1.5px solid var(--border2);
-      background: none;
-      color: var(--muted);
-      font-family: 'DM Sans', sans-serif;
-      font-size: .65rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all .15s
-    }
-
-    .chip:hover {
-      border-color: var(--terra);
-      color: var(--terra)
-    }
-
-    .chip.on {
-      background: var(--terra-pale);
-      border-color: rgba(201, 106, 58, .4);
-      color: var(--terra-light)
-    }
-
-    .chip.on.sage {
-      background: var(--sage-pale);
-      border-color: rgba(74, 112, 85, .4);
-      color: var(--sage-light)
-    }
-
-    .chip.on.red {
-      background: var(--red-pale);
-      border-color: rgba(192, 64, 64, .3);
-      color: #e08080
-    }
-
-    .poster-preview-wrap {
-      display: flex;
-      gap: 16px;
-      align-items: flex-start
-    }
-
-    .poster-preview {
-      width: 80px;
-      height: 110px;
-      border-radius: 6px;
-      background: var(--bg3);
-      border: 1.5px solid var(--border);
-      flex-shrink: 0;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem
-    }
-
-    .poster-preview img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover
-    }
-
-    .poster-input-wrap {
-      flex: 1
-    }
-
-    .form-actions {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      margin-top: 28px;
-      padding-top: 20px;
-      border-top: 1px solid var(--border)
-    }
-
-    .save-status {
-      font-size: .72rem;
-      color: var(--muted);
-      margin-left: auto
-    }
-
-    .save-status.ok {
-      color: var(--green)
-    }
-
-    .save-status.err {
-      color: var(--red)
-    }
-
-    .empty-state {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      padding: 60px;
-      text-align: center
-    }
-
-    .empty-icon {
-      font-size: 3rem;
-      opacity: .4
-    }
-
-    .empty-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.6rem;
-      font-weight: 300;
-      color: var(--muted)
-    }
-
-    .empty-sub {
-      font-size: .78rem;
-      color: var(--light);
-      max-width: 300px;
-      line-height: 1.6
-    }
-
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: var(--surface2);
-      border: 1px solid var(--border2);
-      color: var(--text);
-      padding: 12px 20px;
-      border-radius: 8px;
-      font-size: .78rem;
-      font-weight: 500;
-      box-shadow: var(--shadow);
-      transform: translateY(80px);
-      opacity: 0;
-      transition: all .25s;
-      z-index: 999
-    }
-
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1
-    }
-
-    .toast.ok {
-      border-color: rgba(74, 138, 90, .4);
-      color: #6abf7a
-    }
-
-    .toast.err {
-      border-color: rgba(192, 64, 64, .3);
-      color: #e08080
-    }
-
-    .spinner {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid var(--border2);
-      border-top-color: var(--terra);
-      border-radius: 50%;
-      animation: spin .7s linear infinite;
-      vertical-align: middle;
-      margin-right: 6px
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg)
-      }
-    }
-
-    .loading-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--muted);
-      font-size: .8rem;
-      padding: 20px 0
-    }
-
-    .ai-assess-banner {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 20px;
-      padding: 16px;
-      border: 1.5px solid rgba(201, 106, 58, .25);
-      border-radius: 8px;
-      background: var(--terra-pale)
-    }
-
-    .ai-assess-banner-info {
-      flex: 1
-    }
-
-    .ai-assess-banner-label {
-      font-size: .7rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      color: var(--terra-light);
-      margin-bottom: 3px
-    }
-
-    .ai-assess-banner-sub {
-      font-size: .72rem;
-      color: var(--muted);
-      line-height: 1.5
-    }
-
-    .ai-assess-banner-actions {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 6px
-    }
-
-    .ai-assess-status {
-      font-size: .65rem;
-      color: var(--muted)
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0 }
+    html { scroll-behavior: smooth }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-weight: 300 }
+    .admin-wrap { display: grid; grid-template-columns: 320px 1fr; min-height: 100vh }
+    .sidebar { background: var(--bg2); border-right: 1px solid var(--border); display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; overflow: hidden }
+    .sidebar-head { padding: 28px 24px 20px; border-bottom: 1px solid var(--border) }
+    .brand { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 300; letter-spacing: .1em; color: var(--text) }
+    .brand em { font-style: italic; color: var(--terra-light) }
+    .brand-sub { font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin-top: 3px }
+    .sidebar-section { padding: 20px 24px 0; font-size: .6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--light) }
+    .show-list { flex: 1; overflow-y: auto; padding: 12px 12px 20px }
+    .show-list::-webkit-scrollbar { width: 4px }
+    .show-list::-webkit-scrollbar-track { background: transparent }
+    .show-list::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px }
+    .show-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 6px; cursor: pointer; transition: all .15s; border: 1px solid transparent; margin-bottom: 4px }
+    .show-item:hover { background: var(--surface); border-color: var(--border) }
+    .show-item.active { background: var(--terra-pale); border-color: rgba(201, 106, 58, .3) }
+    .si-emoji { font-size: 1.1rem; flex-shrink: 0 }
+    .si-info { flex: 1; min-width: 0 }
+    .si-title { font-size: .78rem; font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+    .si-meta { font-size: .6rem; color: var(--muted); margin-top: 1px }
+    .si-del { opacity: 0; background: none; border: none; color: var(--red); cursor: pointer; font-size: .8rem; padding: 2px 5px; border-radius: 3px; transition: all .15s; flex-shrink: 0 }
+    .show-item:hover .si-del { opacity: 1 }
+    .si-del:hover { background: var(--red-pale) }
+    .sidebar-add { padding: 16px 12px; border-top: 1px solid var(--border) }
+    .btn-add { width: 100%; padding: 11px; border-radius: 6px; border: 1.5px dashed var(--border2); background: none; color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: .78rem; font-weight: 500; cursor: pointer; transition: all .2s; display: flex; align-items: center; justify-content: center; gap: 8px }
+    .btn-add:hover { border-color: var(--terra); color: var(--terra); background: var(--terra-pale) }
+    .main { display: flex; flex-direction: column; min-height: 100vh }
+    .topbar { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 16px 32px; display: flex; align-items: center; gap: 16px; position: sticky; top: 0; z-index: 50 }
+    .topbar-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 400; color: var(--muted) }
+    .topbar-title strong { color: var(--text); font-weight: 600 }
+    .topbar-actions { margin-left: auto; display: flex; gap: 10px }
+    .btn { padding: 9px 18px; border-radius: 5px; font-family: 'DM Sans', sans-serif; font-size: .78rem; font-weight: 700; cursor: pointer; border: none; transition: all .18s }
+    .btn-ghost { background: rgba(255,255,255,.06); color: var(--muted); border: 1px solid var(--border2) }
+    .btn-ghost:hover { background: rgba(255,255,255,.1); color: var(--text) }
+    .btn-primary { background: var(--terra); color: white }
+    .btn-primary:hover { background: var(--terra-light) }
+    .btn-primary:disabled { background: var(--light); cursor: not-allowed }
+    .btn-danger { background: var(--red-pale); color: var(--red); border: 1px solid rgba(192,64,64,.2) }
+    .btn-danger:hover { background: var(--red); color: white }
+    .content-area { flex: 1; padding: 32px }
+    .search-panel { max-width: 700px; margin: 0 auto }
+    .search-head { text-align: center; margin-bottom: 36px }
+    .search-head h1 { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; font-weight: 300; color: var(--text); margin-bottom: 8px }
+    .search-head h1 em { color: var(--terra-light); font-style: italic }
+    .search-head p { font-size: .82rem; color: var(--muted); line-height: 1.6 }
+    .search-type-row { display: flex; gap: 8px; justify-content: center; margin-bottom: 20px }
+    .type-btn { padding: 7px 16px; border-radius: 20px; border: 1.5px solid var(--border2); background: none; color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: .72rem; font-weight: 700; cursor: pointer; transition: all .15s }
+    .type-btn.active { background: var(--terra); border-color: var(--terra); color: white }
+    .type-btn:hover:not(.active) { border-color: var(--terra); color: var(--terra) }
+    .search-bar { display: flex; gap: 10px; margin-bottom: 28px }
+    .search-input { flex: 1; padding: 13px 18px; border-radius: 6px; border: 1.5px solid var(--border2); background: var(--surface); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: .9rem; outline: none; transition: border-color .15s }
+    .search-input:focus { border-color: var(--terra) }
+    .search-input::placeholder { color: var(--light) }
+    .btn-search { padding: 13px 22px; border-radius: 6px; background: var(--terra); color: white; border: none; font-family: 'DM Sans', sans-serif; font-size: .85rem; font-weight: 700; cursor: pointer; transition: all .18s; white-space: nowrap }
+    .btn-search:hover { background: var(--terra-light) }
+    .search-results { display: flex; flex-direction: column; gap: 10px }
+    .result-card { display: flex; align-items: center; gap: 16px; padding: 14px 16px; border-radius: 8px; border: 1.5px solid var(--border); background: var(--surface); cursor: pointer; transition: all .18s }
+    .result-card:hover { border-color: var(--terra); background: var(--surface2) }
+    .result-poster { width: 44px; height: 60px; border-radius: 4px; object-fit: cover; background: var(--bg3); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1.4rem }
+    .result-poster img { width: 44px; height: 60px; border-radius: 4px; object-fit: cover }
+    .result-info { flex: 1 }
+    .result-title { font-size: .88rem; font-weight: 600; color: var(--text); margin-bottom: 3px }
+    .result-meta { font-size: .68rem; color: var(--muted) }
+    .result-action { font-size: .68rem; font-weight: 700; color: var(--terra); white-space: nowrap }
+    .no-results { text-align: center; padding: 40px; color: var(--muted); font-size: .82rem }
+    .edit-form { max-width: 900px }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px }
+    .field { display: flex; flex-direction: column; gap: 6px }
+    .field.full { grid-column: 1/-1 }
+    .label { font-size: .6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted) }
+    .input { padding: 10px 13px; border-radius: 5px; border: 1.5px solid var(--border2); background: var(--surface); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: .85rem; outline: none; transition: border-color .15s }
+    .input:focus { border-color: var(--terra) }
+    .input::placeholder { color: var(--light) }
+    textarea.input { resize: vertical; min-height: 80px; line-height: 1.5 }
+    select.input { cursor: pointer }
+    .section-divider { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 600; color: var(--text); border-bottom: 1px solid var(--border); padding-bottom: 10px; margin: 24px 0 16px; letter-spacing: .02em }
+    .section-divider span { color: var(--muted); font-size: .7rem; font-family: 'DM Sans', sans-serif; font-weight: 400; margin-left: 8px }
+    .slider-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px }
+    .slider-row { display: flex; flex-direction: column; gap: 6px }
+    .slider-top { display: flex; justify-content: space-between; align-items: center }
+    .slider-name { font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted) }
+    .slider-val { font-family: 'DM Mono', monospace; font-size: .72rem; font-weight: 500; padding: 2px 8px; border-radius: 10px }
+    .sv-0,.sv-1 { background: rgba(74,138,90,.2); color: #6abf7a }
+    .sv-2,.sv-3 { background: rgba(196,163,90,.15); color: var(--amber) }
+    .sv-4,.sv-5 { background: rgba(192,64,64,.15); color: #e08080 }
+    input[type=range] { width: 100%; -webkit-appearance: none; height: 4px; border-radius: 2px; background: var(--border2); outline: none; cursor: pointer }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--terra); cursor: pointer; border: 2px solid var(--bg2) }
+    .chips-wrap { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px }
+    .chip { padding: 5px 12px; border-radius: 20px; border: 1.5px solid var(--border2); background: none; color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: .65rem; font-weight: 700; cursor: pointer; transition: all .15s }
+    .chip:hover { border-color: var(--terra); color: var(--terra) }
+    .chip.on { background: var(--terra-pale); border-color: rgba(201,106,58,.4); color: var(--terra-light) }
+    .chip.on.sage { background: var(--sage-pale); border-color: rgba(74,112,85,.4); color: var(--sage-light) }
+    .chip.on.red { background: var(--red-pale); border-color: rgba(192,64,64,.3); color: #e08080 }
+    .poster-preview-wrap { display: flex; gap: 16px; align-items: flex-start }
+    .poster-preview { width: 80px; height: 110px; border-radius: 6px; background: var(--bg3); border: 1.5px solid var(--border); flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 2rem }
+    .poster-preview img { width: 100%; height: 100%; object-fit: cover }
+    .poster-input-wrap { flex: 1 }
+    .form-actions { display: flex; gap: 12px; align-items: center; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border) }
+    .save-status { font-size: .72rem; color: var(--muted); margin-left: auto }
+    .save-status.ok { color: var(--green) }
+    .save-status.err { color: var(--red) }
+    .empty-state { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 60px; text-align: center }
+    .empty-icon { font-size: 3rem; opacity: .4 }
+    .empty-title { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 300; color: var(--muted) }
+    .empty-sub { font-size: .78rem; color: var(--light); max-width: 300px; line-height: 1.6 }
+    .toast { position: fixed; bottom: 24px; right: 24px; background: var(--surface2); border: 1px solid var(--border2); color: var(--text); padding: 12px 20px; border-radius: 8px; font-size: .78rem; font-weight: 500; box-shadow: var(--shadow); transform: translateY(80px); opacity: 0; transition: all .25s; z-index: 999 }
+    .toast.show { transform: translateY(0); opacity: 1 }
+    .toast.ok { border-color: rgba(74,138,90,.4); color: #6abf7a }
+    .toast.err { border-color: rgba(192,64,64,.3); color: #e08080 }
+    .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--border2); border-top-color: var(--terra); border-radius: 50%; animation: spin .7s linear infinite; vertical-align: middle; margin-right: 6px }
+    @keyframes spin { to { transform: rotate(360deg) } }
+    .loading-row { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: .8rem; padding: 20px 0 }
+    .ai-assess-banner { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; padding: 16px; border: 1.5px solid rgba(201,106,58,.25); border-radius: 8px; background: var(--terra-pale) }
+    .ai-assess-banner-info { flex: 1 }
+    .ai-assess-banner-label { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--terra-light); margin-bottom: 3px }
+    .ai-assess-banner-sub { font-size: .72rem; color: var(--muted); line-height: 1.5 }
+    .ai-assess-banner-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 6px }
+    .ai-assess-status { font-size: .65rem; color: var(--muted) }
   </style>
 </head>
 
@@ -903,6 +191,21 @@
   <div class="toast" id="toast"></div>
 
   <script>
+    // ═══════════════ ADMIN AUTH ═══════════════
+    (function () {
+      const ADMIN_PASSWORD = 'M$naiKiK!';
+      const SESSION_KEY = 'glimpsy_admin_auth';
+      if (sessionStorage.getItem(SESSION_KEY) !== ADMIN_PASSWORD) {
+        const input = prompt('Glimpsy Admin — enter password:');
+        if (input !== ADMIN_PASSWORD) {
+          document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;color:#666;background:#0f0e0c;">Access denied.</div>';
+          throw new Error('Unauthorised');
+        }
+        sessionStorage.setItem(SESSION_KEY, ADMIN_PASSWORD);
+      }
+    })();
+
+    // ═══════════════ CONFIG ═══════════════
     const SUPABASE_URL = 'https://adbhrxslhzevrfkrudvw.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_Z3cI6vhaMUAP-MOo4WH3MQ_wDH_5ikU';
     const TMDB_KEY = 'a7d3cc4ab198a61fd4473e5f90b0c745';
@@ -913,9 +216,7 @@
     let SHOWS = [], currentShow = null, searchMode = 'tv';
 
     const ALL_THEMES = ['death', 'monsters', 'bullying', 'toilet-humour', 'mild-violence', 'scary', 'divorce', 'grief', 'guns', 'educational', 'positive-friendship', 'positive-empathy', 'family-values', 'family-conflict', 'mild-language', 'nudity', 'sexual-content', 'drug-use', 'gambling'];
-
     const ALL_NEURO_PILLS = ['low-sensory-load', 'autism-friendly', 'stimming-friendly', 'adhd-engagement', 'calming-transition', 'executive-function', 'co-viewing-recommended', 'bedtime-safe'];
-
     const ALL_WARNING_FLAGS = [
       { id: 'loud_sudden_sounds', label: '⚠ Loud sudden sounds' },
       { id: 'flashing_lights', label: '⚠ Flashing lights' },
@@ -1177,10 +478,7 @@ Return JSON with exactly these keys: violence,fear_fantasy,fear_realistic,langua
       } finally { btn.disabled = false; btn.innerHTML = '✦ Run AI Assessment'; }
     }
 
-
-    // ─── CHANGE 1: derivePills helper ───────────────────────────────────────────
-    // Add this function just above mergeAssessment
-
+    // ═══ PILL HELPERS ═══
     function derivePills(scores) {
       const pos = scores.pos ?? scores.positive_messages ?? 0;
       const pills = [];
@@ -1197,76 +495,44 @@ Return JSON with exactly these keys: violence,fear_fantasy,fear_realistic,langua
 
     function mergeAssessment(claude, gemini, sourceTier) {
       const merged = { ...claude, source: sourceTier };
-
-      // Claude-only sensory scores (before Gemini override)
       const claudeScores = {
-        calm: merged.calm ?? 5,
-        colour: merged.colour ?? 3,
-        pace: merged.pace ?? 3,
-        cuts: merged.cuts ?? 3,
-        pos: merged.pos ?? merged.positive_messages ?? 0,
-        themes: merged.themes || [],
-        fear_fantasy: merged.fear_fantasy ?? 0,
-        fear_realistic: merged.fear_realistic ?? 0,
+        calm: merged.calm ?? 5, colour: merged.colour ?? 3, pace: merged.pace ?? 3, cuts: merged.cuts ?? 3,
+        pos: merged.pos ?? merged.positive_messages ?? 0, themes: merged.themes || [],
+        fear_fantasy: merged.fear_fantasy ?? 0, fear_realistic: merged.fear_realistic ?? 0,
         loud_sudden_sounds: false
       };
-
       if (gemini?.sensory_index) {
-        merged.calm = Math.round((gemini.sensory_index.overall_score / 5) * 10);
+        merged.calm   = Math.round((gemini.sensory_index.overall_score / 5) * 10);
         merged.colour = Math.round((gemini.sensory_index.colour_intensity / 5) * 10);
-        merged.pace = Math.round((gemini.sensory_index.edit_pace / 5) * 10);
-        merged.cuts = Math.round(gemini.sensory_index.scene_cuts_per_minute * 2);
+        merged.pace   = Math.round((gemini.sensory_index.edit_pace / 5) * 10);
+        merged.cuts   = Math.round(gemini.sensory_index.scene_cuts_per_minute * 2);
         merged._audio_stress = gemini.sensory_index.audio_stress_level;
       }
-
       if (gemini?.flags) {
-        merged.loud_sudden_sounds = gemini.flags.loud_sudden_sounds;
-        merged.flashing_lights = gemini.flags.flashing_lights;
-        merged.orienting_reflex = gemini.flags.orienting_reflex;
-        merged._sensory_notes = gemini.sensory_notes || '';
+        merged.loud_sudden_sounds    = gemini.flags.loud_sudden_sounds;
+        merged.flashing_lights       = gemini.flags.flashing_lights;
+        merged.orienting_reflex      = gemini.flags.orienting_reflex;
+        merged._sensory_notes        = gemini.sensory_notes || '';
         merged._visual_justification = gemini.visual_justifications?.note || '';
       }
-
-      merged.fear_final = Math.max(
-        claude.fear_fantasy ?? 0,
-        claude.fear_realistic ?? 0,
-        (gemini?.flags?.loud_sudden_sounds) ? 2 : 0
-      );
+      merged.fear_final = Math.max(claude.fear_fantasy ?? 0, claude.fear_realistic ?? 0, (gemini?.flags?.loud_sudden_sounds) ? 2 : 0);
       if (gemini?.flags?.violence_detected && (claude.violence ?? 0) < 2) merged.v = 2;
-
       merged._one_line_summary = claude.one_line_summary || '';
       merged._sensory_notes = merged._sensory_notes || claude.sensory_notes || '';
-
-      // Derive pills from both sources separately
       const claudePills = derivePills(claudeScores);
       const geminiScores = {
-        calm: merged.calm,
-        colour: merged.colour,
-        pace: merged.pace,
-        cuts: merged.cuts,
-        pos: merged.pos ?? merged.positive_messages ?? 0,
-        themes: merged.themes || [],
-        fear_fantasy: merged.fear_fantasy ?? 0,
-        fear_realistic: merged.fear_realistic ?? 0,
+        calm: merged.calm, colour: merged.colour, pace: merged.pace, cuts: merged.cuts,
+        pos: merged.pos ?? merged.positive_messages ?? 0, themes: merged.themes || [],
+        fear_fantasy: merged.fear_fantasy ?? 0, fear_realistic: merged.fear_realistic ?? 0,
         loud_sudden_sounds: merged.loud_sudden_sounds ?? false
       };
       const geminiPills = gemini ? derivePills(geminiScores) : [];
-
-      // Build provenance map
       const allPillIds = [...new Set([...claudePills, ...geminiPills])];
       merged._pill_provenance = {};
       allPillIds.forEach(p => {
-        merged._pill_provenance[p] = {
-          claude: claudePills.includes(p),
-          gemini: geminiPills.includes(p),
-          active: claudePills.includes(p) || geminiPills.includes(p),
-          edited: false
-        };
+        merged._pill_provenance[p] = { claude: claudePills.includes(p), gemini: geminiPills.includes(p), active: true, edited: false };
       });
-
-      // _neuro_pills = pills that are currently active
-      merged._neuro_pills = allPillIds.filter(p => merged._pill_provenance[p].active);
-
+      merged._neuro_pills = allPillIds;
       return merged;
     }
 
@@ -1299,105 +565,53 @@ Return JSON with exactly these keys: violence,fear_fantasy,fear_realistic,langua
         scary_content: e.scary_content ?? false,
         violence_detected: e.violence_detected ?? false
       };
-
-      // If no provenance data (e.g. loading from DB), fall back to _neuro_pills
       const activePills = e._neuro_pills || [];
-
       return `
-    ${e._one_line_summary ? `
-      <div style="font-size:.82rem;color:var(--text);margin-bottom:10px;line-height:1.5;">
-        💬 <strong>For parents:</strong> ${e._one_line_summary}
-      </div>` : ''}
-    ${(e._sensory_notes || e._visual_justification) ? `
-      <div style="font-size:.75rem;color:var(--muted);margin-bottom:14px;line-height:1.5;">
-        🧠 <strong>Sensory:</strong> ${e._sensory_notes || ''}
-        ${e._visual_justification ? `<br><span style="opacity:.7">${e._visual_justification}</span>` : ''}
-      </div>` : ''}
-
-    <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--light);margin-bottom:6px;">
-      Neuro pills <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);">— click to toggle</span>
-    </div>
-    <div style="font-size:.58rem;color:var(--light);margin-bottom:8px;">
-      <span style="color:#4a9eff;">●</span> Claude &nbsp;
-      <span style="color:#4acf8a;">●</span> Gemini &nbsp;
-      <span style="color:var(--terra-light);">✏</span> Edited
-    </div>
-    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;">
-      ${ALL_NEURO_PILLS.map(p => {
-        const prov = provenance[p];
-        const isOn = prov ? prov.active : activePills.includes(p);
-        const edited = prov?.edited || false;
-        const fromClaude = prov?.claude || false;
-        const fromGemini = prov?.gemini || false;
-
-        // Build source dots
-        let dots = '';
-        if (edited) {
-          dots = ` <span style="font-size:.55rem;opacity:.8;color:var(--terra-light);">✏</span>`;
-        } else if (fromClaude && fromGemini) {
-          dots = ` <span style="font-size:.5rem;"><span style="color:#4a9eff;">●</span><span style="color:#4acf8a;">●</span></span>`;
-        } else if (fromClaude) {
-          dots = ` <span style="font-size:.5rem;color:#4a9eff;">●</span>`;
-        } else if (fromGemini) {
-          dots = ` <span style="font-size:.5rem;color:#4acf8a;">●</span>`;
-        }
-
-        // Pill style — greyed if Claude suggested but Gemini didn't support
-        const claudeOnlyOff = fromClaude && !fromGemini && !isOn;
-
-        let chipClass = 'chip';
-        let extraStyle = '';
-        if (isOn) {
-          chipClass += ' on sage';
-        } else if (claudeOnlyOff) {
-          // Claude suggested it but Gemini disagrees — show greyed with Claude dot
-          extraStyle = 'opacity:.45;';
-        }
-
-        return `<button
-          class="${chipClass}"
-          data-pill="${p}"
-          data-item="${dbId}"
-          data-prov='${JSON.stringify(prov || { claude: false, gemini: false, active: false, edited: false })}'
-          onclick="toggleNeuroPillChip(this)"
-          style="${extraStyle}"
-        >${p}${dots}</button>`;
-      }).join('')}
-    </div>
-
-    <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--light);margin-bottom:8px;">
-      Warning flags <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);">— click to toggle</span>
-    </div>
-    <div style="display:flex;flex-wrap:wrap;gap:6px;">
-      ${ALL_WARNING_FLAGS.map(f => {
-        const on = activeFlags[f.id];
-        return `<button class="chip${on ? ' on red' : ''}" data-flag="${f.id}" data-item="${dbId}" onclick="toggleWarningFlag(this)">${f.label}</button>`;
-      }).join('')}
-    </div>`;
+        ${e._one_line_summary ? `<div style="font-size:.82rem;color:var(--text);margin-bottom:10px;line-height:1.5;">💬 <strong>For parents:</strong> ${e._one_line_summary}</div>` : ''}
+        ${(e._sensory_notes || e._visual_justification) ? `<div style="font-size:.75rem;color:var(--muted);margin-bottom:14px;line-height:1.5;">🧠 <strong>Sensory:</strong> ${e._sensory_notes || ''}${e._visual_justification ? `<br><span style="opacity:.7">${e._visual_justification}</span>` : ''}</div>` : ''}
+        <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--light);margin-bottom:6px;">Neuro pills <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);">— click to toggle</span></div>
+        <div style="font-size:.58rem;color:var(--light);margin-bottom:8px;"><span style="color:#4a9eff;">●</span> Claude &nbsp;<span style="color:#4acf8a;">●</span> Gemini &nbsp;<span style="color:var(--terra-light);">✏</span> Edited</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;">
+          ${ALL_NEURO_PILLS.map(p => {
+            const prov = provenance[p];
+            const isOn = prov ? prov.active : activePills.includes(p);
+            const edited = prov?.edited || false;
+            const fromClaude = prov?.claude || false;
+            const fromGemini = prov?.gemini || false;
+            let dots = '';
+            if (edited) { dots = ` <span style="font-size:.55rem;opacity:.8;color:var(--terra-light);">✏</span>`; }
+            else if (fromClaude && fromGemini) { dots = ` <span style="font-size:.5rem;"><span style="color:#4a9eff;">●</span><span style="color:#4acf8a;">●</span></span>`; }
+            else if (fromClaude) { dots = ` <span style="font-size:.5rem;color:#4a9eff;">●</span>`; }
+            else if (fromGemini) { dots = ` <span style="font-size:.5rem;color:#4acf8a;">●</span>`; }
+            const claudeOnlyOff = fromClaude && !fromGemini && !isOn;
+            let chipClass = 'chip';
+            let extraStyle = '';
+            if (isOn) { chipClass += ' on sage'; }
+            else if (claudeOnlyOff) { extraStyle = 'opacity:.45;'; }
+            return `<button class="${chipClass}" data-pill="${p}" data-item="${dbId}" data-prov='${JSON.stringify(prov || {claude:false,gemini:false,active:false,edited:false})}' onclick="toggleNeuroPillChip(this)" style="${extraStyle}">${p}${dots}</button>`;
+          }).join('')}
+        </div>
+        <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--light);margin-bottom:8px;">Warning flags <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);">— click to toggle</span></div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          ${ALL_WARNING_FLAGS.map(f => {
+            const on = activeFlags[f.id];
+            return `<button class="chip${on ? ' on red' : ''}" data-flag="${f.id}" data-item="${dbId}" onclick="toggleWarningFlag(this)">${f.label}</button>`;
+          }).join('')}
+        </div>`;
     }
 
     function toggleNeuroPillChip(el) {
       const isOn = el.classList.toggle('on');
       el.classList.toggle('sage', isOn);
-
-      // Mark as edited and update provenance
       try {
         const prov = JSON.parse(el.dataset.prov || '{}');
-        prov.active = isOn;
-        prov.edited = true;
+        prov.active = isOn; prov.edited = true;
         el.dataset.prov = JSON.stringify(prov);
-
-        // Update the edit indicator dot
         const existingDot = el.querySelector('span');
         if (existingDot) existingDot.remove();
-        el.insertAdjacentHTML('beforeend',
-          `<span style="font-size:.55rem;opacity:.8;color:var(--terra-light);"> ✏</span>`
-        );
+        el.insertAdjacentHTML('beforeend', `<span style="font-size:.55rem;opacity:.8;color:var(--terra-light);"> ✏</span>`);
       } catch (e) { /* ignore */ }
-
-      // Remove greyed style when toggled on manually
       if (isOn) el.style.opacity = '';
-
       if (!window._lastAIScores) window._lastAIScores = {};
       window._lastAIScores._neuro_pills = [...document.querySelectorAll('[data-pill].on')].map(b => b.dataset.pill);
     }
@@ -1515,30 +729,30 @@ Return JSON with exactly these keys: violence,fear_fantasy,fear_realistic,langua
           <div class="section-divider">Content Ratings <span>0 = none, 5 = extreme</span></div>
           <div class="slider-group">
             ${['v:Violence', 'f:Fear / Scary', 'l:Language', 's:Sexual content'].map(x => {
-        const [k, name] = x.split(':'), val = e[k] ?? 0;
-        return `<div class="slider-row"><div class="slider-top"><span class="slider-name">${name}</span><span class="slider-val" id="sv-${k}">${val}</span></div><input type="range" min="0" max="5" value="${val}" id="f-${k}" oninput="updateSliderVal('${k}',this.value)"></div>`;
-      }).join('')}
+              const [k, name] = x.split(':'), val = e[k] ?? 0;
+              return `<div class="slider-row"><div class="slider-top"><span class="slider-name">${name}</span><span class="slider-val" id="sv-${k}">${val}</span></div><input type="range" min="0" max="5" value="${val}" id="f-${k}" oninput="updateSliderVal('${k}',this.value)"></div>`;
+            }).join('')}
           </div>
 
           <div class="section-divider">Positive Qualities <span>0 = none, 5 = lots</span></div>
           <div class="slider-group">
             ${['pos:Positive values', 'roles:Role models', 'con:Consumerism', 'dr:Drinking/drugs'].map(x => {
-        const [k, name] = x.split(':'), val = e[k] ?? 3;
-        return `<div class="slider-row"><div class="slider-top"><span class="slider-name">${name}</span><span class="slider-val" id="sv-${k}">${val}</span></div><input type="range" min="0" max="5" value="${val}" id="f-${k}" oninput="updateSliderVal('${k}',this.value)"></div>`;
-      }).join('')}
+              const [k, name] = x.split(':'), val = e[k] ?? 3;
+              return `<div class="slider-row"><div class="slider-top"><span class="slider-name">${name}</span><span class="slider-val" id="sv-${k}">${val}</span></div><input type="range" min="0" max="5" value="${val}" id="f-${k}" oninput="updateSliderVal('${k}',this.value)"></div>`;
+            }).join('')}
           </div>
 
           <div class="section-divider">Sensory Index <span>For neurodivergent filtering</span></div>
           <div class="slider-group">
             ${[
-          { k: 'calm', name: 'Calm / Pacing', hint: '10 = very calm like In the Night Garden · 0 = chaotic' },
-          { k: 'cuts', name: 'Cuts per min', hint: '0 = slow/few cuts · 10 = very rapid editing' },
-          { k: 'colour', name: 'Colour Intensity', hint: '0 = muted/grey · 10 = extremely bright & saturated' },
-          { k: 'pace', name: 'Overall Pace', hint: '0 = very slow · 10 = very fast' }
-        ].map(({ k, name, hint }) => {
-          const val = e[k] ?? 3;
-          return `<div class="slider-row"><div class="slider-top"><span class="slider-name">${name}</span><span class="slider-val" id="sv-${k}">${val}</span></div><input type="range" min="0" max="10" value="${val}" id="f-${k}" oninput="updateSliderVal('${k}',this.value)"><div style="font-size:.6rem;color:var(--light);margin-top:3px;">${hint}</div></div>`;
-        }).join('')}
+              { k: 'calm', name: 'Calm / Pacing', hint: '10 = very calm like In the Night Garden · 0 = chaotic' },
+              { k: 'cuts', name: 'Cuts per min', hint: '0 = slow/few cuts · 10 = very rapid editing' },
+              { k: 'colour', name: 'Colour Intensity', hint: '0 = muted/grey · 10 = extremely bright & saturated' },
+              { k: 'pace', name: 'Overall Pace', hint: '0 = very slow · 10 = very fast' }
+            ].map(({ k, name, hint }) => {
+              const val = e[k] ?? 3;
+              return `<div class="slider-row"><div class="slider-top"><span class="slider-name">${name}</span><span class="slider-val" id="sv-${k}">${val}</span></div><input type="range" min="0" max="10" value="${val}" id="f-${k}" oninput="updateSliderVal('${k}',this.value)"><div style="font-size:.6rem;color:var(--light);margin-top:3px;">${hint}</div></div>`;
+            }).join('')}
           </div>
 
           <div class="section-divider">AI Assessment Summary</div>
@@ -1578,7 +792,6 @@ Return JSON with exactly these keys: violence,fear_fantasy,fear_realistic,langua
           </div>
         </div>`;
 
-      // Initialise badge colours after render
       setTimeout(() => {
         ['calm', 'cuts', 'colour', 'pace', 'v', 'f', 'l', 's', 'pos', 'roles', 'con', 'dr'].forEach(k => {
           const el = document.getElementById('f-' + k);
@@ -1608,7 +821,7 @@ Return JSON with exactly these keys: violence,fear_fantasy,fear_realistic,langua
       if (!preview) return;
       const isExternal = type === 'book' || val.startsWith('http');
       const url = isExternal ? val : (val ? TMDB_IMG + val : null);
-      preview.innerHTML = url ? `<img src="${url}" onerror="this.parentNode.textContent='🎬'">` : ' 🎬';
+      preview.innerHTML = url ? `<img src="${url}" onerror="this.parentNode.textContent='🎬'">` : '🎬';
     }
 
     function toggleTheme(btn) { btn.classList.toggle('on'); }
