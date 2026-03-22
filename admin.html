@@ -37,858 +37,169 @@
       --shadow-sm: 0 2px 12px rgba(0, 0, 0, .25);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      font-weight: 300;
-    }
-
-    /* ── LAYOUT ── */
-    .admin-wrap {
-      display: grid;
-      grid-template-columns: 320px 1fr;
-      min-height: 100vh;
-    }
-
-    /* ── SIDEBAR ── */
-    .sidebar {
-      background: var(--bg2);
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    .sidebar-head {
-      padding: 28px 24px 20px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .brand {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.5rem;
-      font-weight: 300;
-      letter-spacing: .1em;
-      color: var(--text);
-    }
-
-    .brand em {
-      font-style: italic;
-      color: var(--terra-light);
-    }
-
-    .brand-sub {
-      font-size: .65rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      color: var(--muted);
-      margin-top: 3px;
-    }
-
-    .sidebar-section {
-      padding: 20px 24px 0;
-      font-size: .6rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      color: var(--light);
-    }
-
-    .show-list {
-      flex: 1;
-      overflow-y: auto;
-      padding: 12px 12px 20px;
-    }
-
-    .show-list::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    .show-list::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .show-list::-webkit-scrollbar-thumb {
-      background: var(--border2);
-      border-radius: 2px;
-    }
-
-    .show-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all .15s;
-      border: 1px solid transparent;
-      margin-bottom: 4px;
-    }
-
-    .show-item:hover {
-      background: var(--surface);
-      border-color: var(--border);
-    }
-
-    .show-item.active {
-      background: var(--terra-pale);
-      border-color: rgba(201, 106, 58, .3);
-    }
-
-    .si-emoji {
-      font-size: 1.1rem;
-      flex-shrink: 0;
-    }
-
-    .si-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .si-title {
-      font-size: .78rem;
-      font-weight: 500;
-      color: var(--text);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .si-meta {
-      font-size: .6rem;
-      color: var(--muted);
-      margin-top: 1px;
-    }
-
-    .si-del {
-      opacity: 0;
-      background: none;
-      border: none;
-      color: var(--red);
-      cursor: pointer;
-      font-size: .8rem;
-      padding: 2px 5px;
-      border-radius: 3px;
-      transition: all .15s;
-      flex-shrink: 0;
-    }
-
-    .show-item:hover .si-del {
-      opacity: 1;
-    }
-
-    .si-del:hover {
-      background: var(--red-pale);
-    }
-
-    .sidebar-add {
-      padding: 16px 12px;
-      border-top: 1px solid var(--border);
-    }
-
-    .btn-add {
-      width: 100%;
-      padding: 11px;
-      border-radius: 6px;
-      border: 1.5px dashed var(--border2);
-      background: none;
-      color: var(--muted);
-      font-family: 'DM Sans', sans-serif;
-      font-size: .78rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all .2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .btn-add:hover {
-      border-color: var(--terra);
-      color: var(--terra);
-      background: var(--terra-pale);
-    }
-
-    /* ── MAIN ── */
-    .main {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    .topbar {
-      background: var(--bg2);
-      border-bottom: 1px solid var(--border);
-      padding: 16px 32px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
-
-    .topbar-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      font-weight: 400;
-      color: var(--muted);
-    }
-
-    .topbar-title strong {
-      color: var(--text);
-      font-weight: 600;
-    }
-
-    .topbar-actions {
-      margin-left: auto;
-      display: flex;
-      gap: 10px;
-    }
-
-    .btn {
-      padding: 9px 18px;
-      border-radius: 5px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: .78rem;
-      font-weight: 700;
-      cursor: pointer;
-      border: none;
-      transition: all .18s;
-    }
-
-    .btn-ghost {
-      background: rgba(255, 255, 255, .06);
-      color: var(--muted);
-      border: 1px solid var(--border2);
-    }
-
-    .btn-ghost:hover {
-      background: rgba(255, 255, 255, .1);
-      color: var(--text);
-    }
-
-    .btn-primary {
-      background: var(--terra);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background: var(--terra-light);
-    }
-
-    .btn-primary:disabled {
-      background: var(--light);
-      cursor: not-allowed;
-    }
-
-    .btn-danger {
-      background: var(--red-pale);
-      color: var(--red);
-      border: 1px solid rgba(192, 64, 64, .2);
-    }
-
-    .btn-danger:hover {
-      background: var(--red);
-      color: white;
-    }
-
-    .content-area {
-      flex: 1;
-      padding: 32px;
-    }
-
-    /* ── SEARCH PANEL ── */
-    .search-panel {
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    .search-head {
-      text-align: center;
-      margin-bottom: 36px;
-    }
-
-    .search-head h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.4rem;
-      font-weight: 300;
-      color: var(--text);
-      margin-bottom: 8px;
-    }
-
-    .search-head h1 em {
-      color: var(--terra-light);
-      font-style: italic;
-    }
-
-    .search-head p {
-      font-size: .82rem;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    .search-type-row {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-
-    .type-btn {
-      padding: 7px 16px;
-      border-radius: 20px;
-      border: 1.5px solid var(--border2);
-      background: none;
-      color: var(--muted);
-      font-family: 'DM Sans', sans-serif;
-      font-size: .72rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all .15s;
-    }
-
-    .type-btn.active {
-      background: var(--terra);
-      border-color: var(--terra);
-      color: white;
-    }
-
-    .type-btn:hover:not(.active) {
-      border-color: var(--terra);
-      color: var(--terra);
-    }
-
-    .search-bar {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 28px;
-    }
-
-    .search-input {
-      flex: 1;
-      padding: 13px 18px;
-      border-radius: 6px;
-      border: 1.5px solid var(--border2);
-      background: var(--surface);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: .9rem;
-      outline: none;
-      transition: border-color .15s;
-    }
-
-    .search-input:focus {
-      border-color: var(--terra);
-    }
-
-    .search-input::placeholder {
-      color: var(--light);
-    }
-
-    .btn-search {
-      padding: 13px 22px;
-      border-radius: 6px;
-      background: var(--terra);
-      color: white;
-      border: none;
-      font-family: 'DM Sans', sans-serif;
-      font-size: .85rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all .18s;
-      white-space: nowrap;
-    }
-
-    .btn-search:hover {
-      background: var(--terra-light);
-    }
-
-    .search-results {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .result-card {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 14px 16px;
-      border-radius: 8px;
-      border: 1.5px solid var(--border);
-      background: var(--surface);
-      cursor: pointer;
-      transition: all .18s;
-    }
-
-    .result-card:hover {
-      border-color: var(--terra);
-      background: var(--surface2);
-    }
-
-    .result-poster {
-      width: 44px;
-      height: 60px;
-      border-radius: 4px;
-      object-fit: cover;
-      background: var(--bg3);
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-    }
-
-    .result-poster img {
-      width: 44px;
-      height: 60px;
-      border-radius: 4px;
-      object-fit: cover;
-    }
-
-    .result-info {
-      flex: 1;
-    }
-
-    .result-title {
-      font-size: .88rem;
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 3px;
-    }
-
-    .result-meta {
-      font-size: .68rem;
-      color: var(--muted);
-    }
-
-    .result-action {
-      font-size: .68rem;
-      font-weight: 700;
-      color: var(--terra);
-      white-space: nowrap;
-    }
-
-    .no-results {
-      text-align: center;
-      padding: 40px;
-      color: var(--muted);
-      font-size: .82rem;
-    }
-
-    /* ── EDIT FORM ── */
-    .edit-form {
-      max-width: 900px;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .form-grid-3 {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .field.full {
-      grid-column: 1/-1;
-    }
-
-    .label {
-      font-size: .6rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .1em;
-      color: var(--muted);
-    }
-
-    .input {
-      padding: 10px 13px;
-      border-radius: 5px;
-      border: 1.5px solid var(--border2);
-      background: var(--surface);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: .85rem;
-      outline: none;
-      transition: border-color .15s;
-    }
-
-    .input:focus {
-      border-color: var(--terra);
-    }
-
-    .input::placeholder {
-      color: var(--light);
-    }
-
-    textarea.input {
-      resize: vertical;
-      min-height: 80px;
-      line-height: 1.5;
-    }
-
-    select.input {
-      cursor: pointer;
-    }
-
-    .section-divider {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--text);
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 10px;
-      margin: 24px 0 16px;
-      letter-spacing: .02em;
-    }
-
-    .section-divider span {
-      color: var(--muted);
-      font-size: .7rem;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 400;
-      margin-left: 8px;
-    }
-
-    /* Sliders */
-    .slider-group {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .slider-row {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .slider-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .slider-name {
-      font-size: .65rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      color: var(--muted);
-    }
-
-    .slider-val {
-      font-family: 'DM Mono', monospace;
-      font-size: .72rem;
-      font-weight: 500;
-      padding: 2px 8px;
-      border-radius: 10px;
-    }
-
-    .sv-0,
-    .sv-1 {
-      background: rgba(74, 138, 90, .2);
-      color: #6abf7a;
-    }
-
-    .sv-2,
-    .sv-3 {
-      background: rgba(196, 163, 90, .15);
-      color: var(--amber);
-    }
-
-    .sv-4,
-    .sv-5 {
-      background: rgba(192, 64, 64, .15);
-      color: #e08080;
-    }
-
-    input[type=range] {
-      width: 100%;
-      -webkit-appearance: none;
-      height: 4px;
-      border-radius: 2px;
-      background: var(--border2);
-      outline: none;
-      cursor: pointer;
-    }
-
-    input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: var(--terra);
-      cursor: pointer;
-      border: 2px solid var(--bg2);
-    }
-
-    /* Theme chips */
-    .chips-wrap {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 4px;
-    }
-
-    .chip {
-      padding: 5px 12px;
-      border-radius: 20px;
-      border: 1.5px solid var(--border2);
-      background: none;
-      color: var(--muted);
-      font-family: 'DM Sans', sans-serif;
-      font-size: .65rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all .15s;
-    }
-
-    .chip:hover {
-      border-color: var(--terra);
-      color: var(--terra);
-    }
-
-    .chip.on {
-      background: var(--terra-pale);
-      border-color: rgba(201, 106, 58, .4);
-      color: var(--terra-light);
-    }
-
-    /* Neuro pill toggle */
-    .neuro-pill-toggle {
-      padding: 4px 12px;
-      border-radius: 20px;
-      background: var(--sage-pale);
-      border: 1px solid rgba(74, 112, 85, .3);
-      color: var(--sage-light);
-      font-size: .65rem;
-      font-weight: 700;
-      cursor: pointer;
-      user-select: none;
-      transition: opacity .2s, filter .2s, text-decoration .2s;
-      display: inline-block;
-    }
-
-    .neuro-pill-toggle.dismissed {
-      opacity: .3;
-      filter: grayscale(1);
-      text-decoration: line-through;
-    }
-
-    /* Poster preview */
-    .poster-preview-wrap {
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-    }
-
-    .poster-preview {
-      width: 80px;
-      height: 110px;
-      border-radius: 6px;
-      background: var(--bg3);
-      border: 1.5px solid var(--border);
-      flex-shrink: 0;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-    }
-
-    .poster-preview img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .poster-input-wrap {
-      flex: 1;
-    }
-
-    /* Form actions */
-    .form-actions {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      margin-top: 28px;
-      padding-top: 20px;
-      border-top: 1px solid var(--border);
-    }
-
-    .save-status {
-      font-size: .72rem;
-      color: var(--muted);
-      margin-left: auto;
-    }
-
-    .save-status.ok {
-      color: var(--green);
-    }
-
-    .save-status.err {
-      color: var(--red);
-    }
-
-    /* Empty state */
-    .empty-state {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      padding: 60px;
-      text-align: center;
-    }
-
-    .empty-icon {
-      font-size: 3rem;
-      opacity: .4;
-    }
-
-    .empty-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.6rem;
-      font-weight: 300;
-      color: var(--muted);
-    }
-
-    .empty-sub {
-      font-size: .78rem;
-      color: var(--light);
-      max-width: 300px;
-      line-height: 1.6;
-    }
-
-    /* Toast */
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: var(--surface2);
-      border: 1px solid var(--border2);
-      color: var(--text);
-      padding: 12px 20px;
-      border-radius: 8px;
-      font-size: .78rem;
-      font-weight: 500;
-      box-shadow: var(--shadow);
-      transform: translateY(80px);
-      opacity: 0;
-      transition: all .25s;
-      z-index: 999;
-    }
-
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    .toast.ok {
-      border-color: rgba(74, 138, 90, .4);
-      color: #6abf7a;
-    }
-
-    .toast.err {
-      border-color: rgba(192, 64, 64, .3);
-      color: #e08080;
-    }
-
-    /* Loading spinner */
-    .spinner {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid var(--border2);
-      border-top-color: var(--terra);
-      border-radius: 50%;
-      animation: spin .7s linear infinite;
-      vertical-align: middle;
-      margin-right: 6px;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg)
-      }
-    }
-
-    .loading-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--muted);
-      font-size: .8rem;
-      padding: 20px 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-weight: 300; }
+
+    .admin-wrap { display: grid; grid-template-columns: 320px 1fr; min-height: 100vh; }
+
+    .sidebar { background: var(--bg2); border-right: 1px solid var(--border); display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; overflow: hidden; }
+    .sidebar-head { padding: 28px 24px 20px; border-bottom: 1px solid var(--border); }
+    .brand { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 300; letter-spacing: .1em; color: var(--text); }
+    .brand em { font-style: italic; color: var(--terra-light); }
+    .brand-sub { font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin-top: 3px; }
+    .sidebar-section { padding: 20px 24px 0; font-size: .6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--light); }
+    .show-list { flex: 1; overflow-y: auto; padding: 12px 12px 20px; }
+    .show-list::-webkit-scrollbar { width: 4px; }
+    .show-list::-webkit-scrollbar-track { background: transparent; }
+    .show-list::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+    .show-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 6px; cursor: pointer; transition: all .15s; border: 1px solid transparent; margin-bottom: 4px; }
+    .show-item:hover { background: var(--surface); border-color: var(--border); }
+    .show-item.active { background: var(--terra-pale); border-color: rgba(201, 106, 58, .3); }
+    .si-emoji { font-size: 1.1rem; flex-shrink: 0; }
+    .si-info { flex: 1; min-width: 0; }
+    .si-title { font-size: .78rem; font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .si-meta { font-size: .6rem; color: var(--muted); margin-top: 1px; }
+    .si-del { opacity: 0; background: none; border: none; color: var(--red); cursor: pointer; font-size: .8rem; padding: 2px 5px; border-radius: 3px; transition: all .15s; flex-shrink: 0; }
+    .show-item:hover .si-del { opacity: 1; }
+    .si-del:hover { background: var(--red-pale); }
+    .sidebar-add { padding: 16px 12px; border-top: 1px solid var(--border); }
+    .btn-add { width: 100%; padding: 11px; border-radius: 6px; border: 1.5px dashed var(--border2); background: none; color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: .78rem; font-weight: 500; cursor: pointer; transition: all .2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-add:hover { border-color: var(--terra); color: var(--terra); background: var(--terra-pale); }
+
+    .main { display: flex; flex-direction: column; min-height: 100vh; }
+    .topbar { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 16px 32px; display: flex; align-items: center; gap: 16px; position: sticky; top: 0; z-index: 50; }
+    .topbar-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 400; color: var(--muted); }
+    .topbar-title strong { color: var(--text); font-weight: 600; }
+    .topbar-actions { margin-left: auto; display: flex; gap: 10px; }
+    .btn { padding: 9px 18px; border-radius: 5px; font-family: 'DM Sans', sans-serif; font-size: .78rem; font-weight: 700; cursor: pointer; border: none; transition: all .18s; }
+    .btn-ghost { background: rgba(255,255,255,.06); color: var(--muted); border: 1px solid var(--border2); }
+    .btn-ghost:hover { background: rgba(255,255,255,.1); color: var(--text); }
+    .btn-primary { background: var(--terra); color: white; }
+    .btn-primary:hover { background: var(--terra-light); }
+    .btn-primary:disabled { background: var(--light); cursor: not-allowed; }
+    .btn-danger { background: var(--red-pale); color: var(--red); border: 1px solid rgba(192,64,64,.2); }
+    .btn-danger:hover { background: var(--red); color: white; }
+    .content-area { flex: 1; padding: 32px; }
+
+    .search-panel { max-width: 700px; margin: 0 auto; }
+    .search-head { text-align: center; margin-bottom: 36px; }
+    .search-head h1 { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; font-weight: 300; color: var(--text); margin-bottom: 8px; }
+    .search-head h1 em { color: var(--terra-light); font-style: italic; }
+    .search-head p { font-size: .82rem; color: var(--muted); line-height: 1.6; }
+    .search-type-row { display: flex; gap: 8px; justify-content: center; margin-bottom: 20px; }
+    .type-btn { padding: 7px 16px; border-radius: 20px; border: 1.5px solid var(--border2); background: none; color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: .72rem; font-weight: 700; cursor: pointer; transition: all .15s; }
+    .type-btn.active { background: var(--terra); border-color: var(--terra); color: white; }
+    .type-btn:hover:not(.active) { border-color: var(--terra); color: var(--terra); }
+    .search-bar { display: flex; gap: 10px; margin-bottom: 28px; }
+    .search-input { flex: 1; padding: 13px 18px; border-radius: 6px; border: 1.5px solid var(--border2); background: var(--surface); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: .9rem; outline: none; transition: border-color .15s; }
+    .search-input:focus { border-color: var(--terra); }
+    .search-input::placeholder { color: var(--light); }
+    .btn-search { padding: 13px 22px; border-radius: 6px; background: var(--terra); color: white; border: none; font-family: 'DM Sans', sans-serif; font-size: .85rem; font-weight: 700; cursor: pointer; transition: all .18s; white-space: nowrap; }
+    .btn-search:hover { background: var(--terra-light); }
+    .search-results { display: flex; flex-direction: column; gap: 10px; }
+    .result-card { display: flex; align-items: center; gap: 16px; padding: 14px 16px; border-radius: 8px; border: 1.5px solid var(--border); background: var(--surface); cursor: pointer; transition: all .18s; }
+    .result-card:hover { border-color: var(--terra); background: var(--surface2); }
+    .result-poster { width: 44px; height: 60px; border-radius: 4px; object-fit: cover; background: var(--bg3); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
+    .result-poster img { width: 44px; height: 60px; border-radius: 4px; object-fit: cover; }
+    .result-info { flex: 1; }
+    .result-title { font-size: .88rem; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+    .result-meta { font-size: .68rem; color: var(--muted); }
+    .result-action { font-size: .68rem; font-weight: 700; color: var(--terra); white-space: nowrap; }
+    .no-results { text-align: center; padding: 40px; color: var(--muted); font-size: .82rem; }
+
+    .edit-form { max-width: 900px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .form-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field.full { grid-column: 1/-1; }
+    .label { font-size: .6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+    .input { padding: 10px 13px; border-radius: 5px; border: 1.5px solid var(--border2); background: var(--surface); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: .85rem; outline: none; transition: border-color .15s; }
+    .input:focus { border-color: var(--terra); }
+    .input::placeholder { color: var(--light); }
+    textarea.input { resize: vertical; min-height: 80px; line-height: 1.5; }
+    select.input { cursor: pointer; }
+
+    .section-divider { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 600; color: var(--text); border-bottom: 1px solid var(--border); padding-bottom: 10px; margin: 24px 0 16px; letter-spacing: .02em; }
+    .section-divider span { color: var(--muted); font-size: .7rem; font-family: 'DM Sans', sans-serif; font-weight: 400; margin-left: 8px; }
+
+    .slider-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+    .slider-row { display: flex; flex-direction: column; gap: 6px; }
+    .slider-top { display: flex; justify-content: space-between; align-items: center; }
+    .slider-name { font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+    .slider-val { font-family: 'DM Mono', monospace; font-size: .72rem; font-weight: 500; padding: 2px 8px; border-radius: 10px; }
+    .sv-0, .sv-1 { background: rgba(74,138,90,.2); color: #6abf7a; }
+    .sv-2, .sv-3 { background: rgba(196,163,90,.15); color: var(--amber); }
+    .sv-4, .sv-5 { background: rgba(192,64,64,.15); color: #e08080; }
+    input[type=range] { width: 100%; -webkit-appearance: none; height: 4px; border-radius: 2px; background: var(--border2); outline: none; cursor: pointer; }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--terra); cursor: pointer; border: 2px solid var(--bg2); }
+
+    .chips-wrap { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+    .chip { padding: 5px 12px; border-radius: 20px; border: 1.5px solid var(--border2); background: none; color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: .65rem; font-weight: 700; cursor: pointer; transition: all .15s; }
+    .chip:hover { border-color: var(--terra); color: var(--terra); }
+    .chip.on { background: var(--terra-pale); border-color: rgba(201,106,58,.4); color: var(--terra-light); }
+
+    .neuro-pill-toggle { padding: 4px 12px; border-radius: 20px; background: var(--sage-pale); border: 1px solid rgba(74,112,85,.3); color: var(--sage-light); font-size: .65rem; font-weight: 700; cursor: pointer; user-select: none; transition: opacity .2s, filter .2s, text-decoration .2s; display: inline-block; }
+    .neuro-pill-toggle.dismissed { opacity: .3; filter: grayscale(1); text-decoration: line-through; }
+
+    .poster-preview-wrap { display: flex; gap: 16px; align-items: flex-start; }
+    .poster-preview { width: 80px; height: 110px; border-radius: 6px; background: var(--bg3); border: 1.5px solid var(--border); flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 2rem; }
+    .poster-preview img { width: 100%; height: 100%; object-fit: cover; }
+    .poster-input-wrap { flex: 1; }
+
+    .form-actions { display: flex; gap: 12px; align-items: center; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border); }
+    .save-status { font-size: .72rem; color: var(--muted); margin-left: auto; }
+    .save-status.ok { color: var(--green); }
+    .save-status.err { color: var(--red); }
+
+    .empty-state { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 60px; text-align: center; }
+    .empty-icon { font-size: 3rem; opacity: .4; }
+    .empty-title { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 300; color: var(--muted); }
+    .empty-sub { font-size: .78rem; color: var(--light); max-width: 300px; line-height: 1.6; }
+
+    .toast { position: fixed; bottom: 24px; right: 24px; background: var(--surface2); border: 1px solid var(--border2); color: var(--text); padding: 12px 20px; border-radius: 8px; font-size: .78rem; font-weight: 500; box-shadow: var(--shadow); transform: translateY(80px); opacity: 0; transition: all .25s; z-index: 999; }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.ok { border-color: rgba(74,138,90,.4); color: #6abf7a; }
+    .toast.err { border-color: rgba(192,64,64,.3); color: #e08080; }
+
+    .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--border2); border-top-color: var(--terra); border-radius: 50%; animation: spin .7s linear infinite; vertical-align: middle; margin-right: 6px; }
+    @keyframes spin { to { transform: rotate(360deg) } }
+    .loading-row { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: .8rem; padding: 20px 0; }
+
+    /* AI Assessment banner */
+    .ai-assess-banner { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; padding: 16px; border: 1.5px solid rgba(201,106,58,.25); border-radius: 8px; background: var(--terra-pale); }
+    .ai-assess-banner-info { flex: 1; }
+    .ai-assess-banner-label { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--terra-light); margin-bottom: 3px; }
+    .ai-assess-banner-sub { font-size: .72rem; color: var(--muted); line-height: 1.5; }
+    .ai-assess-banner-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+    .ai-assess-status { font-size: .65rem; color: var(--muted); }
   </style>
 </head>
 
 <body>
-
   <div class="admin-wrap">
 
-    <!-- ═══ SIDEBAR ═══ -->
+    <!-- SIDEBAR -->
     <aside class="sidebar">
       <div class="sidebar-head">
         <div class="brand">glimps<em>y</em></div>
         <div class="brand-sub">Content Admin</div>
       </div>
-      <div class="sidebar-section" style="margin-bottom:8px;">Library <span id="show-count"
-          style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0;font-size:.65rem;"></span>
-      </div>
+      <div class="sidebar-section" style="margin-bottom:8px;">Library <span id="show-count" style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0;font-size:.65rem;"></span></div>
       <div class="show-list" id="show-list">
         <div class="loading-row"><span class="spinner"></span> Loading…</div>
       </div>
       <div class="sidebar-add">
-        <button class="btn-add" onclick="showSearch()">
-          <span>＋</span> Add a show / film / book
-        </button>
+        <button class="btn-add" onclick="showSearch()"><span>＋</span> Add a show / film / book</button>
       </div>
     </aside>
 
-    <!-- ═══ MAIN ═══ -->
+    <!-- MAIN -->
     <div class="main">
       <div class="topbar">
-        <div class="topbar-title" id="topbar-title">
-          <strong>Glimpsy Admin</strong>
-        </div>
+        <div class="topbar-title" id="topbar-title"><strong>Glimpsy Admin</strong></div>
         <div class="topbar-actions" id="topbar-actions"></div>
       </div>
-
       <div class="content-area" id="content-area">
         <div class="empty-state">
           <div class="empty-icon">🎬</div>
@@ -898,7 +209,6 @@
         </div>
       </div>
     </div>
-
   </div>
 
   <div class="toast" id="toast"></div>
@@ -929,10 +239,7 @@
           ...(opts.headers || {})
         }
       });
-      if (!res.ok) {
-        const err = await res.text();
-        throw new Error(err);
-      }
+      if (!res.ok) { const err = await res.text(); throw new Error(err); }
       if (res.status === 204 || res.status === 201) return null;
       const text = await res.text();
       if (!text) return null;
@@ -953,22 +260,20 @@
       const list = document.getElementById('show-list');
       const count = document.getElementById('show-count');
       count.textContent = `(${SHOWS.length})`;
-
       if (!SHOWS.length) {
         list.innerHTML = `<div style="padding:16px;color:var(--muted);font-size:.72rem;">No shows yet. Add one below!</div>`;
         return;
       }
-
       list.innerHTML = SHOWS.map(s => `
-    <div class="show-item${currentShow && currentShow.id === s.id ? ' active' : ''}" onclick="editShow(${s.id})">
-      <div class="si-emoji">${s.emoji || '🎬'}</div>
-      <div class="si-info">
-        <div class="si-title">${s.title}</div>
-        <div class="si-meta">${s.type} · ${s.age || '—'}</div>
-      </div>
-      <button class="si-del" onclick="event.stopPropagation();deleteShow(${s.id},'${s.title.replace(/'/g, "\\'")}')">✕</button>
-    </div>
-  `).join('');
+        <div class="show-item${currentShow && currentShow.id === s.id ? ' active' : ''}" onclick="editShow(${s.id})">
+          <div class="si-emoji">${s.emoji || '🎬'}</div>
+          <div class="si-info">
+            <div class="si-title">${s.title}</div>
+            <div class="si-meta">${s.type} · ${s.age || '—'}</div>
+          </div>
+          <button class="si-del" onclick="event.stopPropagation();deleteShow(${s.id},'${s.title.replace(/'/g, "\\'")}')">✕</button>
+        </div>
+      `).join('');
     }
 
     // ═══════════════ SEARCH PANEL ═══════════════
@@ -978,27 +283,23 @@
       document.getElementById('topbar-title').innerHTML = '<strong>Add a new title</strong>';
       document.getElementById('topbar-actions').innerHTML = '';
       document.getElementById('content-area').innerHTML = `
-    <div class="search-panel">
-      <div class="search-head">
-        <h1>Find a <em>title</em></h1>
-        <p>Search for a TV show, film or book. We'll pull the details from TMDB or Google Books automatically.</p>
-      </div>
-
-      <div class="search-type-row">
-        <button class="type-btn${searchMode === 'tv' ? ' active' : ''}" onclick="setSearchMode('tv')">📺 TV Show</button>
-        <button class="type-btn${searchMode === 'movie' ? ' active' : ''}" onclick="setSearchMode('movie')">🎬 Film</button>
-        <button class="type-btn${searchMode === 'book' ? ' active' : ''}" onclick="setSearchMode('book')">📚 Book</button>
-      </div>
-
-      <div class="search-bar">
-        <input class="search-input" id="search-q" placeholder="e.g. Bluey, Paddington, The Gruffalo…" 
-               onkeydown="if(event.key==='Enter')doSearch()">
-        <button class="btn-search" onclick="doSearch()">Search →</button>
-      </div>
-
-      <div id="search-results"></div>
-    </div>
-  `;
+        <div class="search-panel">
+          <div class="search-head">
+            <h1>Find a <em>title</em></h1>
+            <p>Search for a TV show, film or book. We'll pull the details from TMDB or Google Books automatically.</p>
+          </div>
+          <div class="search-type-row">
+            <button class="type-btn${searchMode === 'tv' ? ' active' : ''}" onclick="setSearchMode('tv')">📺 TV Show</button>
+            <button class="type-btn${searchMode === 'movie' ? ' active' : ''}" onclick="setSearchMode('movie')">🎬 Film</button>
+            <button class="type-btn${searchMode === 'book' ? ' active' : ''}" onclick="setSearchMode('book')">📚 Book</button>
+          </div>
+          <div class="search-bar">
+            <input class="search-input" id="search-q" placeholder="e.g. Bluey, Paddington, The Gruffalo…" onkeydown="if(event.key==='Enter')doSearch()">
+            <button class="btn-search" onclick="doSearch()">Search →</button>
+          </div>
+          <div id="search-results"></div>
+        </div>
+      `;
       setTimeout(() => document.getElementById('search-q')?.focus(), 50);
     }
 
@@ -1013,30 +314,24 @@
       if (!q) return;
       const box = document.getElementById('search-results');
       box.innerHTML = `<div class="loading-row"><span class="spinner"></span> Searching…</div>`;
-
       try {
         let results = [];
-        if (searchMode === 'book') {
-          results = await searchBooks(q);
-        } else {
-          results = await searchTMDB(q, searchMode);
-        }
+        if (searchMode === 'book') { results = await searchBooks(q); }
+        else { results = await searchTMDB(q, searchMode); }
         if (!results.length) {
           box.innerHTML = `<div class="no-results">No results found for "<strong>${q}</strong>". Try a different spelling.</div>`;
           return;
         }
         box.innerHTML = results.map((r, i) => `
-      <div class="result-card" onclick="selectResult(${i})">
-        <div class="result-poster">
-          ${r.posterUrl ? `<img src="${r.posterUrl}" onerror="this.parentNode.textContent='${r.emoji}'">` : r.emoji}
-        </div>
-        <div class="result-info">
-          <div class="result-title">${r.title}</div>
-          <div class="result-meta">${r.meta}</div>
-        </div>
-        <div class="result-action">Use this →</div>
-      </div>
-    `).join('');
+          <div class="result-card" onclick="selectResult(${i})">
+            <div class="result-poster">${r.posterUrl ? `<img src="${r.posterUrl}" onerror="this.parentNode.textContent='${r.emoji}'">` : r.emoji}</div>
+            <div class="result-info">
+              <div class="result-title">${r.title}</div>
+              <div class="result-meta">${r.meta}</div>
+            </div>
+            <div class="result-action">Use this →</div>
+          </div>
+        `).join('');
         window._searchResults = results;
       } catch (e) {
         box.innerHTML = `<div class="no-results" style="color:var(--red)">Search failed: ${e.message}</div>`;
@@ -1048,17 +343,14 @@
       const res = await fetch(`${TMDB_BASE}/search/${endpoint}?api_key=${TMDB_KEY}&query=${encodeURIComponent(q)}&language=en-GB`);
       const data = await res.json();
       return (data.results || []).slice(0, 6).map(r => ({
-        source: 'tmdb',
-        type: type,
-        tmdbId: r.id,
+        source: 'tmdb', type, tmdbId: r.id,
         title: r.name || r.title,
         poster: r.poster_path || null,
         posterUrl: r.poster_path ? TMDB_IMG + r.poster_path : null,
         emoji: type === 'tv' ? '📺' : '🎬',
         year: (r.first_air_date || r.release_date || '').slice(0, 4),
         meta: [(r.first_air_date || r.release_date || '').slice(0, 4), r.genre_ids?.length ? 'TMDB' : ''].filter(Boolean).join(' · '),
-        overview: r.overview,
-        raw: r
+        overview: r.overview, raw: r
       }));
     }
 
@@ -1069,18 +361,12 @@
         const info = r.volumeInfo;
         const thumb = info.imageLinks?.thumbnail || info.imageLinks?.smallThumbnail || null;
         return {
-          source: 'books',
-          type: 'book',
-          googleId: r.id,
-          title: info.title,
-          poster: thumb,
-          posterUrl: thumb,
-          posterType: 'book',
+          source: 'books', type: 'book', googleId: r.id,
+          title: info.title, poster: thumb, posterUrl: thumb, posterType: 'book',
           emoji: '📗',
           year: (info.publishedDate || '').slice(0, 4),
           meta: [info.authors?.[0], (info.publishedDate || '').slice(0, 4)].filter(Boolean).join(' · '),
-          overview: info.description,
-          raw: r
+          overview: info.description, raw: r
         };
       });
     }
@@ -1089,7 +375,6 @@
       const r = window._searchResults[i];
       const box = document.getElementById('search-results');
       box.innerHTML = `<div class="loading-row"><span class="spinner"></span> Loading details…</div>`;
-
       let enriched = { ...r };
 
       if (r.source === 'tmdb' && r.type === 'tv') {
@@ -1107,6 +392,7 @@
         enriched.overview = detail.overview;
       }
 
+      // Quick Claude text score on selection (legacy fast path — no Gemini yet)
       const box2 = document.getElementById('search-results');
       if (box2) box2.innerHTML = `<div class="loading-row"><span class="spinner"></span> AI is scoring this title…</div>`;
       try {
@@ -1121,6 +407,7 @@
       openEditForm(null, enriched);
     }
 
+    // ═══════════════ QUICK AI SCORE (selection — text only) ═══════════════
     async function getAIScores(e) {
       const prompt = `You are a children's content analyst for Glimpsy, a parental guidance platform for families with neurodivergent children. Always address parents, never children.
 
@@ -1134,117 +421,55 @@ Return ONLY a valid JSON object — no preamble, no markdown fences.
 
 FIELDS AND SCORING GUIDES:
 
-violence (0–5):
-  0=none, 1=cartoon slapstick only, 2=mild action no injury, 3=some combat/injury not graphic, 4=strong violence serious injury, 5=graphic or sustained
-
-fear_fantasy (0–5) — cartoon/fantasy threat, monsters, witches, imaginary danger:
-  0=nothing scary, 1=mild fantasy peril easily resolved, 2=some fantasy scary moments, 3=genuinely frightening fantasy, 4=very frightening may cause nightmares, 5=extreme fantasy horror
-
-fear_realistic (0–5) — real-world threat, danger, death, realistic peril:
-  0=no realistic threat, 1=mild real-world tension, 2=some realistic peril resolves safely, 3=genuinely frightening realistic, 4=very frightening realistic, 5=extreme realistic horror
-
-language_mild (0–5) — severity of worst language:
-  0=none, 1=very mild (stupid/idiot), 2=mild occasional moderate words, 3=moderate, 4=strong, 5=very strong or discriminatory
-
-language_freq (0–5) — how often bad language appears:
-  0=none, 1=single instance, 2=occasional, 3=recurring several times per episode, 4=frequent, 5=constant
-
+violence (0–5): 0=none, 1=cartoon slapstick only, 2=mild action no injury, 3=some combat/injury not graphic, 4=strong violence serious injury, 5=graphic or sustained
+fear_fantasy (0–5) — cartoon/fantasy threat: 0=nothing scary, 1=mild fantasy peril, 2=some fantasy scary moments, 3=genuinely frightening fantasy, 4=very frightening, 5=extreme fantasy horror
+fear_realistic (0–5) — real-world threat: 0=no realistic threat, 1=mild tension, 2=some peril resolves safely, 3=genuinely frightening, 4=very frightening, 5=extreme
+language_mild (0–5): 0=none, 1=very mild, 2=mild occasional, 3=moderate, 4=strong, 5=very strong or discriminatory
+language_freq (0–5): 0=none, 1=single instance, 2=occasional, 3=recurring, 4=frequent, 5=constant
 sex_nudity (0–5): 0=none, 1=innocent romance, 2=kissing, 3=suggestive, 4=partial nudity, 5=explicit
-
-social_safety (0–5) — bullying, exclusion, peer harm:
-  0=characters treat each other with respect, 1=minor friction resolves positively, 2=some bullying addressed, 3=bullying present not always resolved, 4=significant bullying normalised, 5=bullying glorified
-
-positive_messages (0–5): 0=none, 1=minimal, 2=some, 3=good, 4=strong throughout, 5=exceptional core theme is kindness/empathy/learning
-
-role_models (0–5): 0=none, 1=weak/absent, 2=mixed, 3=generally positive, 4=strong, 5=exceptional
-
-consumerism (0–5): 0=none, 1=minimal brand awareness, 2=some product placement, 3=noticeable, 4=heavy toy tie-ins, 5=entire premise is commercial
-
-drink_drugs (0–5): 0=none, 1=brief reference, 2=alcohol shown normalised, 3=drinking shown positively, 4=drug/alcohol in detail, 5=glorified
-
+social_safety (0–5): 0=respectful, 1=minor friction resolves, 2=some bullying addressed, 3=bullying not always resolved, 4=significant bullying normalised, 5=bullying glorified
+positive_messages (0–5): 0=none, 1=minimal, 2=some, 3=good, 4=strong throughout, 5=exceptional
+role_models (0–5): 0=none, 1=weak, 2=mixed, 3=generally positive, 4=strong, 5=exceptional
+consumerism (0–5): 0=none, 1=minimal, 2=some placement, 3=noticeable, 4=heavy toy tie-ins, 5=entire premise is commercial
+drink_drugs (0–5): 0=none, 1=brief reference, 2=alcohol normalised, 3=shown positively, 4=in detail, 5=glorified
 calm (0–10): 10=very calm like Bluey, 5=average children's TV, 0=extremely chaotic
-cuts (0–10): actual scene cuts per minute mapped — 0=almost no cuts, 10=very rapid like Peppa Pig
-colour (0–5): 0=greyscale/near-monochrome, 1=very muted pastel, 2=soft, 3=normal children's TV, 4=vivid saturated, 5=extremely bright neon
-pace (0–5): 0=static/very slow long shots, 1=very slow, 2=gentle, 3=moderate average children's TV, 4=fast quick cuts, 5=very fast rapid fire
+cuts (0–10): 0=almost no cuts, 10=very rapid like Peppa Pig
+colour (0–5): 0=greyscale, 1=very muted pastel, 2=soft, 3=normal children's TV, 4=vivid saturated, 5=extremely bright neon
+pace (0–5): 0=static/very slow, 1=very slow, 2=gentle, 3=moderate, 4=fast, 5=very fast
 csm (1–10): overall stimulation — 1=very gentle like Pocoyo, 5=average, 10=very intense
-
 age: age range string e.g. "2-5", "3-7", "All ages", "10+"
-emoji: single best fitting emoji for this title
+emoji: single best fitting emoji
 bg: soft muted hex colour fitting the show mood e.g. "#b8d4e8"
-one_line_summary: one sentence max 20 words describing the content FOR PARENTS (not children)
-
-themes: array from ONLY these values:
-  ["death","monsters","bullying","toilet-humour","mild-violence","scary","divorce","grief","guns",
-   "educational","positive-friendship","positive-empathy","family-values","family-conflict",
-   "mild-language","nudity","sexual-content","drug-use","gambling",
-   "social-skills","sensory-friendly","repetitive-structure","clear-narrative",
-   "loud-music","flashing-lights","social-exclusion","cyberbullying"]
-
-neuro_pills: array from ONLY these values based on the scores above:
-  - "low-sensory-load" if calm>=7 AND colour<=2
-  - "autism-friendly" if calm>=7 AND colour<=2 AND cuts<=3
-  - "stimming-friendly" if themes includes repetitive-structure AND calm>=7
-  - "adhd-engagement" if pace>=2 AND pace<=3 AND social_safety<=2 AND positive_messages>=3
-  - "calming-transition" if calm>=7 AND pace<=2
-  - "executive-function" if themes includes clear-narrative AND positive_messages>=3
-  - "co-viewing-recommended" if csm>=7 OR fear_fantasy>=3 OR fear_realistic>=3
-  - "bedtime-safe" if calm>=8 AND pace<=1
-
-loud_sudden_sounds: true/false — any sudden audio shocks or jump sounds
-flashing_lights: true/false — any rapid flashing or strobing visuals
+one_line_summary: one sentence max 20 words FOR PARENTS
+themes: array from ONLY: ["death","monsters","bullying","toilet-humour","mild-violence","scary","divorce","grief","guns","educational","positive-friendship","positive-empathy","family-values","family-conflict","mild-language","nudity","sexual-content","drug-use","gambling","social-skills","sensory-friendly","repetitive-structure","clear-narrative","loud-music","flashing-lights","social-exclusion","cyberbullying"]
+neuro_pills: array from ONLY: ["low-sensory-load","autism-friendly","stimming-friendly","adhd-engagement","calming-transition","executive-function","co-viewing-recommended","bedtime-safe"]
+loud_sudden_sounds: true/false
+flashing_lights: true/false
 violence_detected: true/false
 scary_content_detected: true/false
+sensory_notes: one sentence describing overall sensory experience for parents
 
-sensory_notes: one sentence describing the overall sensory experience for parents
-
-Return as JSON with exactly these keys:
-violence, fear_fantasy, fear_realistic, language_mild, language_freq, sex_nudity,
-social_safety, positive_messages, role_models, consumerism, drink_drugs,
-calm, cuts, colour, pace, csm, age, emoji, bg, one_line_summary, themes, neuro_pills,
-loud_sudden_sounds, flashing_lights, violence_detected, scary_content_detected, sensory_notes
-
-Map these to the existing DB fields on return:
-v=violence, f=fear_fantasy, l=language_mild, s=sex_nudity, pos=positive_messages,
-roles=role_models, con=consumerism, dr=drink_drugs`;
+Return JSON with exactly these keys: violence, fear_fantasy, fear_realistic, language_mild, language_freq, sex_nudity, social_safety, positive_messages, role_models, consumerism, drink_drugs, calm, cuts, colour, pace, csm, age, emoji, bg, one_line_summary, themes, neuro_pills, loud_sudden_sounds, flashing_lights, violence_detected, scary_content_detected, sensory_notes`;
 
       const res = await fetch('/api/score', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: [{ role: 'user', content: prompt }]
-        })
+        body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
       });
-
       const data = await res.json();
       const text = data.content?.[0]?.text || '{}';
       const clean = text.replace(/```json|```/g, '').trim();
       const r = JSON.parse(clean);
 
       return {
-        v: r.violence ?? r.v ?? 0,
-        f: r.fear_fantasy ?? r.f ?? 0,
-        l: r.language_mild ?? r.l ?? 0,
-        s: r.sex_nudity ?? r.s ?? 0,
-        pos: r.positive_messages ?? r.pos ?? 3,
-        roles: r.role_models ?? r.roles ?? 3,
-        con: r.consumerism ?? r.con ?? 1,
-        dr: r.drink_drugs ?? r.dr ?? 0,
-        calm: r.calm ?? 5,
-        cuts: r.cuts ?? 5,
-        colour: r.colour ?? 3,
-        pace: r.pace ?? 3,
-        csm: r.csm ?? 5,
-        age: r.age || 'All ages',
-        emoji: r.emoji || '🎬',
-        bg: r.bg || '#c8d8e8',
-        _fear_realistic: r.fear_realistic ?? 0,
-        _language_freq: r.language_freq ?? 0,
-        _social_safety: r.social_safety ?? 0,
-        _neuro_pills: r.neuro_pills || [],
-        _loud_sudden_sounds: r.loud_sudden_sounds ?? false,
-        _flashing_lights: r.flashing_lights ?? false,
-        _one_line_summary: r.one_line_summary || '',
-        _sensory_notes: r.sensory_notes || '',
+        v: r.violence ?? 0, f: r.fear_fantasy ?? 0, l: r.language_mild ?? 0, s: r.sex_nudity ?? 0,
+        pos: r.positive_messages ?? 3, roles: r.role_models ?? 3, con: r.consumerism ?? 1, dr: r.drink_drugs ?? 0,
+        calm: r.calm ?? 5, cuts: r.cuts ?? 5, colour: r.colour ?? 3, pace: r.pace ?? 3, csm: r.csm ?? 5,
+        age: r.age || 'All ages', emoji: r.emoji || '🎬', bg: r.bg || '#c8d8e8',
+        _fear_realistic: r.fear_realistic ?? 0, _language_freq: r.language_freq ?? 0,
+        _social_safety: r.social_safety ?? 0, _neuro_pills: r.neuro_pills || [],
+        _loud_sudden_sounds: r.loud_sudden_sounds ?? false, _flashing_lights: r.flashing_lights ?? false,
+        _one_line_summary: r.one_line_summary || '', _sensory_notes: r.sensory_notes || '',
         themes: r.themes || []
       };
     }
@@ -1260,57 +485,221 @@ roles=role_models, con=consumerism, dr=drink_drugs`;
       return uk?.release_dates?.[0]?.certification || null;
     }
 
+    // ═══════════════ FULL AI ASSESSMENT (Gemini + Claude in parallel) ═══════════════
+    async function runAIAssessment() {
+      const btn = document.getElementById('btn-ai-assess');
+      const status = document.getElementById('ai-assess-status');
+
+      const title    = document.getElementById('f-title')?.value || currentShow?.title || '';
+      const type     = document.getElementById('f-type')?.value  || 'tv';
+      const synopsis = document.getElementById('f-synopsis')?.value || '';
+      const ageRating= document.getElementById('f-rating')?.value || '';
+      const trailer  = document.getElementById('f-trailer')?.value?.trim() || '';
+      const genreVal = document.getElementById('f-genres')?.value || '';
+      const genres   = genreVal.split(',').map(g => g.trim()).filter(Boolean);
+
+      if (!title) { toast('Add a title first', 'err'); return; }
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Analysing…';
+      status.textContent = '';
+
+      const hasVideo = !!trailer;
+      const sourceTier = hasVideo ? 'glimpsy-ai-trailer' : 'glimpsy-ai-text';
+
+      try {
+        // Fire Claude + Gemini in parallel
+        const requests = [
+          fetch('/api/score', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title, type, synopsis, age_rating: ageRating, genres })
+          }).then(r => r.json())
+        ];
+
+        if (hasVideo) {
+          requests.push(
+            fetch('/api/gemini', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ youtubeUrl: trailer, title, type })
+            }).then(r => r.json())
+          );
+        }
+
+        const results = await Promise.allSettled(requests);
+        const claudeResult = results[0].status === 'fulfilled' ? results[0].value : null;
+        const geminiResult = hasVideo && results[1]?.status === 'fulfilled' ? results[1].value : null;
+
+        if (!claudeResult) throw new Error('Claude scoring failed');
+
+        // Merge + conflict resolution
+        const merged = mergeAssessment(claudeResult, geminiResult, sourceTier);
+        prefillSliders(merged);
+
+        // Update _lastAIScores so save picks up the new values
+        window._lastAIScores = {
+          ...window._lastAIScores,
+          _neuro_pills: merged._neuro_pills || [],
+          _one_line_summary: merged.one_line_summary || merged._one_line_summary || '',
+          _sensory_notes: merged.sensory_notes || merged._sensory_notes || '',
+          _loud_sudden_sounds: merged.loud_sudden_sounds ?? false,
+          _flashing_lights: merged.flashing_lights ?? false,
+          _fear_realistic: merged.fear_realistic ?? merged.fear_final ?? 0,
+          _social_safety: merged.social_safety ?? 0,
+          _language_freq: merged.language_freq ?? 0
+        };
+
+        // Update AI summary block in the DOM if it exists
+        const summaryBlock = document.getElementById('ai-summary-block');
+        if (summaryBlock && (merged._one_line_summary || merged._sensory_notes)) {
+          summaryBlock.innerHTML = buildAISummaryHTML(merged, currentShow?.id || '');
+          summaryBlock.style.display = '';
+        }
+
+        const tierLabel = {
+          'glimpsy-ai-full-episode': '✓ Measured from full episode',
+          'glimpsy-ai-trailer':      '~ Measured from official trailer',
+          'glimpsy-ai-text':         '◌ Estimated from synopsis'
+        }[sourceTier];
+
+        status.textContent = tierLabel;
+        status.style.color = 'var(--sage-light)';
+        toast(geminiResult ? '✦ Gemini + Claude complete' : '✦ Claude text assessment complete', 'ok');
+
+      } catch (e) {
+        console.error('AI assessment error:', e);
+        status.textContent = 'Failed — ' + e.message;
+        status.style.color = 'var(--red)';
+        toast('Assessment failed', 'err');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '✦ Run AI Assessment';
+      }
+    }
+
+    function mergeAssessment(claude, gemini, sourceTier) {
+      const merged = { ...claude, source: sourceTier };
+
+      // Gemini overrides sensory_index sub-scores if available
+      if (gemini?.sensory_index) {
+        merged.calm   = Math.round((1 - gemini.sensory_index.overall_score / 5) * 10); // invert: 5=calm → 10
+        merged.colour = gemini.sensory_index.colour_intensity;
+        merged.pace   = gemini.sensory_index.edit_pace;
+        merged.cuts   = Math.round(gemini.sensory_index.scene_cuts_per_minute * 2); // 0–5 → 0–10
+        merged._audio_stress = gemini.sensory_index.audio_stress_level;
+      }
+
+      if (gemini?.flags) {
+        merged.loud_sudden_sounds = gemini.flags.loud_sudden_sounds;
+        merged.flashing_lights    = gemini.flags.flashing_lights;
+        merged.orienting_reflex   = gemini.flags.orienting_reflex;
+        merged._sensory_notes     = gemini.sensory_notes || merged._sensory_notes || '';
+        merged._visual_justification = gemini.visual_justifications?.note || '';
+      }
+
+      // Conflict resolution — Gemini audio shock nudges fear up
+      merged.fear_final = Math.max(
+        claude.fear_fantasy  ?? 0,
+        claude.fear_realistic ?? 0,
+        (gemini?.flags?.loud_sudden_sounds) ? 2 : 0
+      );
+
+      // If Gemini detected violence but Claude scored low, nudge up
+      if (gemini?.flags?.violence_detected && (claude.violence ?? 0) < 2) {
+        merged.v = 2;
+      }
+
+      return merged;
+    }
+
+    function prefillSliders(a) {
+      // Map merged assessment keys to slider IDs
+      const map = {
+        v: a.v ?? a.violence,
+        f: a.f ?? a.fear_fantasy,
+        l: a.l ?? a.language_mild,
+        s: a.s ?? a.sex_nudity,
+        pos: a.pos ?? a.positive_messages,
+        roles: a.roles ?? a.role_models,
+        con: a.con ?? a.consumerism,
+        dr: a.dr ?? a.drink_drugs,
+        calm: a.calm,
+        cuts: a.cuts,
+        colour: a.colour,
+        pace: a.pace
+      };
+      Object.entries(map).forEach(([k, val]) => {
+        if (val === undefined || val === null) return;
+        const slider = document.getElementById('f-' + k);
+        if (slider) { slider.value = val; updateSliderVal(k, val); }
+      });
+
+      if (a.age || a.age_recommendation) {
+        const el = document.getElementById('f-age');
+        if (el) el.value = a.age || a.age_recommendation;
+      }
+
+      // Theme chips
+      if (a.themes?.length) {
+        a.themes.forEach(t => {
+          const chip = document.querySelector(`.chip[data-theme="${t}"]`);
+          if (chip) chip.classList.add('on');
+        });
+      }
+    }
+
+    function buildAISummaryHTML(e, dbId) {
+      const pills = e._neuro_pills || [];
+      const dismissed = (currentShow?.neuro_pills_dismissed || []);
+      return `
+        ${e._one_line_summary ? `<div style="font-size:.82rem;color:var(--text);margin-bottom:10px;line-height:1.5;">💬 <strong>For parents:</strong> ${e._one_line_summary}</div>` : ''}
+        ${e._sensory_notes ? `<div style="font-size:.75rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">🧠 <strong>Sensory:</strong> ${e._sensory_notes}</div>` : ''}
+        ${pills.length ? `
+          <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--light);margin-bottom:8px;">Neuro pills <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);">— click to dismiss</span></div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            ${pills.map(p => `<span class="neuro-pill-toggle${dismissed.includes(p) ? ' dismissed' : ''}" data-pill="${p}" data-item="${dbId}" onclick="toggleNeuroPill(this)">${p}</span>`).join('')}
+          </div>` : ''}
+        ${(e.loud_sudden_sounds || e.flashing_lights) ? `
+          <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
+            ${e.loud_sudden_sounds ? `<span class="neuro-pill-toggle" data-pill="loud_sudden_sounds" data-item="${dbId}" onclick="toggleNeuroPill(this)" style="background:var(--red-pale);border-color:rgba(192,64,64,.2);color:#e08080;">⚠ Loud sudden sounds</span>` : ''}
+            ${e.flashing_lights    ? `<span class="neuro-pill-toggle" data-pill="flashing_lights"    data-item="${dbId}" onclick="toggleNeuroPill(this)" style="background:var(--red-pale);border-color:rgba(192,64,64,.2);color:#e08080;">⚠ Flashing lights</span>` : ''}
+          </div>` : ''}
+      `;
+    }
+
     // ═══════════════ EDIT FORM ═══════════════
     function editShow(id) {
       const show = SHOWS.find(s => s.id === id);
       if (!show) return;
       currentShow = show;
       renderSidebar();
-
       const enriched = {
-        source: 'db',
-        type: show.type,
-        title: show.title,
-        emoji: show.emoji,
-        bg: show.bg,
-        poster: show.poster,
-        posterType: show.poster_type,
-        year: '',
-        seasons: show.seasons,
-        dur: show.dur,
-        rating: show.rating,
-        csm: show.csm,
-        genres: show.genres || [],
+        source: 'db', type: show.type, title: show.title, emoji: show.emoji, bg: show.bg,
+        poster: show.poster, posterType: show.poster_type, year: '', seasons: show.seasons,
+        dur: show.dur, rating: show.rating, csm: show.csm, genres: show.genres || [],
         overview: show.synopsis,
         v: show.v, f: show.f, l: show.l, s: show.s,
         pos: show.pos, roles: show.roles, con: show.con, dr: show.dr,
         calm: show.calm, cuts: show.cuts, colour: show.colour, pace: show.pace,
-        themes: show.themes || [],
-        platforms: show.platforms || [],
-        age: show.age,
-        eps: show.eps || [],
+        themes: show.themes || [], platforms: show.platforms || [], age: show.age, eps: show.eps || [],
         dbId: show.id,
-        // Load saved neuro pills + dismissed overrides
-        _neuro_pills: show.neuro_pills || [],
-        _one_line_summary: show.one_line_summary || '',
-        _sensory_notes: show.sensory_notes || '',
-        _loud_sudden_sounds: show.loud_sudden_sounds || false,
-        _flashing_lights: show.flashing_lights || false,
-        neuro_pills_dismissed: show.neuro_pills_dismissed || []
+        _neuro_pills: show.neuro_pills || [], _one_line_summary: show.one_line_summary || '',
+        _sensory_notes: show.sensory_notes || '', _loud_sudden_sounds: show.loud_sudden_sounds || false,
+        _flashing_lights: show.flashing_lights || false, neuro_pills_dismissed: show.neuro_pills_dismissed || []
       };
-
       openEditForm(show, enriched);
     }
 
     const ALL_THEMES = [
-      'death', 'monsters', 'bullying', 'toilet-humour', 'mild-violence', 'scary', 'divorce',
-      'grief', 'guns', 'educational', 'positive-friendship', 'positive-empathy', 'family-values',
-      'family-conflict', 'mild-language', 'nudity', 'sexual-content', 'drug-use', 'gambling'
+      'death','monsters','bullying','toilet-humour','mild-violence','scary','divorce',
+      'grief','guns','educational','positive-friendship','positive-empathy','family-values',
+      'family-conflict','mild-language','nudity','sexual-content','drug-use','gambling'
     ];
 
     const DEFAULT_PLATFORMS = {
       tv: [
-        { n: 'BBC iPlayer', i: '📺', t: 'Free', lic: true, url: 'https://www.bbc.co.uk/iplayer' },
+        { n: 'BBC iPlayer', i: '📺', t: 'Free', url: 'https://www.bbc.co.uk/iplayer' },
         { n: 'Netflix', i: '🎬', t: 'Subscription', url: 'https://www.netflix.com' },
         { n: 'Disney+', i: '✨', t: 'Subscription', url: 'https://www.disneyplus.com' },
         { n: 'Prime Video', i: '📦', t: 'Subscription', url: 'https://www.amazon.co.uk/primevideo' },
@@ -1321,7 +710,7 @@ roles=role_models, con=consumerism, dr=drink_drugs`;
         { n: 'Netflix', i: '🎬', t: 'Subscription', url: 'https://www.netflix.com' },
         { n: 'Disney+', i: '✨', t: 'Subscription', url: 'https://www.disneyplus.com' },
         { n: 'Prime Video', i: '📦', t: 'Subscription', url: 'https://www.amazon.co.uk/primevideo' },
-        { n: 'BBC iPlayer', i: '📺', t: 'Free', lic: true, url: 'https://www.bbc.co.uk/iplayer' },
+        { n: 'BBC iPlayer', i: '📺', t: 'Free', url: 'https://www.bbc.co.uk/iplayer' },
       ],
       book: [
         { n: 'Amazon', i: '📦', t: 'Buy', url: 'https://www.amazon.co.uk' },
@@ -1336,249 +725,189 @@ roles=role_models, con=consumerism, dr=drink_drugs`;
       const themes = e.themes || [];
       const platforms = e.platforms || DEFAULT_PLATFORMS[e.type] || [];
       const posterUrl = e.posterType === 'book' ? e.poster : (e.poster ? TMDB_IMG + e.poster : null);
+      const hasSummary = e._one_line_summary || e._sensory_notes || (e._neuro_pills && e._neuro_pills.length) || e._loud_sudden_sounds || e._flashing_lights;
 
       document.getElementById('topbar-title').innerHTML = isNew
         ? `<strong>New: ${e.title}</strong>`
         : `<strong>${dbRow.title}</strong> <span style="color:var(--muted);font-weight:300">— editing</span>`;
 
       document.getElementById('topbar-actions').innerHTML = `
-    <button class="btn btn-ghost" onclick="${isNew ? 'showSearch()' : 'showSearch()'}">← Back</button>
-    <button class="btn btn-primary" id="save-btn" onclick="saveShow()">💾 Save to Supabase</button>
-  `;
+        <button class="btn btn-ghost" onclick="showSearch()">← Back</button>
+        <button class="btn btn-primary" id="save-btn" onclick="saveShow()">💾 Save to Supabase</button>
+      `;
 
       const nextId = isNew ? (SHOWS.length ? Math.max(...SHOWS.map(s => s.id)) + 1 : 1) : dbRow.id;
 
       document.getElementById('content-area').innerHTML = `
-  <div class="edit-form">
+        <div class="edit-form">
 
-    <div class="section-divider">Basic Info</div>
-    <div class="form-grid">
-      <div class="field">
-        <label class="label">Title</label>
-        <input class="input" id="f-title" value="${escHtml(e.title || '')}">
-      </div>
-      <div class="field">
-        <label class="label">Type</label>
-        <select class="input" id="f-type">
-          <option value="tv"${e.type === 'tv' ? ' selected' : ''}>TV Show</option>
-          <option value="movie"${e.type === 'movie' ? ' selected' : ''}>Film / Movie</option>
-          <option value="book"${e.type === 'book' ? ' selected' : ''}>Book</option>
-          <option value="youtube"${e.type === 'youtube' ? ' selected' : ''}>YouTube</option>
-          <option value="theatre"${e.type === 'theatre' ? ' selected' : ''}>Theatre</option>
-        </select>
-      </div>
-      <div class="field">
-        <label class="label">Age recommendation</label>
-        <input class="input" id="f-age" value="${escHtml(e.age || 'All ages')}" placeholder="e.g. 3–7, All ages, 10+">
-      </div>
-      <div class="field">
-        <label class="label">UK Rating</label>
-        <select class="input" id="f-rating">
-          ${['U', 'PG', '12', '12A', '15', '18'].map(r => `<option${e.rating === r ? ' selected' : ''}>${r}</option>`).join('')}
-        </select>
-      </div>
-      <div class="field">
-        <label class="label">Emoji</label>
-        <input class="input" id="f-emoji" value="${e.emoji || '🎬'}" maxlength="2" style="font-size:1.2rem;">
-      </div>
-      <div class="field">
-        <label class="label">Background colour</label>
-        <input class="input" id="f-bg" value="${e.bg || '#c8d8e8'}" placeholder="#b8d4e8">
-      </div>
-      <div class="field">
-        <label class="label">Seasons (TV only)</label>
-        <input class="input" type="number" id="f-seasons" value="${e.seasons || ''}" placeholder="—">
-      </div>
-      <div class="field">
-        <label class="label">Duration (mins)</label>
-        <input class="input" type="number" id="f-dur" value="${e.dur || ''}" placeholder="e.g. 25">
-      </div>
-      <div class="field">
-        <label class="label">CSM / Sensory score (1–10)</label>
-        <input class="input" type="number" min="1" max="10" id="f-csm" value="${e.csm || 5}">
-      </div>
-      <div class="field">
-        <label class="label">Genres (comma-separated)</label>
-        <input class="input" id="f-genres" value="${(e.genres || []).join(', ')}">
-      </div>
-    </div>
-
-    <div class="field full" style="margin-bottom:16px">
-      <label class="label">Synopsis</label>
-      <textarea class="input" id="f-synopsis">${escHtml(e.overview || e.synopsis || '')}</textarea>
-    </div>
-
-    <div class="field full" style="margin-bottom:16px">
-      <label class="label">Poster</label>
-      <div class="poster-preview-wrap">
-        <div class="poster-preview" id="poster-preview">
-          ${posterUrl ? `<img src="${posterUrl}" onerror="this.parentNode.textContent='${e.emoji || '🎬'}'">` : (e.emoji || '🎬')}
-        </div>
-        <div class="poster-input-wrap">
-          <input class="input" id="f-poster" value="${escHtml(e.poster || '')}" placeholder="TMDB path e.g. /abc123.jpg or full URL for books" oninput="updatePosterPreview(this.value,'${e.posterType || ''}')">
-          <div style="font-size:.62rem;color:var(--muted);margin-top:6px;">TMDB: use the path like <code style="color:var(--terra)">/abc.jpg</code>. Books: paste the full Google Books URL.</div>
-          <div style="margin-top:8px;">
-            <label class="label" style="display:inline;margin-right:8px">Poster type:</label>
-            <select class="input" id="f-poster-type" style="display:inline;width:auto;padding:5px 10px;font-size:.75rem;">
-              <option value=""${!e.posterType ? ' selected' : ''}>TMDB (default)</option>
-              <option value="book"${e.posterType === 'book' ? ' selected' : ''}>Book / External URL</option>
-            </select>
+          <div class="section-divider">Basic Info</div>
+          <div class="form-grid">
+            <div class="field"><label class="label">Title</label><input class="input" id="f-title" value="${escHtml(e.title || '')}"></div>
+            <div class="field"><label class="label">Type</label>
+              <select class="input" id="f-type">
+                <option value="tv"${e.type==='tv'?' selected':''}>TV Show</option>
+                <option value="movie"${e.type==='movie'?' selected':''}>Film / Movie</option>
+                <option value="book"${e.type==='book'?' selected':''}>Book</option>
+                <option value="youtube"${e.type==='youtube'?' selected':''}>YouTube</option>
+                <option value="theatre"${e.type==='theatre'?' selected':''}>Theatre</option>
+              </select>
+            </div>
+            <div class="field"><label class="label">Age recommendation</label><input class="input" id="f-age" value="${escHtml(e.age || 'All ages')}" placeholder="e.g. 3–7, All ages, 10+"></div>
+            <div class="field"><label class="label">UK Rating</label>
+              <select class="input" id="f-rating">${['U','PG','12','12A','15','18'].map(r => `<option${e.rating===r?' selected':''}>${r}</option>`).join('')}</select>
+            </div>
+            <div class="field"><label class="label">Emoji</label><input class="input" id="f-emoji" value="${e.emoji || '🎬'}" maxlength="2" style="font-size:1.2rem;"></div>
+            <div class="field"><label class="label">Background colour</label><input class="input" id="f-bg" value="${e.bg || '#c8d8e8'}" placeholder="#b8d4e8"></div>
+            <div class="field"><label class="label">Seasons (TV only)</label><input class="input" type="number" id="f-seasons" value="${e.seasons || ''}" placeholder="—"></div>
+            <div class="field"><label class="label">Duration (mins)</label><input class="input" type="number" id="f-dur" value="${e.dur || ''}" placeholder="e.g. 25"></div>
+            <div class="field"><label class="label">CSM / Sensory score (1–10)</label><input class="input" type="number" min="1" max="10" id="f-csm" value="${e.csm || 5}"></div>
+            <div class="field"><label class="label">Genres (comma-separated)</label><input class="input" id="f-genres" value="${(e.genres || []).join(', ')}"></div>
           </div>
-        </div>
-      </div>
-    </div>
 
-    <div class="section-divider">Content Ratings <span>How intense is this content? 0 = none, 5 = extreme</span></div>
-    <div class="slider-group">
-      ${['v:Violence', 'f:Fear / Scary', 'l:Language', 's:Sexual content'].map(x => {
-        const [k, name] = x.split(':');
-        const val = e[k] ?? 0;
-        return `<div class="slider-row">
-          <div class="slider-top">
-            <span class="slider-name">${name}</span>
-            <span class="slider-val sv-${val}" id="sv-${k}">${val}</span>
+          <div class="field full" style="margin-bottom:16px">
+            <label class="label">Synopsis</label>
+            <textarea class="input" id="f-synopsis">${escHtml(e.overview || e.synopsis || '')}</textarea>
           </div>
-          <input type="range" min="0" max="5" value="${val}" id="f-${k}" oninput="updateSliderVal('${k}',this.value)">
+
+          <div class="field full" style="margin-bottom:16px">
+            <label class="label">YouTube trailer / episode URL <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--light);font-size:.65rem;">— used by Gemini for video analysis</span></label>
+            <input class="input" id="f-trailer" value="${escHtml(e.trailerUrl || e.trailer || '')}" placeholder="https://www.youtube.com/watch?v=…">
+          </div>
+
+          <div class="field full" style="margin-bottom:16px">
+            <label class="label">Poster</label>
+            <div class="poster-preview-wrap">
+              <div class="poster-preview" id="poster-preview">
+                ${posterUrl ? `<img src="${posterUrl}" onerror="this.parentNode.textContent='${e.emoji || '🎬'}'">` : (e.emoji || '🎬')}
+              </div>
+              <div class="poster-input-wrap">
+                <input class="input" id="f-poster" value="${escHtml(e.poster || '')}" placeholder="TMDB path e.g. /abc123.jpg or full URL for books" oninput="updatePosterPreview(this.value,'${e.posterType || ''}')">
+                <div style="font-size:.62rem;color:var(--muted);margin-top:6px;">TMDB: use the path like <code style="color:var(--terra)">/abc.jpg</code>. Books: paste the full Google Books URL.</div>
+                <div style="margin-top:8px;">
+                  <label class="label" style="display:inline;margin-right:8px">Poster type:</label>
+                  <select class="input" id="f-poster-type" style="display:inline;width:auto;padding:5px 10px;font-size:.75rem;">
+                    <option value=""${!e.posterType?' selected':''}>TMDB (default)</option>
+                    <option value="book"${e.posterType==='book'?' selected':''}>Book / External URL</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ✦ AI ASSESSMENT BANNER -->
+          <div class="ai-assess-banner">
+            <div class="ai-assess-banner-info">
+              <div class="ai-assess-banner-label">✦ Glimpsy AI Assessment</div>
+              <div class="ai-assess-banner-sub">
+                Runs Claude (text) + Gemini (video) in parallel and pre-fills all scores below.<br>
+                ${e.trailerUrl || e.trailer ? '📹 Trailer URL detected — Gemini will analyse the video.' : '📄 No trailer URL — Claude text-only scoring will run.'}
+                Review and adjust before saving.
+              </div>
+            </div>
+            <div class="ai-assess-banner-actions">
+              <button id="btn-ai-assess" class="btn btn-primary" onclick="runAIAssessment()">✦ Run AI Assessment</button>
+              <div id="ai-assess-status" class="ai-assess-status"></div>
+            </div>
+          </div>
+
+          <div class="section-divider">Content Ratings <span>How intense is this content? 0 = none, 5 = extreme</span></div>
+          <div class="slider-group">
+            ${['v:Violence','f:Fear / Scary','l:Language','s:Sexual content'].map(x => {
+              const [k, name] = x.split(':');
+              const val = e[k] ?? 0;
+              return `<div class="slider-row">
+                <div class="slider-top"><span class="slider-name">${name}</span><span class="slider-val sv-${val}" id="sv-${k}">${val}</span></div>
+                <input type="range" min="0" max="5" value="${val}" id="f-${k}" oninput="updateSliderVal('${k}',this.value)">
+              </div>`;
+            }).join('')}
+          </div>
+
+          <div class="section-divider">Positive Qualities <span>0 = none, 5 = lots</span></div>
+          <div class="slider-group">
+            ${['pos:Positive values','roles:Role models','con:Consumerism','dr:Drinking/drugs'].map(x => {
+              const [k, name] = x.split(':');
+              const val = e[k] ?? 3;
+              return `<div class="slider-row">
+                <div class="slider-top"><span class="slider-name">${name}</span><span class="slider-val sv-${val}" id="sv-${k}">${val}</span></div>
+                <input type="range" min="0" max="5" value="${val}" id="f-${k}" oninput="updateSliderVal('${k}',this.value)">
+              </div>`;
+            }).join('')}
+          </div>
+
+          <div class="section-divider">Sensory Index <span>For neurodivergent filtering</span></div>
+          <div class="slider-group">
+            ${[
+              {k:'calm', name:'Calm / Pacing', hint:'10 = very calm like Bluey · 0 = chaotic'},
+              {k:'cuts', name:'Cuts per min',  hint:'0 = slow/few cuts · 10 = very rapid editing'},
+              {k:'colour', name:'Colour Intensity', hint:'0 = muted/grey · 5 = extremely bright & saturated'},
+              {k:'pace', name:'Overall Pace', hint:'0 = very slow · 5 = very fast'}
+            ].map(({k, name, hint}) => {
+              const val = e[k] ?? 3;
+              return `<div class="slider-row">
+                <div class="slider-top"><span class="slider-name">${name}</span><span class="slider-val sv-${Math.min(5,Math.round(val/2))}" id="sv-${k}">${val}</span></div>
+                <input type="range" min="0" max="10" value="${val}" id="f-${k}" oninput="updateSliderVal('${k}',this.value)">
+                <div style="font-size:.6rem;color:var(--light);margin-top:3px;">${hint}</div>
+              </div>`;
+            }).join('')}
+          </div>
+
+          ${hasSummary ? `
+          <div class="section-divider">AI Assessment Summary</div>
+          <div id="ai-summary-block" style="background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:16px;margin-bottom:16px;">
+            ${buildAISummaryHTML(e, e.dbId || '')}
+          </div>` : `<div id="ai-summary-block" style="display:none;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:16px;margin-bottom:16px;"></div>`}
+
+          <div class="section-divider">Themes</div>
+          <div class="chips-wrap" id="themes-wrap">
+            ${ALL_THEMES.map(t => `<button class="chip${themes.includes(t)?' on':''}" onclick="toggleTheme(this,'${t}')" data-theme="${t}">${t.replace(/-/g,' ')}</button>`).join('')}
+          </div>
+          <div style="margin-top:10px;display:flex;gap:8px;align-items:center;">
+            <input class="input" id="custom-theme" placeholder="Add custom theme…" style="max-width:220px;padding:7px 12px;font-size:.75rem;" onkeydown="if(event.key==='Enter')addCustomTheme()">
+            <button class="btn btn-ghost" style="padding:7px 14px;font-size:.72rem;" onclick="addCustomTheme()">Add</button>
+          </div>
+
+          <div class="section-divider">Platforms <span>Where can this be watched/read?</span></div>
+          <div id="platforms-wrap">
+            ${platforms.map((p, i) => `
+              <div class="form-grid" style="margin-bottom:8px;align-items:end;" id="plat-${i}">
+                <div class="field"><label class="label">Platform name</label><input class="input plat-name" value="${escHtml(p.n || '')}"></div>
+                <div class="field"><label class="label">Icon emoji</label><input class="input plat-icon" value="${p.i || ''}" style="font-size:1rem;" maxlength="2"></div>
+                <div class="field"><label class="label">Type / price</label><input class="input plat-type" value="${escHtml(p.t || '')}"></div>
+                <div class="field"><label class="label">URL</label><input class="input plat-url" value="${escHtml(p.url || '')}"></div>
+              </div>
+            `).join('')}
+          </div>
+          <button class="btn btn-ghost" style="font-size:.72rem;padding:7px 14px;margin-top:4px;" onclick="addPlatformRow()">＋ Add platform</button>
+
+          <input type="hidden" id="f-id" value="${nextId}">
+          <input type="hidden" id="f-dbid" value="${e.dbId || ''}">
+
+          <div class="form-actions">
+            ${!isNew ? `<button class="btn btn-danger" onclick="deleteShow(${dbRow.id},'${escHtml(dbRow.title)}')">Delete</button>` : ''}
+            <button class="btn btn-ghost" onclick="showSearch()">Cancel</button>
+            <div class="save-status" id="save-status"></div>
+            <button class="btn btn-primary" onclick="saveShow()">💾 Save to Supabase</button>
+          </div>
+
         </div>`;
-      }).join('')}
-    </div>
-
-    <div class="section-divider">Positive Qualities <span>Rate how much this content has these — 0 = none, 5 = lots</span></div>
-    <div class="slider-group">
-      ${['pos:Positive values', 'roles:Role models', 'con:Consumerism', 'dr:Drinking/drugs'].map(x => {
-        const [k, name] = x.split(':');
-        const val = e[k] ?? 3;
-        return `<div class="slider-row">
-          <div class="slider-top">
-            <span class="slider-name">${name}</span>
-            <span class="slider-val sv-${val}" id="sv-${k}">${val}</span>
-          </div>
-          <input type="range" min="0" max="5" value="${val}" id="f-${k}" oninput="updateSliderVal('${k}',this.value)">
-        </div>`;
-      }).join('')}
-    </div>
-
-    <div class="section-divider">Sensory Index <span>For neurodivergent filtering</span></div>
-    <div class="slider-group">
-      ${[
-          { k: 'calm', name: 'Calm / Pacing', hint: '10 = very calm like Bluey · 0 = chaotic like Peppa' },
-          { k: 'cuts', name: 'Cuts per min', hint: '0 = slow/few cuts · 10 = very rapid editing' },
-          { k: 'colour', name: 'Colour Intensity', hint: '0 = muted/grey tones · 5 = extremely bright & saturated' },
-          { k: 'pace', name: 'Overall Pace', hint: '0 = very slow · 5 = very fast' }
-        ].map(({ k, name, hint }) => {
-          const val = e[k] ?? 3;
-          return `<div class="slider-row">
-          <div class="slider-top">
-            <span class="slider-name">${name}</span>
-            <span class="slider-val sv-${Math.min(5, Math.round(val / 2))}" id="sv-${k}">${val}</span>
-          </div>
-          <input type="range" min="0" max="10" value="${val}" id="f-${k}" oninput="updateSliderVal('${k}',this.value)">
-          <div style="font-size:.6rem;color:var(--light);margin-top:3px;">${hint}</div>
-        </div>`;
-        }).join('')}
-    </div>
-
-    ${e._one_line_summary || e._sensory_notes || (e._neuro_pills && e._neuro_pills.length) ? `
-    <div class="section-divider">AI Assessment Summary</div>
-    <div style="background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:16px;margin-bottom:16px;">
-      ${e._one_line_summary ? `<div style="font-size:.82rem;color:var(--text);margin-bottom:10px;line-height:1.5;">💬 <strong>For parents:</strong> ${e._one_line_summary}</div>` : ''}
-      ${e._sensory_notes ? `<div style="font-size:.75rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">🧠 <strong>Sensory:</strong> ${e._sensory_notes}</div>` : ''}
-      ${e._neuro_pills && e._neuro_pills.length ? `
-        <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--light);margin-bottom:8px;">Neuro Pills suggested by AI <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);">— click to dismiss</span></div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;" id="neuro-pills-wrap-${e.dbId || 'new'}">
-          ${e._neuro_pills.map(p => {
-          const dismissed = (e.neuro_pills_dismissed || []).includes(p);
-          return `<span
-              class="neuro-pill-toggle${dismissed ? ' dismissed' : ''}"
-              data-pill="${p}"
-              data-item="${e.dbId || ''}"
-              onclick="toggleNeuroPill(this)"
-              title="${dismissed ? 'Click to restore' : 'Click to dismiss'}"
-            >${p}</span>`;
-        }).join('')}
-        </div>` : ''}
-      ${e._loud_sudden_sounds || e._flashing_lights ? `
-        <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
-          ${e._loud_sudden_sounds ? `<span
-            class="neuro-pill-toggle${(e.neuro_pills_dismissed || []).includes('loud_sudden_sounds') ? ' dismissed' : ''}"
-            data-pill="loud_sudden_sounds"
-            data-item="${e.dbId || ''}"
-            onclick="toggleNeuroPill(this)"
-            style="background:var(--red-pale);border-color:rgba(192,64,64,.2);color:#e08080;"
-            title="${(e.neuro_pills_dismissed || []).includes('loud_sudden_sounds') ? 'Click to restore' : 'Click to dismiss'}"
-          >⚠ Loud sudden sounds</span>` : ''}
-          ${e._flashing_lights ? `<span
-            class="neuro-pill-toggle${(e.neuro_pills_dismissed || []).includes('flashing_lights') ? ' dismissed' : ''}"
-            data-pill="flashing_lights"
-            data-item="${e.dbId || ''}"
-            onclick="toggleNeuroPill(this)"
-            style="background:var(--red-pale);border-color:rgba(192,64,64,.2);color:#e08080;"
-            title="${(e.neuro_pills_dismissed || []).includes('flashing_lights') ? 'Click to restore' : 'Click to dismiss'}"
-          >⚠ Flashing lights</span>` : ''}
-        </div>` : ''}
-    </div>` : ''}
-
-    <div class="section-divider">Themes</div>
-    <div class="chips-wrap" id="themes-wrap">
-      ${ALL_THEMES.map(t => `<button class="chip${themes.includes(t) ? ' on' : ''}" onclick="toggleTheme(this,'${t}')" data-theme="${t}">${t.replace(/-/g, ' ')}</button>`).join('')}
-    </div>
-    <div style="margin-top:10px;display:flex;gap:8px;align-items:center;">
-      <input class="input" id="custom-theme" placeholder="Add custom theme…" style="max-width:220px;padding:7px 12px;font-size:.75rem;" onkeydown="if(event.key==='Enter')addCustomTheme()">
-      <button class="btn btn-ghost" style="padding:7px 14px;font-size:.72rem;" onclick="addCustomTheme()">Add</button>
-    </div>
-
-    <div class="section-divider">Platforms <span>Where can this be watched/read?</span></div>
-    <div id="platforms-wrap">
-      ${platforms.map((p, i) => `
-        <div class="form-grid" style="margin-bottom:8px;align-items:end;" id="plat-${i}">
-          <div class="field"><label class="label">Platform name</label><input class="input plat-name" value="${escHtml(p.n || '')}"></div>
-          <div class="field"><label class="label">Icon emoji</label><input class="input plat-icon" value="${p.i || ''}" style="font-size:1rem;" maxlength="2"></div>
-          <div class="field"><label class="label">Type / price</label><input class="input plat-type" value="${escHtml(p.t || '')}"></div>
-          <div class="field"><label class="label">URL</label><input class="input plat-url" value="${escHtml(p.url || '')}"></div>
-        </div>
-      `).join('')}
-    </div>
-    <button class="btn btn-ghost" style="font-size:.72rem;padding:7px 14px;margin-top:4px;" onclick="addPlatformRow()">＋ Add platform</button>
-
-    <input type="hidden" id="f-id" value="${nextId}">
-    <input type="hidden" id="f-dbid" value="${e.dbId || ''}">
-
-    <div class="form-actions">
-      ${!isNew ? `<button class="btn btn-danger" onclick="deleteShow(${dbRow.id},'${escHtml(dbRow.title)}')">Delete</button>` : ''}
-      <button class="btn btn-ghost" onclick="showSearch()">Cancel</button>
-      <div class="save-status" id="save-status"></div>
-      <button class="btn btn-primary" onclick="saveShow()">💾 Save to Supabase</button>
-    </div>
-
-  </div>`;
     }
 
     // ═══════════════ NEURO PILL TOGGLE ═══════════════
     async function toggleNeuroPill(el) {
       el.classList.toggle('dismissed');
-      const isDismissed = el.classList.contains('dismissed');
-      el.title = isDismissed ? 'Click to restore' : 'Click to dismiss';
-
+      el.title = el.classList.contains('dismissed') ? 'Click to restore' : 'Click to dismiss';
       const itemId = el.dataset.item;
-      if (!itemId) return; // new unsaved show — no DB write yet
-
+      if (!itemId) return;
       const wrap = el.closest('.edit-form');
       const dismissed = [...wrap.querySelectorAll('.neuro-pill-toggle.dismissed')].map(s => s.dataset.pill);
-
       try {
-        await sbFetch(`shows?id=eq.${itemId}`, {
-          method: 'PATCH',
-          prefer: 'return=minimal',
-          body: JSON.stringify({ neuro_pills_dismissed: dismissed })
-        });
-        // Update local cache
+        await sbFetch(`shows?id=eq.${itemId}`, { method: 'PATCH', prefer: 'return=minimal', body: JSON.stringify({ neuro_pills_dismissed: dismissed }) });
         const idx = SHOWS.findIndex(s => s.id === parseInt(itemId));
         if (idx > -1) SHOWS[idx].neuro_pills_dismissed = dismissed;
       } catch (err) {
         console.error('Failed to save pill override:', err);
-        // Roll back visual
         el.classList.toggle('dismissed');
-        el.title = el.classList.contains('dismissed') ? 'Click to restore' : 'Click to dismiss';
         toast('Could not save pill change: ' + err.message, 'err');
       }
     }
@@ -1596,9 +925,7 @@ roles=role_models, con=consumerism, dr=drink_drugs`;
       preview.innerHTML = url ? `<img src="${url}" onerror="this.parentNode.textContent='🎬'">` : '🎬';
     }
 
-    function toggleTheme(btn, theme) {
-      btn.classList.toggle('on');
-    }
+    function toggleTheme(btn, theme) { btn.classList.toggle('on'); }
 
     function addCustomTheme() {
       const inp = document.getElementById('custom-theme');
@@ -1606,27 +933,22 @@ roles=role_models, con=consumerism, dr=drink_drugs`;
       if (!val) return;
       const wrap = document.getElementById('themes-wrap');
       const btn = document.createElement('button');
-      btn.className = 'chip on';
-      btn.textContent = val.replace(/-/g, ' ');
-      btn.dataset.theme = val;
-      btn.onclick = () => btn.classList.toggle('on');
-      wrap.appendChild(btn);
-      inp.value = '';
+      btn.className = 'chip on'; btn.textContent = val.replace(/-/g, ' ');
+      btn.dataset.theme = val; btn.onclick = () => btn.classList.toggle('on');
+      wrap.appendChild(btn); inp.value = '';
     }
 
     function addPlatformRow() {
       const wrap = document.getElementById('platforms-wrap');
       const i = wrap.children.length;
       const div = document.createElement('div');
-      div.className = 'form-grid';
-      div.style.cssText = 'margin-bottom:8px;align-items:end;';
-      div.id = 'plat-' + i;
+      div.className = 'form-grid'; div.style.cssText = 'margin-bottom:8px;align-items:end;'; div.id = 'plat-' + i;
       div.innerHTML = `
-    <div class="field"><label class="label">Platform name</label><input class="input plat-name" value=""></div>
-    <div class="field"><label class="label">Icon emoji</label><input class="input plat-icon" value="" style="font-size:1rem;" maxlength="2"></div>
-    <div class="field"><label class="label">Type / price</label><input class="input plat-type" value=""></div>
-    <div class="field"><label class="label">URL</label><input class="input plat-url" value=""></div>
-  `;
+        <div class="field"><label class="label">Platform name</label><input class="input plat-name" value=""></div>
+        <div class="field"><label class="label">Icon emoji</label><input class="input plat-icon" value="" style="font-size:1rem;" maxlength="2"></div>
+        <div class="field"><label class="label">Type / price</label><input class="input plat-type" value=""></div>
+        <div class="field"><label class="label">URL</label><input class="input plat-url" value=""></div>
+      `;
       wrap.appendChild(div);
     }
 
@@ -1650,7 +972,6 @@ roles=role_models, con=consumerism, dr=drink_drugs`;
         }
 
         const themes = [...document.querySelectorAll('#themes-wrap .chip.on')].map(c => c.dataset.theme);
-
         const platRows = document.querySelectorAll('#platforms-wrap .form-grid');
         const platforms = [...platRows].map(row => ({
           n: row.querySelector('.plat-name')?.value?.trim() || '',
@@ -1660,12 +981,13 @@ roles=role_models, con=consumerism, dr=drink_drugs`;
         })).filter(p => p.n);
 
         const posterType = document.getElementById('f-poster-type')?.value || null;
-
-        // Gather current dismissed pills state from DOM
         const editForm = document.querySelector('.edit-form');
         const neuroPillsDismissed = editForm
           ? [...editForm.querySelectorAll('.neuro-pill-toggle.dismissed')].map(s => s.dataset.pill)
           : [];
+
+        const ai = window._lastAIScores;
+        const cs = currentShow;
 
         const payload = {
           id,
@@ -1693,39 +1015,29 @@ roles=role_models, con=consumerism, dr=drink_drugs`;
           cuts: parseInt(document.getElementById('f-cuts').value),
           colour: parseInt(document.getElementById('f-colour').value),
           pace: parseInt(document.getElementById('f-pace').value),
-          themes,
-          platforms,
+          themes, platforms,
           synopsis: document.getElementById('f-synopsis').value.trim(),
+          trailer: document.getElementById('f-trailer').value.trim() || null,
           eps: [],
-          // New rich fields from AI assessment
-          neuro_pills: window._lastAIScores ? window._lastAIScores._neuro_pills : (currentShow ? currentShow.neuro_pills || [] : []),
+          neuro_pills: ai ? ai._neuro_pills : (cs?.neuro_pills || []),
           neuro_pills_dismissed: neuroPillsDismissed,
-          one_line_summary: window._lastAIScores ? window._lastAIScores._one_line_summary : (currentShow ? currentShow.one_line_summary || null : null),
-          sensory_notes: window._lastAIScores ? window._lastAIScores._sensory_notes : (currentShow ? currentShow.sensory_notes || null : null),
-          loud_sudden_sounds: window._lastAIScores ? window._lastAIScores._loud_sudden_sounds : (currentShow ? (currentShow.loud_sudden_sounds ?? false) : false),
-          flashing_lights: window._lastAIScores ? window._lastAIScores._flashing_lights : (currentShow ? (currentShow.flashing_lights ?? false) : false),
-          fear_realistic: window._lastAIScores ? window._lastAIScores._fear_realistic : (currentShow ? (currentShow.fear_realistic ?? 0) : 0),
-          social_safety: window._lastAIScores ? window._lastAIScores._social_safety : (currentShow ? (currentShow.social_safety ?? 0) : 0),
-          language_freq: window._lastAIScores ? window._lastAIScores._language_freq : (currentShow ? (currentShow.language_freq ?? 0) : 0)
+          one_line_summary: ai ? ai._one_line_summary : (cs?.one_line_summary || null),
+          sensory_notes: ai ? ai._sensory_notes : (cs?.sensory_notes || null),
+          loud_sudden_sounds: ai ? ai._loud_sudden_sounds : (cs?.loud_sudden_sounds ?? false),
+          flashing_lights: ai ? ai._flashing_lights : (cs?.flashing_lights ?? false),
+          fear_realistic: ai ? ai._fear_realistic : (cs?.fear_realistic ?? 0),
+          social_safety: ai ? ai._social_safety : (cs?.social_safety ?? 0),
+          language_freq: ai ? ai._language_freq : (cs?.language_freq ?? 0)
         };
 
         if (isUpdate) {
-          await sbFetch(`shows?id=eq.${dbId}`, {
-            method: 'PATCH',
-            prefer: 'return=minimal',
-            body: JSON.stringify(payload)
-          });
+          await sbFetch(`shows?id=eq.${dbId}`, { method: 'PATCH', prefer: 'return=minimal', body: JSON.stringify(payload) });
           const idx = SHOWS.findIndex(s => s.id === parseInt(dbId));
           if (idx > -1) SHOWS[idx] = { ...SHOWS[idx], ...payload, id: parseInt(dbId) };
           toast('✅ Saved!', 'ok');
         } else {
-          await sbFetch('shows', {
-            method: 'POST',
-            prefer: 'return=minimal',
-            body: JSON.stringify(payload)
-          });
-          SHOWS.push({ ...payload });
-          currentShow = payload;
+          await sbFetch('shows', { method: 'POST', prefer: 'return=minimal', body: JSON.stringify(payload) });
+          SHOWS.push({ ...payload }); currentShow = payload;
           document.getElementById('f-dbid').value = id;
           toast('✅ Added to Supabase!', 'ok');
         }
@@ -1746,31 +1058,24 @@ roles=role_models, con=consumerism, dr=drink_drugs`;
       try {
         await sbFetch(`shows?id=eq.${id}`, { method: 'DELETE', prefer: 'return=minimal' });
         SHOWS = SHOWS.filter(s => s.id !== id);
-        currentShow = null;
-        renderSidebar();
-        showSearch();
+        currentShow = null; renderSidebar(); showSearch();
         toast(`🗑 "${title}" deleted`, 'ok');
-      } catch (e) {
-        toast('Delete failed: ' + e.message, 'err');
-      }
+      } catch (e) { toast('Delete failed: ' + e.message, 'err'); }
     }
 
     // ═══════════════ UTILS ═══════════════
     function escHtml(str) {
-      return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
     }
 
     function toast(msg, type = '') {
       const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.className = 'toast show' + (type ? ' ' + type : '');
-      clearTimeout(t._timer);
-      t._timer = setTimeout(() => t.className = 'toast', 2800);
+      t.textContent = msg; t.className = 'toast show' + (type ? ' ' + type : '');
+      clearTimeout(t._timer); t._timer = setTimeout(() => t.className = 'toast', 2800);
     }
 
     // ═══════════════ INIT ═══════════════
     loadShows();
   </script>
 </body>
-
 </html>
