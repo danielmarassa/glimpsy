@@ -880,8 +880,22 @@ function openEditForm(dbRow, enriched) {
         </div>` : ''}
       ${e._loud_sudden_sounds || e._flashing_lights ? `
         <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
-          ${e._loud_sudden_sounds ? `<span style="padding:4px 12px;border-radius:20px;background:var(--red-pale);border:1px solid rgba(192,64,64,.2);color:#e08080;font-size:.65rem;font-weight:700;">⚠ Loud sudden sounds</span>` : ''}
-          ${e._flashing_lights ? `<span style="padding:4px 12px;border-radius:20px;background:var(--red-pale);border:1px solid rgba(192,64,64,.2);color:#e08080;font-size:.65rem;font-weight:700;">⚠ Flashing lights</span>` : ''}
+          ${e._loud_sudden_sounds ? `<span
+            class="neuro-pill-toggle${(e.neuro_pills_dismissed||[]).includes('loud_sudden_sounds') ? ' dismissed' : ''}"
+            data-pill="loud_sudden_sounds"
+            data-item="${e.dbId || ''}"
+            onclick="toggleNeuroPill(this)"
+            style="background:var(--red-pale);border-color:rgba(192,64,64,.2);color:#e08080;"
+            title="${(e.neuro_pills_dismissed||[]).includes('loud_sudden_sounds') ? 'Click to restore' : 'Click to dismiss'}"
+          >⚠ Loud sudden sounds</span>` : ''}
+          ${e._flashing_lights ? `<span
+            class="neuro-pill-toggle${(e.neuro_pills_dismissed||[]).includes('flashing_lights') ? ' dismissed' : ''}"
+            data-pill="flashing_lights"
+            data-item="${e.dbId || ''}"
+            onclick="toggleNeuroPill(this)"
+            style="background:var(--red-pale);border-color:rgba(192,64,64,.2);color:#e08080;"
+            title="${(e.neuro_pills_dismissed||[]).includes('flashing_lights') ? 'Click to restore' : 'Click to dismiss'}"
+          >⚠ Flashing lights</span>` : ''}
         </div>` : ''}
     </div>` : ''}
 
