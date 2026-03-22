@@ -108,7 +108,7 @@ export default async function handler(req) {
     .replace('{{type}}', type || 'tv');
 
   const geminiRes = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -134,7 +134,16 @@ export default async function handler(req) {
     }
   );
 
-  const geminiData = await geminiRes.json();
+  const rawBody = await geminiRes.text();
+  let geminiData;
+  try {
+    geminiData = JSON.parse(rawBody);
+  } catch (e) {
+    return new Response(JSON.stringify({ error: 'Gemini non-JSON response', raw: rawBody.slice(0, 500) }), {
+      status: 502,
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+    });
+  }
 
   if (!geminiRes.ok) {
     return new Response(JSON.stringify({ error: 'Gemini API error', details: geminiData }), {
