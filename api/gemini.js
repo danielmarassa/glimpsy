@@ -43,7 +43,7 @@ scene_cuts_per_minute:
   Score 4 = 4.1–5.4 actual SCPM — high stimulation
   Score 5 = ≥5.5 actual SCPM — SpongeBob baseline, acute EF impairment
 
-colour_intensity (0–5):
+colour_intensity (0–10):
   0 = Greyscale or near-monochrome
   1 = Very muted, pastel, natural tones
   2 = Soft colours, mostly gentle palette
@@ -51,7 +51,7 @@ colour_intensity (0–5):
   4 = Vivid, saturated colours throughout
   5 = Extremely bright, neon, highly saturated
 
-edit_pace (0–5):
+edit_pace (0–10):
   0 = Static — almost no cuts or movement
   1 = Very slow — long held shots
   2 = Gentle pace — slow cuts, relaxed rhythm
