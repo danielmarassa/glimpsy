@@ -1476,7 +1476,7 @@ roles=role_models, con=consumerism, dr=drink_drugs`;
       title="${dismissed ? 'Click to restore' : 'Click to dismiss'}"
       style="padding:4px 12px;border-radius:20px;background:var(--sage-pale);border:1px solid rgba(74,112,85,.3);color:var(--sage-light);font-size:.65rem;font-weight:700;cursor:pointer;user-select:none;transition:opacity .2s,filter .2s;${dismissed ? 'opacity:.3;filter:grayscale(1);text-decoration:line-through;' : ''}"
     >${p}</span>`;
-                }).join('')}
+  }).join('')}
 </div>
       ${e._loud_sudden_sounds || e._flashing_lights ? `
         <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
@@ -1689,7 +1689,28 @@ roles=role_models, con=consumerism, dr=drink_drugs`;
                 toast('Delete failed: ' + e.message, 'err');
             }
         }
+function toggleNeuroPill(el) {
+  const pill = el.dataset.pill;
+  const isDismissed = el.classList.toggle('dismissed');
+  
+  if (isDismissed) {
+    el.style.opacity = '0.3';
+    el.style.filter = 'grayscale(1)';
+    el.style.textDecoration = 'line-through';
+  } else {
+    el.style.opacity = '1';
+    el.style.filter = 'none';
+    el.style.textDecoration = 'none';
+  }
 
+  if (!currentShow.neuro_pills_dismissed) currentShow.neuro_pills_dismissed = [];
+  
+  if (isDismissed) {
+    if (!currentShow.neuro_pills_dismissed.includes(pill)) currentShow.neuro_pills_dismissed.push(pill);
+  } else {
+    currentShow.neuro_pills_dismissed = currentShow.neuro_pills_dismissed.filter(p => p !== pill);
+  }
+}
         // ═══════════════ UTILS ═══════════════
         function escHtml(str) {
             return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
@@ -1704,32 +1725,7 @@ roles=role_models, con=consumerism, dr=drink_drugs`;
         }
 
         // ═══════════════ INIT ═══════════════
-        loadShows();
-
- function toggleNeuroPill(el) {
-    const pill = el.dataset.pill;
-    const isDismissed = el.classList.toggle('dismissed');
-
-    if (isDismissed) {
-    el.style.opacity = '0.3';
-    el.style.filter = 'grayscale(1)';
-    el.style.textDecoration = 'line-through';
-    } else {
-    el.style.opacity = '1';
-    el.style.filter = 'none';
-    el.style.textDecoration = 'none';
-    }
-
-    if (!currentShow.neuro_pills_dismissed) currentShow.neuro_pills_dismissed = [];
-
-    if (isDismissed) {
-    if (!currentShow.neuro_pills_dismissed.includes(pill)) currentShow.neuro_pills_dismissed.push(pill);
-    } else {
-    currentShow.neuro_pills_dismissed = currentShow.neuro_pills_dismissed.filter(p => p !== pill);
-    }
-    }
-
-        
+        loadShows();        
     </script>
 
    
