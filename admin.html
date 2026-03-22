@@ -1297,45 +1297,56 @@ Return JSON with exactly these keys: violence, fear_fantasy, fear_realistic, lan
     }
 
     function mergeAssessment(claude, gemini, sourceTier) {
-      const merged = { ...claude, source: sourceTier };
-        console.log('GEMINI RAW:', JSON.stringify(gemini));
+  const merged = { ...claude, source: sourceTier };
 
+  // Gemini overrides sensory_index sub-scores if available
+  if (gemini?.sensory_index) {
+    merged.calm   = Math.round((gemini.sensory_index.overall_score / 5) * 10); // 5=calm → 10
+    merged.colour = gemini.sensory_index.colour_intensity;
+    merged.pace   = gemini.sensory_index.edit_pace;
+    merged.cuts   = Math.round(gemini.sensory_index.scene_cuts_per_minute * 2);
+    merged._audio_stress = gemini.sensory_index.audio_stress_level;
+  }
 
+  if (gemini?.flags) {
+    merged.loud_sudden_sounds    = gemini.flags.loud_sudden_sounds;
+    merged.flashing_lights       = gemini.flags.flashing_lights;
+    merged.orienting_reflex      = gemini.flags.orienting_reflex;
+    merged._sensory_notes        = gemini.sensory_notes || '';
+    merged._visual_justification = gemini.visual_justifications?.note || '';
+  }
 
-      // Gemini overrides sensory_index sub-scores if available
-      if (gemini?.sensory_index) {
-        merged.calm = Math.round((1 - gemini.sensory_index.overall_score / 5) * 10); // invert: 5=calm → 10
-        merged.colour = gemini.sensory_index.colour_intensity;
-        merged.pace = gemini.sensory_index.edit_pace;
-        merged.cuts = Math.round(gemini.sensory_index.scene_cuts_per_minute * 2); // 0–5 → 0–10
-        merged._audio_stress = gemini.sensory_index.audio_stress_level;
-      }
+  // Conflict resolution — Gemini audio shock nudges fear up
+  merged.fear_final = Math.max(
+    claude.fear_fantasy  ?? 0,
+    claude.fear_realistic ?? 0,
+    (gemini?.flags?.loud_sudden_sounds) ? 2 : 0
+  );
 
-      if (gemini?.flags) {
-        merged.loud_sudden_sounds = gemini.flags.loud_sudden_sounds;
-        merged.flashing_lights = gemini.flags.flashing_lights;
-        merged.orienting_reflex = gemini.flags.orienting_reflex;
-        merged._sensory_notes = gemini.sensory_notes || merged._sensory_notes || '';
-        merged._visual_justification = gemini.visual_justifications?.note || '';
-      }
+  // If Gemini detected violence but Claude scored low, nudge up
+  if (gemini?.flags?.violence_detected && (claude.violence ?? 0) < 2) {
+    merged.v = 2;
+  }
 
-      // Conflict resolution — Gemini audio shock nudges fear up
-      merged.fear_final = Math.max(
-        claude.fear_fantasy ?? 0,
-        claude.fear_realistic ?? 0,
-        (gemini?.flags?.loud_sudden_sounds) ? 2 : 0
-      );
+  // Text fields from Claude
+  merged._one_line_summary = claude.one_line_summary || '';
+  merged._sensory_notes    = merged._sensory_notes || claude.sensory_notes || '';
 
-      // If Gemini detected violence but Claude scored low, nudge up
-      if (gemini?.flags?.violence_detected && (claude.violence ?? 0) < 2) {
-        merged.v = 2;
-      }
-      merged._neuro_pills = claude.neuro_pills || claude._neuro_pills || [];
-      merged._one_line_summary = claude.one_line_summary || merged._one_line_summary || '';
-      merged._sensory_notes = merged._sensory_notes || claude.sensory_notes || '';
+  // Derive neuro pills from merged scores
+  const pos = merged.pos ?? merged.positive_messages ?? 0;
+  const pills = [];
+  if (merged.calm >= 7 && merged.colour <= 4)                                        pills.push('low-sensory-load');
+  if (merged.calm >= 7 && merged.colour <= 4 && merged.cuts <= 3)                   pills.push('autism-friendly');
+  if (merged.themes?.includes('repetitive-structure') && merged.calm >= 7)          pills.push('stimming-friendly');
+  if (merged.pace >= 2 && merged.pace <= 5 && !merged.loud_sudden_sounds && pos>=3) pills.push('adhd-engagement');
+  if (merged.calm >= 7 && merged.pace <= 4)                                          pills.push('calming-transition');
+  if (merged.themes?.includes('clear-narrative') && pos >= 3)                       pills.push('executive-function');
+  if (merged.calm <= 4 || (merged.fear_fantasy??0) >= 3 || (merged.fear_realistic??0) >= 3) pills.push('co-viewing-recommended');
+  if (merged.calm >= 8 && merged.pace <= 2)                                          pills.push('bedtime-safe');
+  merged._neuro_pills = pills;
 
-      return merged;
-    }
+  return merged;
+}
 
     function prefillSliders(a) {
       // Handle both key formats:
