@@ -1243,6 +1243,9 @@ Return JSON with exactly these keys: violence, fear_fantasy, fear_realistic, lan
         const results = await Promise.allSettled(requests);
         const claudeResult = results[0].status === 'fulfilled' ? results[0].value : null;
         const geminiResult = hasVideo && results[1]?.status === 'fulfilled' ? results[1].value : null;
+        if (hasVideo && results[1]?.status === 'rejected') {
+          console.log('GEMINI ERROR:', results[1].reason);
+        }
 
         if (!claudeResult) throw new Error('Claude scoring failed');
 
