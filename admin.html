@@ -1683,25 +1683,7 @@ const ALL_WARNING_FLAGS = [
         </div>`;
     }
 
-    // ═══════════════ NEURO PILL TOGGLE ═══════════════
-    async function toggleNeuroPill(el) {
-      el.classList.toggle('dismissed');
-      el.title = el.classList.contains('dismissed') ? 'Click to restore' : 'Click to dismiss';
-      const itemId = el.dataset.item;
-      if (!itemId) return;
-      const wrap = el.closest('.edit-form');
-      const dismissed = [...wrap.querySelectorAll('.neuro-pill-toggle.dismissed')].map(s => s.dataset.pill);
-      try {
-        await sbFetch(`shows?id=eq.${itemId}`, { method: 'PATCH', prefer: 'return=minimal', body: JSON.stringify({ neuro_pills_dismissed: dismissed }) });
-        const idx = SHOWS.findIndex(s => s.id === parseInt(itemId));
-        if (idx > -1) SHOWS[idx].neuro_pills_dismissed = dismissed;
-      } catch (err) {
-        console.error('Failed to save pill override:', err);
-        el.classList.toggle('dismissed');
-        toast('Could not save pill change: ' + err.message, 'err');
-      }
-    }
-
+  
     function updateSliderVal(key, val) {
   const el = document.getElementById('sv-' + key);
   if (!el) return;
