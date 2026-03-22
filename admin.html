@@ -1296,8 +1296,10 @@ Return JSON with exactly these keys: violence, fear_fantasy, fear_realistic, lan
 
     function mergeAssessment(claude, gemini, sourceTier) {
       const merged = { ...claude, source: sourceTier };
+        console.log('GEMINI RAW:', JSON.stringify(gemini));
 
-      
+
+
       // Gemini overrides sensory_index sub-scores if available
       if (gemini?.sensory_index) {
         merged.calm = Math.round((1 - gemini.sensory_index.overall_score / 5) * 10); // invert: 5=calm → 10
@@ -1325,10 +1327,10 @@ Return JSON with exactly these keys: violence, fear_fantasy, fear_realistic, lan
       // If Gemini detected violence but Claude scored low, nudge up
       if (gemini?.flags?.violence_detected && (claude.violence ?? 0) < 2) {
         merged.v = 2;
-       }
+      }
 
-      
-return merged;
+
+      return merged;
     }
 
     function prefillSliders(a) {
