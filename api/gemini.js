@@ -92,9 +92,12 @@ async function getAccessToken(serviceAccountJson) {
     exp: now + 3600
   };
 
-  const encode = obj =>
-    btoa(JSON.stringify(obj))
-      .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  const encode = obj => {
+    const str = JSON.stringify(obj);
+    let binary = '';
+    for (let i = 0; i < str.length; i++) binary += String.fromCharCode(str.charCodeAt(i) & 0xff);
+    return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  };
 
   const unsignedToken = `${encode(header)}.${encode(payload)}`;
 
@@ -123,7 +126,10 @@ async function getAccessToken(serviceAccountJson) {
     encoder.encode(unsignedToken)
   );
 
-  const signature = btoa(String.fromCharCode(...new Uint8Array(signatureBuffer)))
+  const sigBytes = new Uint8Array(signatureBuffer);
+  let sigBinary = '';
+  for (let i = 0; i < sigBytes.length; i++) sigBinary += String.fromCharCode(sigBytes[i]);
+  const signature = btoa(sigBinary)
     .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 
   const jwt = `${unsignedToken}.${signature}`;
