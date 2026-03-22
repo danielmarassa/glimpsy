@@ -1328,7 +1328,9 @@ Return JSON with exactly these keys: violence, fear_fantasy, fear_realistic, lan
       if (gemini?.flags?.violence_detected && (claude.violence ?? 0) < 2) {
         merged.v = 2;
       }
-
+      merged._neuro_pills = claude.neuro_pills || claude._neuro_pills || [];
+      merged._one_line_summary = claude.one_line_summary || merged._one_line_summary || '';
+      merged._sensory_notes = merged._sensory_notes || claude.sensory_notes || '';
 
       return merged;
     }
