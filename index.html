@@ -3383,10 +3383,10 @@
 
 
             // Build calm score section
-            const calmScore = item.calm || 3;
-            const calmCuts = item.cuts || '?';
-            const calmColour = item.colour || 3;
-            const calmPace = item.pace || 3;
+            const calmScore = Math.round((item.calm ?? 5) / 2);
+            const calmCuts = item.cuts ?? '?';
+            const calmColour = Math.round((item.colour ?? 5) / 2);
+            const calmPace = Math.round((item.pace ?? 5) / 2);
             const calmLabels = ['', 'Very stimulating', 'Quite stimulating', 'Moderate', 'Mostly calm', 'Very calm'];
             const calmDesc = calmLabels[calmScore] || 'Moderate';
             const calmLeaves = [1, 2, 3, 4, 5].map(i =>
@@ -3458,9 +3458,7 @@
                             'bedtime-safe': { label: '🌛 Bedtime Safe', desc: 'Calm enough for pre-sleep viewing' }
                         };
                         const p2 = pillLabels[pill] || { label: pill, desc: '' };
-                        return `<div style="padding:6px 12px;border-radius:20px;background:var(--sage-pale);border:1px solid rgba(45,74,53,.2);cursor:default;" title="${p2.desc}">
-                  <span style="font-size:.65rem;font-weight:700;color:var(--sage)">${p2.label}</span>
-                </div>`;
+                        return `<span style="padding:4px 10px;border-radius:20px;background:var(--sage-pale);border:1px solid rgba(45,74,53,.2);font-size:.62rem;font-weight:700;color:var(--sage);cursor:default;" title="${p2.desc}">${p2.label}</span>`;
                     }).join('');
 
                 let warningsHtml = '';
