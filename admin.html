@@ -1242,6 +1242,8 @@ Return JSON with exactly these keys: violence, fear_fantasy, fear_realistic, lan
 
         const results = await Promise.allSettled(requests);
         const claudeResult = results[0].status === 'fulfilled' ? results[0].value : null;
+        console.log('CLAUDE RESULT:', JSON.stringify(claudeResult));
+
         const geminiResult = hasVideo && results[1]?.status === 'fulfilled' ? results[1].value : null;
         if (hasVideo && results[1]?.status === 'rejected') {
           console.log('GEMINI ERROR:', results[1].reason);
@@ -1570,8 +1572,8 @@ Return JSON with exactly these keys: violence, fear_fantasy, fear_realistic, lan
             ${[
           { k: 'calm', name: 'Calm / Pacing', hint: '10 = very calm like Bluey · 0 = chaotic' },
           { k: 'cuts', name: 'Cuts per min', hint: '0 = slow/few cuts · 10 = very rapid editing' },
-          { k: 'colour', name: 'Colour Intensity', hint: '0 = muted/grey · 5 = extremely bright & saturated' },
-          { k: 'pace', name: 'Overall Pace', hint: '0 = very slow · 5 = very fast' }
+          {k:'colour', name:'Colour Intensity', hint:'0 = muted/grey · 10 = extremely bright & saturated'},
+          {k:'pace',   name:'Overall Pace',     hint:'0 = very slow · 10 = very fast'}
         ].map(({ k, name, hint }) => {
           const val = e[k] ?? 3;
           return `<div class="slider-row">
