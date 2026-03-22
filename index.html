@@ -2930,7 +2930,8 @@
                     synopsis: r.synopsis, eps: r.eps || [],
                     // theatre-specific fields
                     venue: r.venue, city: r.city, running: r.running, minAge: r.min_age,
-                    neuro_pills: r.neuro_pills || [], one_line_summary: r.one_line_summary || null,
+                    neuro_pills: r.neuro_pills || [], neuro_pills_dismissed: r.neuro_pills_dismissed || [],
+                    one_line_summary: r.one_line_summary || null,
                     sensory_notes: r.sensory_notes || null, loud_sudden_sounds: r.loud_sudden_sounds || false,
                     flashing_lights: r.flashing_lights || false, fear_realistic: r.fear_realistic || 0,
                     social_safety: r.social_safety || 0, language_freq: r.language_freq || 0
@@ -3432,59 +3433,59 @@
       </div>
     </div>`;
 
-        let forParentsSection = '';
-        if (item.one_line_summary) {
-            forParentsSection = `<div class="d-section" style="background:var(--sage-pale);border-color:rgba(45,74,53,.15)">
+            let forParentsSection = '';
+            if (item.one_line_summary) {
+                forParentsSection = `<div class="d-section" style="background:var(--sage-pale);border-color:rgba(45,74,53,.15)">
             <div style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--sage);margin-bottom:6px;">For parents</div>
             <p style="font-size:.82rem;color:var(--navy);line-height:1.6;">${item.one_line_summary}</p>
             ${item.sensory_notes ? `<p style="font-size:.72rem;color:var(--warm-grey);margin-top:8px;line-height:1.5;">🧠 ${item.sensory_notes}</p>` : ''}
           </div>`;
-        }
+            }
 
-        let neuroProfileSection = '';
-        if (item.neuro_pills && item.neuro_pills.length) {
-            const neuroPillsHtml = item.neuro_pills
-                .filter(pill => !(item.neuro_pills_dismissed || []).includes(pill))
-                .map(pill => {
-                    const pillLabels = {
-                        'low-sensory-load': { label: '🔇 Low Sensory Load', desc: 'Minimal visual and audio stress' },
-                        'autism-friendly': { label: '🔵 Autism Friendly', desc: 'Low arousal, calm and predictable' },
-                        'stimming-friendly': { label: '🔁 Stimming Friendly', desc: 'Repetitive patterns, predictable arcs' },
-                        'adhd-engagement': { label: '⚡ ADHD Engagement', desc: 'Moderate stimulation, positive content' },
-                        'calming-transition': { label: '🌙 Calming Transition', desc: 'Great for wind-down time' },
-                        'executive-function': { label: '🧩 Executive Function', desc: 'Clear narrative structure' },
-                        'co-viewing-recommended': { label: '👨‍👧 Co-viewing Recommended', desc: 'Better watched together' },
-                        'bedtime-safe': { label: '🌛 Bedtime Safe', desc: 'Calm enough for pre-sleep viewing' }
-                    };
-                    const p2 = pillLabels[pill] || { label: pill, desc: '' };
-                    return `<div style="padding:6px 12px;border-radius:20px;background:var(--sage-pale);border:1px solid rgba(45,74,53,.2);cursor:default;" title="${p2.desc}">
+            let neuroProfileSection = '';
+            if (item.neuro_pills && item.neuro_pills.length) {
+                const neuroPillsHtml = item.neuro_pills
+                    .filter(pill => !(item.neuro_pills_dismissed || []).includes(pill))
+                    .map(pill => {
+                        const pillLabels = {
+                            'low-sensory-load': { label: '🔇 Low Sensory Load', desc: 'Minimal visual and audio stress' },
+                            'autism-friendly': { label: '🔵 Autism Friendly', desc: 'Low arousal, calm and predictable' },
+                            'stimming-friendly': { label: '🔁 Stimming Friendly', desc: 'Repetitive patterns, predictable arcs' },
+                            'adhd-engagement': { label: '⚡ ADHD Engagement', desc: 'Moderate stimulation, positive content' },
+                            'calming-transition': { label: '🌙 Calming Transition', desc: 'Great for wind-down time' },
+                            'executive-function': { label: '🧩 Executive Function', desc: 'Clear narrative structure' },
+                            'co-viewing-recommended': { label: '👨‍👧 Co-viewing Recommended', desc: 'Better watched together' },
+                            'bedtime-safe': { label: '🌛 Bedtime Safe', desc: 'Calm enough for pre-sleep viewing' }
+                        };
+                        const p2 = pillLabels[pill] || { label: pill, desc: '' };
+                        return `<div style="padding:6px 12px;border-radius:20px;background:var(--sage-pale);border:1px solid rgba(45,74,53,.2);cursor:default;" title="${p2.desc}">
                   <span style="font-size:.65rem;font-weight:700;color:var(--sage)">${p2.label}</span>
                 </div>`;
-            }).join('');
+                    }).join('');
 
-            let warningsHtml = '';
-            const hasLoudSounds = item.loud_sudden_sounds && !(item.neuro_pills_dismissed || []).includes('loud_sudden_sounds');
-            const hasFlashingLights = item.flashing_lights && !(item.neuro_pills_dismissed || []).includes('flashing_lights');
+                let warningsHtml = '';
+                const hasLoudSounds = item.loud_sudden_sounds && !(item.neuro_pills_dismissed || []).includes('loud_sudden_sounds');
+                const hasFlashingLights = item.flashing_lights && !(item.neuro_pills_dismissed || []).includes('flashing_lights');
 
-            if (hasLoudSounds || hasFlashingLights) {
-                warningsHtml = `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;">
+                if (hasLoudSounds || hasFlashingLights) {
+                    warningsHtml = `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;">
               ${hasLoudSounds ? `<span style="padding:4px 10px;border-radius:20px;background:var(--red-pale);border:1px solid rgba(184,48,48,.2);font-size:.62rem;font-weight:700;color:var(--red)">⚠ Loud sudden sounds</span>` : ''}
               ${hasFlashingLights ? `<span style="padding:4px 10px;border-radius:20px;background:var(--red-pale);border:1px solid rgba(184,48,48,.2);font-size:.62rem;font-weight:700;color:var(--red)">⚠ Flashing lights</span>` : ''}
             </div>`;
-            }
+                }
 
-            neuroProfileSection = `<div class="d-section">
+                neuroProfileSection = `<div class="d-section">
             <div class="d-section-title">Neuro Profile</div>
             <div style="display:flex;flex-wrap:wrap;gap:6px;">
               ${neuroPillsHtml}
             </div>
             ${warningsHtml}
           </div>`;
-        }
+            }
 
-        const pacingSection = item.type !== 'theatre' ? `<div class="d-section"><div class="d-section-title">Pacing & Stimulation</div>${calmBreakdown}</div>` : '';
+            const pacingSection = item.type !== 'theatre' ? `<div class="d-section"><div class="d-section-title">Pacing & Stimulation</div>${calmBreakdown}</div>` : '';
 
-        document.getElementById('detail-slot').innerHTML = `
+            document.getElementById('detail-slot').innerHTML = `
     <div class="detail-wrap">
       <button class="detail-back" onclick="showAppScreen('browse')">← Back to results</button>
       <div class="detail-hero-box">
