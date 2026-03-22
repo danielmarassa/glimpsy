@@ -1079,15 +1079,15 @@ async function saveShow() {
       synopsis: document.getElementById('f-synopsis').value.trim(),
       eps: [],
       // New rich fields from AI assessment
-      neuro_pills: window._lastAIScores?._neuro_pills || [],
+      neuro_pills: window._lastAIScores ? window._lastAIScores._neuro_pills : (currentShow ? currentShow.neuro_pills || [] : []),
       neuro_pills_dismissed: neuroPillsDismissed,
-      one_line_summary: window._lastAIScores?._one_line_summary || null,
-      sensory_notes: window._lastAIScores?._sensory_notes || null,
-      loud_sudden_sounds: window._lastAIScores?._loud_sudden_sounds || false,
-      flashing_lights: window._lastAIScores?._flashing_lights || false,
-      fear_realistic: window._lastAIScores?._fear_realistic || 0,
-      social_safety: window._lastAIScores?._social_safety || 0,
-      language_freq: window._lastAIScores?._language_freq || 0
+      one_line_summary: window._lastAIScores ? window._lastAIScores._one_line_summary : (currentShow ? currentShow.one_line_summary || null : null),
+      sensory_notes: window._lastAIScores ? window._lastAIScores._sensory_notes : (currentShow ? currentShow.sensory_notes || null : null),
+      loud_sudden_sounds: window._lastAIScores ? window._lastAIScores._loud_sudden_sounds : (currentShow ? (currentShow.loud_sudden_sounds ?? false) : false),
+      flashing_lights: window._lastAIScores ? window._lastAIScores._flashing_lights : (currentShow ? (currentShow.flashing_lights ?? false) : false),
+      fear_realistic: window._lastAIScores ? window._lastAIScores._fear_realistic : (currentShow ? (currentShow.fear_realistic ?? 0) : 0),
+      social_safety: window._lastAIScores ? window._lastAIScores._social_safety : (currentShow ? (currentShow.social_safety ?? 0) : 0),
+      language_freq: window._lastAIScores ? window._lastAIScores._language_freq : (currentShow ? (currentShow.language_freq ?? 0) : 0)
     };
 
     if (isUpdate) {
