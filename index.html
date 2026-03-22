@@ -3531,17 +3531,17 @@
                     { l: 'Max fear: ' + p.mf + '/5', c: p.mf <= 1 ? 'ps-g' : p.mf <= 3 ? 'ps-a' : 'ps-r' },
                     { l: p.blocked.length + ' blocked themes', c: 'ps-a' }
                 ];
-                return `< div class="p-card${isAct ? ' selected' : ''}" onclick = "selectProf(${p.id})" >
+                return `<div class="p-card${isAct ? ' selected' : ''}" onclick="selectProf(${p.id})">
       <div class="p-card-avatar" style="background:${p.color}">${p.name[0]}</div>
       <div class="p-card-name">${p.name}</div>
       <div class="p-card-age">Age ${p.age} · ${p.country}${p.lic ? ' · TV licence ✓' : ''}</div>
       <div class="p-card-stats">${stats.map(s => `<span class="ps ${s.c}">${s.l}</span>`).join('')}</div>
       <button class="p-card-btn" onclick="event.stopPropagation();openEdit(${p.id})">✏️ Edit filters</button>
-    </div > `;
-            }).join('') + `< div class="add-p-card" onclick = "openAdd()" >
+    </div>`;
+            }).join('') + `<div class="add-p-card" onclick="openAdd()">
     <div style="font-size:2rem">➕</div>
     <div style="font-size:.8rem;font-weight:800;color:var(--muted)">Add a child</div>
-  </div > `;
+  </div>`;
         }
 
         function selectProf(id) {
@@ -3561,7 +3561,7 @@
             const allT = ['death', 'monsters', 'bullying', 'toilet-humour', 'mild-violence', 'scary', 'divorce', 'grief', 'guns'];
             document.getElementById('modal-h').textContent = "Edit " + p.name + "'s Filters";
             document.getElementById('modal-body').innerHTML = `
-            < div class="m-field" ><div class="m-label">Name</div><input class="m-input" id="e-name" value="${p.name}"></div>
+            <div class="m-field"><div class="m-label">Name</div><input class="m-input" id="e-name" value="${p.name}"></div>
     <div class="m-field"><div class="m-label">Age</div><input class="m-input" type="number" id="e-age" value="${p.age}" min="1" max="17"></div>
     <div class="m-field">
       <div class="m-label">Max Violence (${p.mv}/5)</div>
@@ -3585,7 +3585,7 @@
             editProfileId = null;
             document.getElementById('modal-h').textContent = 'Add Child Profile';
             document.getElementById('modal-body').innerHTML = `
-            < div class="m-field" ><div class="m-label">Name</div><input class="m-input" id="e-name" placeholder="e.g. Lily"></div>
+            <div class="m-field"><div class="m-label">Name</div><input class="m-input" id="e-name" placeholder="e.g. Lily"></div>
     <div class="m-field"><div class="m-label">Age</div><input class="m-input" type="number" id="e-age" placeholder="6" min="1" max="17"></div>
     <div class="m-field">
       <div class="m-label">Max Violence (0/5)</div>
