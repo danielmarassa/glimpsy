@@ -1391,25 +1391,63 @@ Return JSON with exactly these keys: violence, fear_fantasy, fear_realistic, lan
           if (chip) chip.classList.add('on');
         });
       }
-    }
     function buildAISummaryHTML(e, dbId) {
-      const pills = e._neuro_pills || [];
-      const dismissed = (currentShow?.neuro_pills_dismissed || []);
-      return `
-        ${e._one_line_summary ? `<div style="font-size:.82rem;color:var(--text);margin-bottom:10px;line-height:1.5;">💬 <strong>For parents:</strong> ${e._one_line_summary}</div>` : ''}
-        ${e._sensory_notes ? `<div style="font-size:.75rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">🧠 <strong>Sensory:</strong> ${e._sensory_notes}</div>` : ''}
-        ${pills.length ? `
-          <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--light);margin-bottom:8px;">Neuro pills <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);">— click to dismiss</span></div>
-          <div style="display:flex;flex-wrap:wrap;gap:6px;">
-            ${pills.map(p => `<span class="neuro-pill-toggle${dismissed.includes(p) ? ' dismissed' : ''}" data-pill="${p}" data-item="${dbId}" onclick="toggleNeuroPill(this)">${p}</span>`).join('')}
-          </div>` : ''}
-        ${(e.loud_sudden_sounds || e.flashing_lights) ? `
-          <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
-            ${e.loud_sudden_sounds ? `<span class="neuro-pill-toggle" data-pill="loud_sudden_sounds" data-item="${dbId}" onclick="toggleNeuroPill(this)" style="background:var(--red-pale);border-color:rgba(192,64,64,.2);color:#e08080;">⚠ Loud sudden sounds</span>` : ''}
-            ${e.flashing_lights ? `<span class="neuro-pill-toggle" data-pill="flashing_lights"    data-item="${dbId}" onclick="toggleNeuroPill(this)" style="background:var(--red-pale);border-color:rgba(192,64,64,.2);color:#e08080;">⚠ Flashing lights</span>` : ''}
-          </div>` : ''}
-      `;
-    }
+  const activePills = e._neuro_pills || [];
+  const activeFlags = {
+    loud_sudden_sounds: e.loud_sudden_sounds ?? e._loud_sudden_sounds ?? false,
+    flashing_lights:    e.flashing_lights    ?? e._flashing_lights    ?? false,
+    orienting_reflex:   e.orienting_reflex   ?? false,
+    scary_content:      e.scary_content      ?? false,
+    violence_detected:  e.violence_detected  ?? false
+  };
+
+  return `
+    ${e._one_line_summary ? `
+      <div style="font-size:.82rem;color:var(--text);margin-bottom:10px;line-height:1.5;">
+        💬 <strong>For parents:</strong> ${e._one_line_summary}
+      </div>` : ''}
+    ${(e._sensory_notes || e._visual_justification) ? `
+      <div style="font-size:.75rem;color:var(--muted);margin-bottom:14px;line-height:1.5;">
+        🧠 <strong>Sensory:</strong> ${e._sensory_notes || ''}
+        ${e._visual_justification ? `<br><span style="opacity:.7">${e._visual_justification}</span>` : ''}
+      </div>` : ''}
+
+    <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--light);margin-bottom:8px;">
+      Neuro pills <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);">— click to toggle</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;">
+      ${ALL_NEURO_PILLS.map(p => {
+        const on = activePills.includes(p);
+        return `<button class="chip${on ? ' on sage' : ''}" data-pill="${p}" data-item="${dbId}" onclick="toggleNeuroPillChip(this)">${p}</button>`;
+      }).join('')}
+    </div>
+
+    <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--light);margin-bottom:8px;">
+      Warning flags <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);">— click to toggle</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;">
+      ${ALL_WARNING_FLAGS.map(f => {
+        const on = activeFlags[f.id];
+        return `<button class="chip${on ? ' on red' : ''}" data-flag="${f.id}" data-item="${dbId}" onclick="toggleWarningFlag(this)">${f.label}</button>`;
+      }).join('')}
+    </div>`;
+}
+
+function toggleNeuroPillChip(el) {
+  const isOn = el.classList.toggle('on');
+  el.classList.toggle('sage', isOn);
+  if (!window._lastAIScores) window._lastAIScores = {};
+  window._lastAIScores._neuro_pills = [...document.querySelectorAll('[data-pill].on')].map(b => b.dataset.pill);
+}
+
+function toggleWarningFlag(el) {
+  const isOn = el.classList.toggle('on');
+  el.classList.toggle('red', isOn);
+  if (!window._lastAIScores) window._lastAIScores = {};
+  const flag = el.dataset.flag;
+  if (flag === 'loud_sudden_sounds') window._lastAIScores._loud_sudden_sounds = isOn;
+  if (flag === 'flashing_lights')    window._lastAIScores._flashing_lights    = isOn;
+}
 
     // ═══════════════ EDIT FORM ═══════════════
     function editShow(id) {
@@ -1439,6 +1477,15 @@ Return JSON with exactly these keys: violence, fear_fantasy, fear_realistic, lan
       'grief', 'guns', 'educational', 'positive-friendship', 'positive-empathy', 'family-values',
       'family-conflict', 'mild-language', 'nudity', 'sexual-content', 'drug-use', 'gambling'
     ];
+      const ALL_NEURO_PILLS = ['low-sensory-load','autism-friendly','stimming-friendly','adhd-engagement','calming-transition','executive-function','co-viewing-recommended','bedtime-safe'];
+
+const ALL_WARNING_FLAGS = [
+  { id: 'loud_sudden_sounds', label: '⚠ Loud sudden sounds' },
+  { id: 'flashing_lights',    label: '⚠ Flashing lights' },
+  { id: 'orienting_reflex',   label: '⚠ Orienting reflex' },
+  { id: 'scary_content',      label: '⚠ Scary content' },
+  { id: 'violence_detected',  label: '⚠ Violence detected' }
+];
 
     const DEFAULT_PLATFORMS = {
       tv: [
@@ -1656,9 +1703,31 @@ Return JSON with exactly these keys: violence, fear_fantasy, fear_realistic, lan
     }
 
     function updateSliderVal(key, val) {
-      const el = document.getElementById('sv-' + key);
-      if (el) { el.textContent = val; el.className = `slider-val sv-${Math.min(5, parseInt(val))}`; }
-    }
+  const el = document.getElementById('sv-' + key);
+  if (!el) return;
+  el.textContent = val;
+  const n = parseInt(val);
+
+  const highIsGood = ['calm', 'pos', 'roles'];
+  const lowIsGood  = ['v', 'f', 'l', 's', 'con', 'dr', 'cuts', 'colour', 'pace'];
+  const max10      = ['calm', 'cuts', 'colour', 'pace'];
+
+  let level;
+
+  if (highIsGood.includes(key)) {
+    const max = max10.includes(key) ? 10 : 5;
+    const pct = n / max;
+    level = pct >= 0.6 ? 0 : pct >= 0.3 ? 1 : 2;
+  } else if (lowIsGood.includes(key)) {
+    const max = max10.includes(key) ? 10 : 5;
+    const pct = n / max;
+    level = pct <= 0.3 ? 0 : pct <= 0.6 ? 1 : 2;
+  } else {
+    level = 1;
+  }
+
+  el.className = `slider-val sv-${level === 0 ? '0' : level === 1 ? '2' : '4'}`;
+}
 
     function updatePosterPreview(val, type) {
       const preview = document.getElementById('poster-preview');
