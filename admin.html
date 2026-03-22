@@ -193,6 +193,18 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
 .chip:hover{border-color:var(--terra);color:var(--terra);}
 .chip.on{background:var(--terra-pale);border-color:rgba(201,106,58,.4);color:var(--terra-light);}
 
+/* Neuro pill toggle */
+.neuro-pill-toggle{
+  padding:4px 12px;border-radius:20px;background:var(--sage-pale);
+  border:1px solid rgba(74,112,85,.3);color:var(--sage-light);font-size:.65rem;
+  font-weight:700;cursor:pointer;user-select:none;
+  transition:opacity .2s, filter .2s, text-decoration .2s;
+  display:inline-block;
+}
+.neuro-pill-toggle.dismissed{
+  opacity:.3;filter:grayscale(1);text-decoration:line-through;
+}
+
 /* Poster preview */
 .poster-preview-wrap{display:flex;gap:16px;align-items:flex-start;}
 .poster-preview{width:80px;height:110px;border-radius:6px;background:var(--bg3);border:1.5px solid var(--border);flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:2rem;}
@@ -284,7 +296,7 @@ const GBOOKS_KEY   = 'AIzaSyAkBlwO870lkIoUroU9qp6TRNMrZZ0DFJw';
 // ═══════════════ STATE ═══════════════
 let SHOWS = [];
 let currentShow = null;
-let searchMode = 'tv'; // tv | movie | book
+let searchMode = 'tv';
 
 // ═══════════════ SUPABASE HELPERS ═══════════════
 async function sbFetch(path, opts = {}) {
@@ -406,7 +418,6 @@ async function doSearch() {
         <div class="result-action">Use this →</div>
       </div>
     `).join('');
-    // Store results for selection
     window._searchResults = results;
   } catch(e) {
     box.innerHTML = `<div class="no-results" style="color:var(--red)">Search failed: ${e.message}</div>`;
@@ -463,7 +474,6 @@ async function selectResult(i) {
   let enriched = { ...r };
 
   if (r.source === 'tmdb' && r.type === 'tv') {
-    // Fetch full TV details
     const detail = await fetch(`${TMDB_BASE}/tv/${r.tmdbId}?api_key=${TMDB_KEY}&language=en-GB&append_to_response=content_ratings`).then(x=>x.json());
     enriched.seasons = detail.number_of_seasons;
     enriched.dur = detail.episode_run_time?.[0] || null;
@@ -478,13 +488,12 @@ async function selectResult(i) {
     enriched.overview = detail.overview;
   }
 
-  // Ask Claude to suggest scores
   const box2 = document.getElementById('search-results');
   if (box2) box2.innerHTML = `<div class="loading-row"><span class="spinner"></span> AI is scoring this title…</div>`;
   try {
     const aiScores = await getAIScores(enriched);
     Object.assign(enriched, aiScores);
-    window._lastAIScores = aiScores; // store for save
+    window._lastAIScores = aiScores;
   } catch(err) {
     console.warn('AI scoring failed, using defaults:', err);
     window._lastAIScores = null;
@@ -592,7 +601,6 @@ roles=role_models, con=consumerism, dr=drink_drugs`;
   const clean = text.replace(/```json|```/g, '').trim();
   const r = JSON.parse(clean);
 
-  // Map full schema fields back to DB column names
   return {
     v: r.violence ?? r.v ?? 0,
     f: r.fear_fantasy ?? r.f ?? 0,
@@ -610,7 +618,6 @@ roles=role_models, con=consumerism, dr=drink_drugs`;
     age: r.age || 'All ages',
     emoji: r.emoji || '🎬',
     bg: r.bg || '#c8d8e8',
-    // Store extra rich fields for display
     _fear_realistic: r.fear_realistic ?? 0,
     _language_freq: r.language_freq ?? 0,
     _social_safety: r.social_safety ?? 0,
@@ -641,7 +648,6 @@ function editShow(id) {
   currentShow = show;
   renderSidebar();
 
-  // Convert DB row to enriched format
   const enriched = {
     source: 'db',
     type: show.type,
@@ -664,7 +670,14 @@ function editShow(id) {
     platforms: show.platforms || [],
     age: show.age,
     eps: show.eps || [],
-    dbId: show.id
+    dbId: show.id,
+    // Load saved neuro pills + dismissed overrides
+    _neuro_pills: show.neuro_pills || [],
+    _one_line_summary: show.one_line_summary || '',
+    _sensory_notes: show.sensory_notes || '',
+    _loud_sudden_sounds: show.loud_sudden_sounds || false,
+    _flashing_lights: show.flashing_lights || false,
+    neuro_pills_dismissed: show.neuro_pills_dismissed || []
   };
 
   openEditForm(show, enriched);
@@ -714,7 +727,6 @@ function openEditForm(dbRow, enriched) {
     <button class="btn btn-primary" id="save-btn" onclick="saveShow()">💾 Save to Supabase</button>
   `;
 
-  // Build next ID for new shows
   const nextId = isNew ? (SHOWS.length ? Math.max(...SHOWS.map(s=>s.id)) + 1 : 1) : dbRow.id;
 
   document.getElementById('content-area').innerHTML = `
@@ -853,9 +865,18 @@ function openEditForm(dbRow, enriched) {
       ${e._one_line_summary ? `<div style="font-size:.82rem;color:var(--text);margin-bottom:10px;line-height:1.5;">💬 <strong>For parents:</strong> ${e._one_line_summary}</div>` : ''}
       ${e._sensory_notes ? `<div style="font-size:.75rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">🧠 <strong>Sensory:</strong> ${e._sensory_notes}</div>` : ''}
       ${e._neuro_pills && e._neuro_pills.length ? `
-        <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--light);margin-bottom:8px;">Neuro Pills suggested by AI</div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;">
-          ${e._neuro_pills.map(p => `<span style="padding:4px 12px;border-radius:20px;background:var(--sage-pale);border:1px solid rgba(74,112,85,.3);color:var(--sage-light);font-size:.65rem;font-weight:700;">${p}</span>`).join('')}
+        <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--light);margin-bottom:8px;">Neuro Pills suggested by AI <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);">— click to dismiss</span></div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;" id="neuro-pills-wrap-${e.dbId || 'new'}">
+          ${e._neuro_pills.map(p => {
+            const dismissed = (e.neuro_pills_dismissed || []).includes(p);
+            return `<span
+              class="neuro-pill-toggle${dismissed ? ' dismissed' : ''}"
+              data-pill="${p}"
+              data-item="${e.dbId || ''}"
+              onclick="toggleNeuroPill(this)"
+              title="${dismissed ? 'Click to restore' : 'Click to dismiss'}"
+            >${p}</span>`;
+          }).join('')}
         </div>` : ''}
       ${e._loud_sudden_sounds || e._flashing_lights ? `
         <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
@@ -897,6 +918,36 @@ function openEditForm(dbRow, enriched) {
     </div>
 
   </div>`;
+}
+
+// ═══════════════ NEURO PILL TOGGLE ═══════════════
+async function toggleNeuroPill(el) {
+  el.classList.toggle('dismissed');
+  const isDismissed = el.classList.contains('dismissed');
+  el.title = isDismissed ? 'Click to restore' : 'Click to dismiss';
+
+  const itemId = el.dataset.item;
+  if (!itemId) return; // new unsaved show — no DB write yet
+
+  const wrap = el.closest('[id^="neuro-pills-wrap-"]');
+  const dismissed = [...wrap.querySelectorAll('.neuro-pill-toggle.dismissed')].map(s => s.dataset.pill);
+
+  try {
+    await sbFetch(`shows?id=eq.${itemId}`, {
+      method: 'PATCH',
+      prefer: 'return=minimal',
+      body: JSON.stringify({ neuro_pills_dismissed: dismissed })
+    });
+    // Update local cache
+    const idx = SHOWS.findIndex(s => s.id === parseInt(itemId));
+    if (idx > -1) SHOWS[idx].neuro_pills_dismissed = dismissed;
+  } catch(err) {
+    console.error('Failed to save pill override:', err);
+    // Roll back visual
+    el.classList.toggle('dismissed');
+    el.title = el.classList.contains('dismissed') ? 'Click to restore' : 'Click to dismiss';
+    toast('Could not save pill change: ' + err.message, 'err');
+  }
 }
 
 function updateSliderVal(key, val) {
@@ -956,7 +1007,6 @@ async function saveShow() {
   try {
     const dbId = document.getElementById('f-dbid').value;
     const isUpdate = !!dbId;
-    // For new shows, fetch the real max ID from Supabase to avoid conflicts
     let id;
     if (isUpdate) {
       id = parseInt(document.getElementById('f-id').value);
@@ -966,10 +1016,8 @@ async function saveShow() {
       document.getElementById('f-id').value = id;
     }
 
-    // Gather themes
     const themes = [...document.querySelectorAll('#themes-wrap .chip.on')].map(c => c.dataset.theme);
 
-    // Gather platforms
     const platRows = document.querySelectorAll('#platforms-wrap .form-grid');
     const platforms = [...platRows].map(row => ({
       n: row.querySelector('.plat-name')?.value?.trim() || '',
@@ -979,6 +1027,12 @@ async function saveShow() {
     })).filter(p => p.n);
 
     const posterType = document.getElementById('f-poster-type')?.value || null;
+
+    // Gather current dismissed pills state from DOM
+    const pillsWrap = document.querySelector('[id^="neuro-pills-wrap-"]');
+    const neuroPillsDismissed = pillsWrap
+      ? [...pillsWrap.querySelectorAll('.neuro-pill-toggle.dismissed')].map(s => s.dataset.pill)
+      : [];
 
     const payload = {
       id,
@@ -1012,6 +1066,7 @@ async function saveShow() {
       eps: [],
       // New rich fields from AI assessment
       neuro_pills: window._lastAIScores?._neuro_pills || [],
+      neuro_pills_dismissed: neuroPillsDismissed,
       one_line_summary: window._lastAIScores?._one_line_summary || null,
       sensory_notes: window._lastAIScores?._sensory_notes || null,
       loud_sudden_sounds: window._lastAIScores?._loud_sudden_sounds || false,
@@ -1027,7 +1082,6 @@ async function saveShow() {
         prefer: 'return=minimal',
         body: JSON.stringify(payload)
       });
-      // Update local cache
       const idx = SHOWS.findIndex(s => s.id === parseInt(dbId));
       if (idx > -1) SHOWS[idx] = { ...SHOWS[idx], ...payload, id: parseInt(dbId) };
       toast('✅ Saved!', 'ok');
