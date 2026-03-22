@@ -1,5 +1,10 @@
 {
   "rewrites": [
-    { "source": "/api/:path*", "destination": "/api/:path*" }
+    { "source": "/api/:path*", "destination": "/api/:path*" },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "admin.glimpsy.uk" }],
+      "destination": "/admin.html"
+    }
   ]
 }
