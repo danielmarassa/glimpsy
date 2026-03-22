@@ -1,913 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Glimpsy Admin — Content Manager</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0f0e0c;
-      --bg2: #1a1814;
-      --bg3: #242018;
-      --surface: #1e1c18;
-      --surface2: #252320;
-      --border: rgba(255, 255, 255, .08);
-      --border2: rgba(255, 255, 255, .14);
-      --text: #f0ede8;
-      --muted: #8a8278;
-      --light: #5a5650;
-      --terra: #c96a3a;
-      --terra-light: #d87d4a;
-      --terra-pale: rgba(201, 106, 58, .12);
-      --sage: #4a7055;
-      --sage-light: #5a8a66;
-      --sage-pale: rgba(74, 112, 85, .12);
-      --amber: #c4a35a;
-      --amber-pale: rgba(196, 163, 90, .1);
-      --red: #c04040;
-      --red-pale: rgba(192, 64, 64, .1);
-      --green: #4a8a5a;
-      --gold: #c4a35a;
-      --shadow: 0 8px 32px rgba(0, 0, 0, .4);
-      --shadow-sm: 0 2px 12px rgba(0, 0, 0, .25);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      font-weight: 300;
-    }
-
-    .admin-wrap {
-      display: grid;
-      grid-template-columns: 320px 1fr;
-      min-height: 100vh;
-    }
-
-    .sidebar {
-      background: var(--bg2);
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    .sidebar-head {
-      padding: 28px 24px 20px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .brand {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.5rem;
-      font-weight: 300;
-      letter-spacing: .1em;
-      color: var(--text);
-    }
-
-    .brand em {
-      font-style: italic;
-      color: var(--terra-light);
-    }
-
-    .brand-sub {
-      font-size: .65rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      color: var(--muted);
-      margin-top: 3px;
-    }
-
-    .sidebar-section {
-      padding: 20px 24px 0;
-      font-size: .6rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      color: var(--light);
-    }
-
-    .show-list {
-      flex: 1;
-      overflow-y: auto;
-      padding: 12px 12px 20px;
-    }
-
-    .show-list::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    .show-list::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .show-list::-webkit-scrollbar-thumb {
-      background: var(--border2);
-      border-radius: 2px;
-    }
-
-    .show-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all .15s;
-      border: 1px solid transparent;
-      margin-bottom: 4px;
-    }
-
-    .show-item:hover {
-      background: var(--surface);
-      border-color: var(--border);
-    }
-
-    .show-item.active {
-      background: var(--terra-pale);
-      border-color: rgba(201, 106, 58, .3);
-    }
-
-    .si-emoji {
-      font-size: 1.1rem;
-      flex-shrink: 0;
-    }
-
-    .si-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .si-title {
-      font-size: .78rem;
-      font-weight: 500;
-      color: var(--text);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .si-meta {
-      font-size: .6rem;
-      color: var(--muted);
-      margin-top: 1px;
-    }
-
-    .si-del {
-      opacity: 0;
-      background: none;
-      border: none;
-      color: var(--red);
-      cursor: pointer;
-      font-size: .8rem;
-      padding: 2px 5px;
-      border-radius: 3px;
-      transition: all .15s;
-      flex-shrink: 0;
-    }
-
-    .show-item:hover .si-del {
-      opacity: 1;
-    }
-
-    .si-del:hover {
-      background: var(--red-pale);
-    }
-
-    .sidebar-add {
-      padding: 16px 12px;
-      border-top: 1px solid var(--border);
-    }
-
-    .btn-add {
-      width: 100%;
-      padding: 11px;
-      border-radius: 6px;
-      border: 1.5px dashed var(--border2);
-      background: none;
-      color: var(--muted);
-      font-family: 'DM Sans', sans-serif;
-      font-size: .78rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all .2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .btn-add:hover {
-      border-color: var(--terra);
-      color: var(--terra);
-      background: var(--terra-pale);
-    }
-
-    .main {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    .topbar {
-      background: var(--bg2);
-      border-bottom: 1px solid var(--border);
-      padding: 16px 32px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
-
-    .topbar-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      font-weight: 400;
-      color: var(--muted);
-    }
-
-    .topbar-title strong {
-      color: var(--text);
-      font-weight: 600;
-    }
-
-    .topbar-actions {
-      margin-left: auto;
-      display: flex;
-      gap: 10px;
-    }
-
-    .btn {
-      padding: 9px 18px;
-      border-radius: 5px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: .78rem;
-      font-weight: 700;
-      cursor: pointer;
-      border: none;
-      transition: all .18s;
-    }
-
-    .btn-ghost {
-      background: rgba(255, 255, 255, .06);
-      color: var(--muted);
-      border: 1px solid var(--border2);
-    }
-
-    .btn-ghost:hover {
-      background: rgba(255, 255, 255, .1);
-      color: var(--text);
-    }
-
-    .btn-primary {
-      background: var(--terra);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background: var(--terra-light);
-    }
-
-    .btn-primary:disabled {
-      background: var(--light);
-      cursor: not-allowed;
-    }
-
-    .btn-danger {
-      background: var(--red-pale);
-      color: var(--red);
-      border: 1px solid rgba(192, 64, 64, .2);
-    }
-
-    .btn-danger:hover {
-      background: var(--red);
-      color: white;
-    }
-
-    .content-area {
-      flex: 1;
-      padding: 32px;
-    }
-
-    .search-panel {
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    .search-head {
-      text-align: center;
-      margin-bottom: 36px;
-    }
-
-    .search-head h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.4rem;
-      font-weight: 300;
-      color: var(--text);
-      margin-bottom: 8px;
-    }
-
-    .search-head h1 em {
-      color: var(--terra-light);
-      font-style: italic;
-    }
-
-    .search-head p {
-      font-size: .82rem;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    .search-type-row {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-
-    .type-btn {
-      padding: 7px 16px;
-      border-radius: 20px;
-      border: 1.5px solid var(--border2);
-      background: none;
-      color: var(--muted);
-      font-family: 'DM Sans', sans-serif;
-      font-size: .72rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all .15s;
-    }
-
-    .type-btn.active {
-      background: var(--terra);
-      border-color: var(--terra);
-      color: white;
-    }
-
-    .type-btn:hover:not(.active) {
-      border-color: var(--terra);
-      color: var(--terra);
-    }
-
-    .search-bar {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 28px;
-    }
-
-    .search-input {
-      flex: 1;
-      padding: 13px 18px;
-      border-radius: 6px;
-      border: 1.5px solid var(--border2);
-      background: var(--surface);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: .9rem;
-      outline: none;
-      transition: border-color .15s;
-    }
-
-    .search-input:focus {
-      border-color: var(--terra);
-    }
-
-    .search-input::placeholder {
-      color: var(--light);
-    }
-
-    .btn-search {
-      padding: 13px 22px;
-      border-radius: 6px;
-      background: var(--terra);
-      color: white;
-      border: none;
-      font-family: 'DM Sans', sans-serif;
-      font-size: .85rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all .18s;
-      white-space: nowrap;
-    }
-
-    .btn-search:hover {
-      background: var(--terra-light);
-    }
-
-    .search-results {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .result-card {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 14px 16px;
-      border-radius: 8px;
-      border: 1.5px solid var(--border);
-      background: var(--surface);
-      cursor: pointer;
-      transition: all .18s;
-    }
-
-    .result-card:hover {
-      border-color: var(--terra);
-      background: var(--surface2);
-    }
-
-    .result-poster {
-      width: 44px;
-      height: 60px;
-      border-radius: 4px;
-      object-fit: cover;
-      background: var(--bg3);
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-    }
-
-    .result-poster img {
-      width: 44px;
-      height: 60px;
-      border-radius: 4px;
-      object-fit: cover;
-    }
-
-    .result-info {
-      flex: 1;
-    }
-
-    .result-title {
-      font-size: .88rem;
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 3px;
-    }
-
-    .result-meta {
-      font-size: .68rem;
-      color: var(--muted);
-    }
-
-    .result-action {
-      font-size: .68rem;
-      font-weight: 700;
-      color: var(--terra);
-      white-space: nowrap;
-    }
-
-    .no-results {
-      text-align: center;
-      padding: 40px;
-      color: var(--muted);
-      font-size: .82rem;
-    }
-
-    .edit-form {
-      max-width: 900px;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .form-grid-3 {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .field.full {
-      grid-column: 1/-1;
-    }
-
-    .label {
-      font-size: .6rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .1em;
-      color: var(--muted);
-    }
-
-    .input {
-      padding: 10px 13px;
-      border-radius: 5px;
-      border: 1.5px solid var(--border2);
-      background: var(--surface);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: .85rem;
-      outline: none;
-      transition: border-color .15s;
-    }
-
-    .input:focus {
-      border-color: var(--terra);
-    }
-
-    .input::placeholder {
-      color: var(--light);
-    }
-
-    textarea.input {
-      resize: vertical;
-      min-height: 80px;
-      line-height: 1.5;
-    }
-
-    select.input {
-      cursor: pointer;
-    }
-
-    .section-divider {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--text);
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 10px;
-      margin: 24px 0 16px;
-      letter-spacing: .02em;
-    }
-
-    .section-divider span {
-      color: var(--muted);
-      font-size: .7rem;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 400;
-      margin-left: 8px;
-    }
-
-    .slider-group {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .slider-row {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .slider-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .slider-name {
-      font-size: .65rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      color: var(--muted);
-    }
-
-    .slider-val {
-      font-family: 'DM Mono', monospace;
-      font-size: .72rem;
-      font-weight: 500;
-      padding: 2px 8px;
-      border-radius: 10px;
-    }
-
-    .sv-0,
-    .sv-1 {
-      background: rgba(74, 138, 90, .2);
-      color: #6abf7a;
-    }
-
-    .sv-2,
-    .sv-3 {
-      background: rgba(196, 163, 90, .15);
-      color: var(--amber);
-    }
-
-    .sv-4,
-    .sv-5 {
-      background: rgba(192, 64, 64, .15);
-      color: #e08080;
-    }
-
-    input[type=range] {
-      width: 100%;
-      -webkit-appearance: none;
-      height: 4px;
-      border-radius: 2px;
-      background: var(--border2);
-      outline: none;
-      cursor: pointer;
-    }
-
-    input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: var(--terra);
-      cursor: pointer;
-      border: 2px solid var(--bg2);
-    }
-
-    .chips-wrap {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 4px;
-    }
-
-    .chip {
-      padding: 5px 12px;
-      border-radius: 20px;
-      border: 1.5px solid var(--border2);
-      background: none;
-      color: var(--muted);
-      font-family: 'DM Sans', sans-serif;
-      font-size: .65rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all .15s;
-    }
-
-    .chip:hover {
-      border-color: var(--terra);
-      color: var(--terra);
-    }
-
-    .chip.on {
-      background: var(--terra-pale);
-      border-color: rgba(201, 106, 58, .4);
-      color: var(--terra-light);
-    }
-
-    .neuro-pill-toggle {
-      padding: 4px 12px;
-      border-radius: 20px;
-      background: var(--sage-pale);
-      border: 1px solid rgba(74, 112, 85, .3);
-      color: var(--sage-light);
-      font-size: .65rem;
-      font-weight: 700;
-      cursor: pointer;
-      user-select: none;
-      transition: opacity .2s, filter .2s, text-decoration .2s;
-      display: inline-block;
-    }
-
-    .neuro-pill-toggle.dismissed {
-      opacity: .3;
-      filter: grayscale(1);
-      text-decoration: line-through;
-    }
-
-    .poster-preview-wrap {
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-    }
-
-    .poster-preview {
-      width: 80px;
-      height: 110px;
-      border-radius: 6px;
-      background: var(--bg3);
-      border: 1.5px solid var(--border);
-      flex-shrink: 0;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-    }
-
-    .poster-preview img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .poster-input-wrap {
-      flex: 1;
-    }
-
-    .form-actions {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      margin-top: 28px;
-      padding-top: 20px;
-      border-top: 1px solid var(--border);
-    }
-
-    .save-status {
-      font-size: .72rem;
-      color: var(--muted);
-      margin-left: auto;
-    }
-
-    .save-status.ok {
-      color: var(--green);
-    }
-
-    .save-status.err {
-      color: var(--red);
-    }
-
-    .empty-state {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      padding: 60px;
-      text-align: center;
-    }
-
-    .empty-icon {
-      font-size: 3rem;
-      opacity: .4;
-    }
-
-    .empty-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.6rem;
-      font-weight: 300;
-      color: var(--muted);
-    }
-
-    .empty-sub {
-      font-size: .78rem;
-      color: var(--light);
-      max-width: 300px;
-      line-height: 1.6;
-    }
-
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: var(--surface2);
-      border: 1px solid var(--border2);
-      color: var(--text);
-      padding: 12px 20px;
-      border-radius: 8px;
-      font-size: .78rem;
-      font-weight: 500;
-      box-shadow: var(--shadow);
-      transform: translateY(80px);
-      opacity: 0;
-      transition: all .25s;
-      z-index: 999;
-    }
-
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    .toast.ok {
-      border-color: rgba(74, 138, 90, .4);
-      color: #6abf7a;
-    }
-
-    .toast.err {
-      border-color: rgba(192, 64, 64, .3);
-      color: #e08080;
-    }
-
-    .spinner {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid var(--border2);
-      border-top-color: var(--terra);
-      border-radius: 50%;
-      animation: spin .7s linear infinite;
-      vertical-align: middle;
-      margin-right: 6px;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg)
-      }
-    }
-
-    .loading-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--muted);
-      font-size: .8rem;
-      padding: 20px 0;
-    }
-
-    /* AI Assessment banner */
-    .ai-assess-banner {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 20px;
-      padding: 16px;
-      border: 1.5px solid rgba(201, 106, 58, .25);
-      border-radius: 8px;
-      background: var(--terra-pale);
-    }
-
-    .ai-assess-banner-info {
-      flex: 1;
-    }
-
-    .ai-assess-banner-label {
-      font-size: .7rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      color: var(--terra-light);
-      margin-bottom: 3px;
-    }
-
-    .ai-assess-banner-sub {
-      font-size: .72rem;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    .ai-assess-banner-actions {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 6px;
-    }
-
-    .ai-assess-status {
-      font-size: .65rem;
-      color: var(--muted);
-    }
+      --bg:#0f0e0c;--bg2:#1a1814;--bg3:#242018;--surface:#1e1c18;--surface2:#252320;
+      --border:rgba(255,255,255,.08);--border2:rgba(255,255,255,.14);
+      --text:#f0ede8;--muted:#8a8278;--light:#5a5650;
+      --terra:#c96a3a;--terra-light:#d87d4a;--terra-pale:rgba(201,106,58,.12);
+      --sage:#4a7055;--sage-light:#5a8a66;--sage-pale:rgba(74,112,85,.12);
+      --amber:#c4a35a;--red:#c04040;--red-pale:rgba(192,64,64,.1);
+      --green:#4a8a5a;--shadow:0 8px 32px rgba(0,0,0,.4);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-weight:300}
+    .admin-wrap{display:grid;grid-template-columns:320px 1fr;min-height:100vh}
+    .sidebar{background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow:hidden}
+    .sidebar-head{padding:28px 24px 20px;border-bottom:1px solid var(--border)}
+    .brand{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;letter-spacing:.1em;color:var(--text)}
+    .brand em{font-style:italic;color:var(--terra-light)}
+    .brand-sub{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-top:3px}
+    .sidebar-section{padding:20px 24px 0;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--light)}
+    .show-list{flex:1;overflow-y:auto;padding:12px 12px 20px}
+    .show-list::-webkit-scrollbar{width:4px}
+    .show-list::-webkit-scrollbar-track{background:transparent}
+    .show-list::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+    .show-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:6px;cursor:pointer;transition:all .15s;border:1px solid transparent;margin-bottom:4px}
+    .show-item:hover{background:var(--surface);border-color:var(--border)}
+    .show-item.active{background:var(--terra-pale);border-color:rgba(201,106,58,.3)}
+    .si-emoji{font-size:1.1rem;flex-shrink:0}
+    .si-info{flex:1;min-width:0}
+    .si-title{font-size:.78rem;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .si-meta{font-size:.6rem;color:var(--muted);margin-top:1px}
+    .si-del{opacity:0;background:none;border:none;color:var(--red);cursor:pointer;font-size:.8rem;padding:2px 5px;border-radius:3px;transition:all .15s;flex-shrink:0}
+    .show-item:hover .si-del{opacity:1}
+    .si-del:hover{background:var(--red-pale)}
+    .sidebar-add{padding:16px 12px;border-top:1px solid var(--border)}
+    .btn-add{width:100%;padding:11px;border-radius:6px;border:1.5px dashed var(--border2);background:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+    .btn-add:hover{border-color:var(--terra);color:var(--terra);background:var(--terra-pale)}
+    .main{display:flex;flex-direction:column;min-height:100vh}
+    .topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 32px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:50}
+    .topbar-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:400;color:var(--muted)}
+    .topbar-title strong{color:var(--text);font-weight:600}
+    .topbar-actions{margin-left:auto;display:flex;gap:10px}
+    .btn{padding:9px 18px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;border:none;transition:all .18s}
+    .btn-ghost{background:rgba(255,255,255,.06);color:var(--muted);border:1px solid var(--border2)}
+    .btn-ghost:hover{background:rgba(255,255,255,.1);color:var(--text)}
+    .btn-primary{background:var(--terra);color:white}
+    .btn-primary:hover{background:var(--terra-light)}
+    .btn-primary:disabled{background:var(--light);cursor:not-allowed}
+    .btn-danger{background:var(--red-pale);color:var(--red);border:1px solid rgba(192,64,64,.2)}
+    .btn-danger:hover{background:var(--red);color:white}
+    .content-area{flex:1;padding:32px}
+    .search-panel{max-width:700px;margin:0 auto}
+    .search-head{text-align:center;margin-bottom:36px}
+    .search-head h1{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:300;color:var(--text);margin-bottom:8px}
+    .search-head h1 em{color:var(--terra-light);font-style:italic}
+    .search-head p{font-size:.82rem;color:var(--muted);line-height:1.6}
+    .search-type-row{display:flex;gap:8px;justify-content:center;margin-bottom:20px}
+    .type-btn{padding:7px 16px;border-radius:20px;border:1.5px solid var(--border2);background:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:700;cursor:pointer;transition:all .15s}
+    .type-btn.active{background:var(--terra);border-color:var(--terra);color:white}
+    .type-btn:hover:not(.active){border-color:var(--terra);color:var(--terra)}
+    .search-bar{display:flex;gap:10px;margin-bottom:28px}
+    .search-input{flex:1;padding:13px 18px;border-radius:6px;border:1.5px solid var(--border2);background:var(--surface);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:border-color .15s}
+    .search-input:focus{border-color:var(--terra)}
+    .search-input::placeholder{color:var(--light)}
+    .btn-search{padding:13px 22px;border-radius:6px;background:var(--terra);color:white;border:none;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer;transition:all .18s;white-space:nowrap}
+    .btn-search:hover{background:var(--terra-light)}
+    .search-results{display:flex;flex-direction:column;gap:10px}
+    .result-card{display:flex;align-items:center;gap:16px;padding:14px 16px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;transition:all .18s}
+    .result-card:hover{border-color:var(--terra);background:var(--surface2)}
+    .result-poster{width:44px;height:60px;border-radius:4px;object-fit:cover;background:var(--bg3);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.4rem}
+    .result-poster img{width:44px;height:60px;border-radius:4px;object-fit:cover}
+    .result-info{flex:1}
+    .result-title{font-size:.88rem;font-weight:600;color:var(--text);margin-bottom:3px}
+    .result-meta{font-size:.68rem;color:var(--muted)}
+    .result-action{font-size:.68rem;font-weight:700;color:var(--terra);white-space:nowrap}
+    .no-results{text-align:center;padding:40px;color:var(--muted);font-size:.82rem}
+    .edit-form{max-width:900px}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+    .field{display:flex;flex-direction:column;gap:6px}
+    .field.full{grid-column:1/-1}
+    .label{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+    .input{padding:10px 13px;border-radius:5px;border:1.5px solid var(--border2);background:var(--surface);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;transition:border-color .15s}
+    .input:focus{border-color:var(--terra)}
+    .input::placeholder{color:var(--light)}
+    textarea.input{resize:vertical;min-height:80px;line-height:1.5}
+    select.input{cursor:pointer}
+    .section-divider{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;color:var(--text);border-bottom:1px solid var(--border);padding-bottom:10px;margin:24px 0 16px;letter-spacing:.02em}
+    .section-divider span{color:var(--muted);font-size:.7rem;font-family:'DM Sans',sans-serif;font-weight:400;margin-left:8px}
+    .slider-group{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+    .slider-row{display:flex;flex-direction:column;gap:6px}
+    .slider-top{display:flex;justify-content:space-between;align-items:center}
+    .slider-name{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+    .slider-val{font-family:'DM Mono',monospace;font-size:.72rem;font-weight:500;padding:2px 8px;border-radius:10px}
+    .sv-0,.sv-1{background:rgba(74,138,90,.2);color:#6abf7a}
+    .sv-2,.sv-3{background:rgba(196,163,90,.15);color:var(--amber)}
+    .sv-4,.sv-5{background:rgba(192,64,64,.15);color:#e08080}
+    input[type=range]{width:100%;-webkit-appearance:none;height:4px;border-radius:2px;background:var(--border2);outline:none;cursor:pointer}
+    input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--terra);cursor:pointer;border:2px solid var(--bg2)}
+    .chips-wrap{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+    .chip{padding:5px 12px;border-radius:20px;border:1.5px solid var(--border2);background:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:.65rem;font-weight:700;cursor:pointer;transition:all .15s}
+    .chip:hover{border-color:var(--terra);color:var(--terra)}
+    .chip.on{background:var(--terra-pale);border-color:rgba(201,106,58,.4);color:var(--terra-light)}
+    .chip.on.sage{background:var(--sage-pale);border-color:rgba(74,112,85,.4);color:var(--sage-light)}
+    .chip.on.red{background:var(--red-pale);border-color:rgba(192,64,64,.3);color:#e08080}
+    .poster-preview-wrap{display:flex;gap:16px;align-items:flex-start}
+    .poster-preview{width:80px;height:110px;border-radius:6px;background:var(--bg3);border:1.5px solid var(--border);flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:2rem}
+    .poster-preview img{width:100%;height:100%;object-fit:cover}
+    .poster-input-wrap{flex:1}
+    .form-actions{display:flex;gap:12px;align-items:center;margin-top:28px;padding-top:20px;border-top:1px solid var(--border)}
+    .save-status{font-size:.72rem;color:var(--muted);margin-left:auto}
+    .save-status.ok{color:var(--green)}
+    .save-status.err{color:var(--red)}
+    .empty-state{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:60px;text-align:center}
+    .empty-icon{font-size:3rem;opacity:.4}
+    .empty-title{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:var(--muted)}
+    .empty-sub{font-size:.78rem;color:var(--light);max-width:300px;line-height:1.6}
+    .toast{position:fixed;bottom:24px;right:24px;background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:12px 20px;border-radius:8px;font-size:.78rem;font-weight:500;box-shadow:var(--shadow);transform:translateY(80px);opacity:0;transition:all .25s;z-index:999}
+    .toast.show{transform:translateY(0);opacity:1}
+    .toast.ok{border-color:rgba(74,138,90,.4);color:#6abf7a}
+    .toast.err{border-color:rgba(192,64,64,.3);color:#e08080}
+    .spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--border2);border-top-color:var(--terra);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .loading-row{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.8rem;padding:20px 0}
+    .ai-assess-banner{display:flex;align-items:center;gap:14px;margin-bottom:20px;padding:16px;border:1.5px solid rgba(201,106,58,.25);border-radius:8px;background:var(--terra-pale)}
+    .ai-assess-banner-info{flex:1}
+    .ai-assess-banner-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--terra-light);margin-bottom:3px}
+    .ai-assess-banner-sub{font-size:.72rem;color:var(--muted);line-height:1.5}
+    .ai-assess-banner-actions{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+    .ai-assess-status{font-size:.65rem;color:var(--muted)}
   </style>
 </head>
-
 <body>
   <div class="admin-wrap">
-
-    <!-- SIDEBAR -->
     <aside class="sidebar">
       <div class="sidebar-head">
         <div class="brand">glimps<em>y</em></div>
         <div class="brand-sub">Content Admin</div>
       </div>
-      <div class="sidebar-section" style="margin-bottom:8px;">Library <span id="show-count"
-          style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0;font-size:.65rem;"></span>
-      </div>
-      <div class="show-list" id="show-list">
-        <div class="loading-row"><span class="spinner"></span> Loading…</div>
-      </div>
+      <div class="sidebar-section" style="margin-bottom:8px;">Library <span id="show-count" style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0;font-size:.65rem;"></span></div>
+      <div class="show-list" id="show-list"><div class="loading-row"><span class="spinner"></span> Loading…</div></div>
       <div class="sidebar-add">
         <button class="btn-add" onclick="showSearch()"><span>＋</span> Add a show / film / book</button>
       </div>
     </aside>
-
-    <!-- MAIN -->
     <div class="main">
       <div class="topbar">
         <div class="topbar-title" id="topbar-title"><strong>Glimpsy Admin</strong></div>
@@ -923,11 +165,9 @@
       </div>
     </div>
   </div>
-
   <div class="toast" id="toast"></div>
 
   <script>
-    // ═══════════════ CONFIG ═══════════════
     const SUPABASE_URL = 'https://adbhrxslhzevrfkrudvw.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_Z3cI6vhaMUAP-MOo4WH3MQ_wDH_5ikU';
     const TMDB_KEY = 'a7d3cc4ab198a61fd4473e5f90b0c745';
@@ -935,663 +175,457 @@
     const TMDB_BASE = 'https://api.themoviedb.org/3';
     const GBOOKS_KEY = 'AIzaSyAkBlwO870lkIoUroU9qp6TRNMrZZ0DFJw';
 
-    // ═══════════════ STATE ═══════════════
-    let SHOWS = [];
-    let currentShow = null;
-    let searchMode = 'tv';
+    let SHOWS = [], currentShow = null, searchMode = 'tv';
 
-    // ═══════════════ SUPABASE HELPERS ═══════════════
-    async function sbFetch(path, opts = {}) {
-      const res = await fetch(SUPABASE_URL + '/rest/v1/' + path, {
+    const ALL_THEMES = ['death','monsters','bullying','toilet-humour','mild-violence','scary','divorce','grief','guns','educational','positive-friendship','positive-empathy','family-values','family-conflict','mild-language','nudity','sexual-content','drug-use','gambling'];
+
+    const ALL_NEURO_PILLS = ['low-sensory-load','autism-friendly','stimming-friendly','adhd-engagement','calming-transition','executive-function','co-viewing-recommended','bedtime-safe'];
+
+    const ALL_WARNING_FLAGS = [
+      {id:'loud_sudden_sounds', label:'⚠ Loud sudden sounds'},
+      {id:'flashing_lights',    label:'⚠ Flashing lights'},
+      {id:'orienting_reflex',   label:'⚠ Orienting reflex'},
+      {id:'scary_content',      label:'⚠ Scary content'},
+      {id:'violence_detected',  label:'⚠ Violence detected'}
+    ];
+
+    const DEFAULT_PLATFORMS = {
+      tv:[
+        {n:'BBC iPlayer',i:'📺',t:'Free',url:'https://www.bbc.co.uk/iplayer'},
+        {n:'Netflix',i:'🎬',t:'Subscription',url:'https://www.netflix.com'},
+        {n:'Disney+',i:'✨',t:'Subscription',url:'https://www.disneyplus.com'},
+        {n:'Prime Video',i:'📦',t:'Subscription',url:'https://www.amazon.co.uk/primevideo'},
+        {n:'ITVX',i:'📡',t:'Free',url:'https://www.itv.com/watch'},
+        {n:'YouTube',i:'▶️',t:'Free',url:'https://www.youtube.com'},
+      ],
+      movie:[
+        {n:'Netflix',i:'🎬',t:'Subscription',url:'https://www.netflix.com'},
+        {n:'Disney+',i:'✨',t:'Subscription',url:'https://www.disneyplus.com'},
+        {n:'Prime Video',i:'📦',t:'Subscription',url:'https://www.amazon.co.uk/primevideo'},
+        {n:'BBC iPlayer',i:'📺',t:'Free',url:'https://www.bbc.co.uk/iplayer'},
+      ],
+      book:[
+        {n:'Amazon',i:'📦',t:'Buy',url:'https://www.amazon.co.uk'},
+        {n:'Waterstones',i:'📚',t:'Buy',url:'https://www.waterstones.com'},
+        {n:'Library',i:'🏛️',t:'Free',url:'https://www.librarieswest.org.uk'},
+      ]
+    };
+
+    // ═══ SUPABASE ═══
+    async function sbFetch(path, opts={}) {
+      const res = await fetch(SUPABASE_URL+'/rest/v1/'+path, {
         ...opts,
-        headers: {
-          'apikey': SUPABASE_KEY,
-          'Authorization': 'Bearer ' + SUPABASE_KEY,
-          'Content-Type': 'application/json',
-          'Prefer': opts.prefer || '',
-          ...(opts.headers || {})
-        }
+        headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json','Prefer':opts.prefer||'',...(opts.headers||{})}
       });
-      if (!res.ok) { const err = await res.text(); throw new Error(err); }
-      if (res.status === 204 || res.status === 201) return null;
-      const text = await res.text();
-      if (!text) return null;
-      return JSON.parse(text);
+      if (!res.ok){const err=await res.text();throw new Error(err);}
+      if (res.status===204||res.status===201) return null;
+      const text=await res.text();
+      return text?JSON.parse(text):null;
     }
 
     async function loadShows() {
-      try {
-        SHOWS = await sbFetch('shows?select=*&order=id.asc');
-        renderSidebar();
-      } catch (e) {
-        document.getElementById('show-list').innerHTML = `<div style="padding:16px;color:var(--red);font-size:.72rem;">Failed to load: ${e.message}</div>`;
-      }
+      try{SHOWS=await sbFetch('shows?select=*&order=id.asc');renderSidebar();}
+      catch(e){document.getElementById('show-list').innerHTML=`<div style="padding:16px;color:var(--red);font-size:.72rem;">Failed to load: ${e.message}</div>`;}
     }
 
-    // ═══════════════ SIDEBAR ═══════════════
+    // ═══ SIDEBAR ═══
     function renderSidebar() {
-      const list = document.getElementById('show-list');
-      const count = document.getElementById('show-count');
-      count.textContent = `(${SHOWS.length})`;
-      if (!SHOWS.length) {
-        list.innerHTML = `<div style="padding:16px;color:var(--muted);font-size:.72rem;">No shows yet. Add one below!</div>`;
-        return;
-      }
-      list.innerHTML = SHOWS.map(s => `
-        <div class="show-item${currentShow && currentShow.id === s.id ? ' active' : ''}" onclick="editShow(${s.id})">
-          <div class="si-emoji">${s.emoji || '🎬'}</div>
-          <div class="si-info">
-            <div class="si-title">${s.title}</div>
-            <div class="si-meta">${s.type} · ${s.age || '—'}</div>
-          </div>
-          <button class="si-del" onclick="event.stopPropagation();deleteShow(${s.id},'${s.title.replace(/'/g, "\\'")}')">✕</button>
-        </div>
-      `).join('');
+      const list=document.getElementById('show-list');
+      document.getElementById('show-count').textContent=`(${SHOWS.length})`;
+      if (!SHOWS.length){list.innerHTML=`<div style="padding:16px;color:var(--muted);font-size:.72rem;">No shows yet. Add one below!</div>`;return;}
+      list.innerHTML=SHOWS.map(s=>`
+        <div class="show-item${currentShow&&currentShow.id===s.id?' active':''}" onclick="editShow(${s.id})">
+          <div class="si-emoji">${s.emoji||'🎬'}</div>
+          <div class="si-info"><div class="si-title">${s.title}</div><div class="si-meta">${s.type} · ${s.age||'—'}</div></div>
+          <button class="si-del" onclick="event.stopPropagation();deleteShow(${s.id},'${s.title.replace(/'/g,"\\'")}')">✕</button>
+        </div>`).join('');
     }
 
-    // ═══════════════ SEARCH PANEL ═══════════════
+    // ═══ SEARCH ═══
     function showSearch() {
-      currentShow = null;
-      renderSidebar();
-      document.getElementById('topbar-title').innerHTML = '<strong>Add a new title</strong>';
-      document.getElementById('topbar-actions').innerHTML = '';
-      document.getElementById('content-area').innerHTML = `
+      currentShow=null;renderSidebar();
+      document.getElementById('topbar-title').innerHTML='<strong>Add a new title</strong>';
+      document.getElementById('topbar-actions').innerHTML='';
+      document.getElementById('content-area').innerHTML=`
         <div class="search-panel">
-          <div class="search-head">
-            <h1>Find a <em>title</em></h1>
-            <p>Search for a TV show, film or book. We'll pull the details from TMDB or Google Books automatically.</p>
-          </div>
+          <div class="search-head"><h1>Find a <em>title</em></h1><p>Search for a TV show, film or book. We'll pull the details from TMDB or Google Books automatically.</p></div>
           <div class="search-type-row">
-            <button class="type-btn${searchMode === 'tv' ? ' active' : ''}" onclick="setSearchMode('tv')">📺 TV Show</button>
-            <button class="type-btn${searchMode === 'movie' ? ' active' : ''}" onclick="setSearchMode('movie')">🎬 Film</button>
-            <button class="type-btn${searchMode === 'book' ? ' active' : ''}" onclick="setSearchMode('book')">📚 Book</button>
+            <button class="type-btn${searchMode==='tv'?' active':''}" onclick="setSearchMode('tv')">📺 TV Show</button>
+            <button class="type-btn${searchMode==='movie'?' active':''}" onclick="setSearchMode('movie')">🎬 Film</button>
+            <button class="type-btn${searchMode==='book'?' active':''}" onclick="setSearchMode('book')">📚 Book</button>
           </div>
           <div class="search-bar">
             <input class="search-input" id="search-q" placeholder="e.g. Bluey, Paddington, The Gruffalo…" onkeydown="if(event.key==='Enter')doSearch()">
             <button class="btn-search" onclick="doSearch()">Search →</button>
           </div>
           <div id="search-results"></div>
-        </div>
-      `;
-      setTimeout(() => document.getElementById('search-q')?.focus(), 50);
+        </div>`;
+      setTimeout(()=>document.getElementById('search-q')?.focus(),50);
     }
 
-    function setSearchMode(mode) {
-      searchMode = mode;
-      showSearch();
-      setTimeout(() => document.getElementById('search-q')?.focus(), 50);
-    }
+    function setSearchMode(mode){searchMode=mode;showSearch();setTimeout(()=>document.getElementById('search-q')?.focus(),50);}
 
     async function doSearch() {
-      const q = document.getElementById('search-q')?.value?.trim();
+      const q=document.getElementById('search-q')?.value?.trim();
       if (!q) return;
-      const box = document.getElementById('search-results');
-      box.innerHTML = `<div class="loading-row"><span class="spinner"></span> Searching…</div>`;
+      const box=document.getElementById('search-results');
+      box.innerHTML=`<div class="loading-row"><span class="spinner"></span> Searching…</div>`;
       try {
-        let results = [];
-        if (searchMode === 'book') { results = await searchBooks(q); }
-        else { results = await searchTMDB(q, searchMode); }
-        if (!results.length) {
-          box.innerHTML = `<div class="no-results">No results found for "<strong>${q}</strong>". Try a different spelling.</div>`;
-          return;
-        }
-        box.innerHTML = results.map((r, i) => `
+        let results=searchMode==='book'?await searchBooks(q):await searchTMDB(q,searchMode);
+        if (!results.length){box.innerHTML=`<div class="no-results">No results found for "<strong>${q}</strong>".</div>`;return;}
+        box.innerHTML=results.map((r,i)=>`
           <div class="result-card" onclick="selectResult(${i})">
-            <div class="result-poster">${r.posterUrl ? `<img src="${r.posterUrl}" onerror="this.parentNode.textContent='${r.emoji}'">` : r.emoji}</div>
-            <div class="result-info">
-              <div class="result-title">${r.title}</div>
-              <div class="result-meta">${r.meta}</div>
-            </div>
+            <div class="result-poster">${r.posterUrl?`<img src="${r.posterUrl}" onerror="this.parentNode.textContent='${r.emoji}'">`:r.emoji}</div>
+            <div class="result-info"><div class="result-title">${r.title}</div><div class="result-meta">${r.meta}</div></div>
             <div class="result-action">Use this →</div>
-          </div>
-        `).join('');
-        window._searchResults = results;
-      } catch (e) {
-        box.innerHTML = `<div class="no-results" style="color:var(--red)">Search failed: ${e.message}</div>`;
-      }
+          </div>`).join('');
+        window._searchResults=results;
+      } catch(e){box.innerHTML=`<div class="no-results" style="color:var(--red)">Search failed: ${e.message}</div>`;}
     }
 
-    async function searchTMDB(q, type) {
-      const endpoint = type === 'tv' ? 'tv' : 'movie';
-      const res = await fetch(`${TMDB_BASE}/search/${endpoint}?api_key=${TMDB_KEY}&query=${encodeURIComponent(q)}&language=en-GB`);
-      const data = await res.json();
-      return (data.results || []).slice(0, 6).map(r => ({
-        source: 'tmdb', type, tmdbId: r.id,
-        title: r.name || r.title,
-        poster: r.poster_path || null,
-        posterUrl: r.poster_path ? TMDB_IMG + r.poster_path : null,
-        emoji: type === 'tv' ? '📺' : '🎬',
-        year: (r.first_air_date || r.release_date || '').slice(0, 4),
-        meta: [(r.first_air_date || r.release_date || '').slice(0, 4), r.genre_ids?.length ? 'TMDB' : ''].filter(Boolean).join(' · '),
-        overview: r.overview, raw: r
+    async function searchTMDB(q,type) {
+      const res=await fetch(`${TMDB_BASE}/search/${type==='tv'?'tv':'movie'}?api_key=${TMDB_KEY}&query=${encodeURIComponent(q)}&language=en-GB`);
+      const data=await res.json();
+      return (data.results||[]).slice(0,6).map(r=>({
+        source:'tmdb',type,tmdbId:r.id,title:r.name||r.title,
+        poster:r.poster_path||null,posterUrl:r.poster_path?TMDB_IMG+r.poster_path:null,
+        emoji:type==='tv'?'📺':'🎬',
+        year:(r.first_air_date||r.release_date||'').slice(0,4),
+        meta:[(r.first_air_date||r.release_date||'').slice(0,4)].filter(Boolean).join(' · '),
+        overview:r.overview,raw:r
       }));
     }
 
     async function searchBooks(q) {
-      const res = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(q)}&key=${GBOOKS_KEY}&maxResults=6&langRestrict=en`);
-      const data = await res.json();
-      return (data.items || []).slice(0, 6).map(r => {
-        const info = r.volumeInfo;
-        const thumb = info.imageLinks?.thumbnail || info.imageLinks?.smallThumbnail || null;
-        return {
-          source: 'books', type: 'book', googleId: r.id,
-          title: info.title, poster: thumb, posterUrl: thumb, posterType: 'book',
-          emoji: '📗',
-          year: (info.publishedDate || '').slice(0, 4),
-          meta: [info.authors?.[0], (info.publishedDate || '').slice(0, 4)].filter(Boolean).join(' · '),
-          overview: info.description, raw: r
-        };
+      const res=await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(q)}&key=${GBOOKS_KEY}&maxResults=6&langRestrict=en`);
+      const data=await res.json();
+      return (data.items||[]).slice(0,6).map(r=>{
+        const info=r.volumeInfo;
+        const thumb=info.imageLinks?.thumbnail||info.imageLinks?.smallThumbnail||null;
+        return {source:'books',type:'book',googleId:r.id,title:info.title,poster:thumb,posterUrl:thumb,posterType:'book',emoji:'📗',year:(info.publishedDate||'').slice(0,4),meta:[info.authors?.[0],(info.publishedDate||'').slice(0,4)].filter(Boolean).join(' · '),overview:info.description,raw:r};
       });
     }
 
     async function selectResult(i) {
-      const r = window._searchResults[i];
-      const box = document.getElementById('search-results');
-      box.innerHTML = `<div class="loading-row"><span class="spinner"></span> Loading details…</div>`;
-      let enriched = { ...r };
-
-      if (r.source === 'tmdb' && r.type === 'tv') {
-        const detail = await fetch(`${TMDB_BASE}/tv/${r.tmdbId}?api_key=${TMDB_KEY}&language=en-GB&append_to_response=content_ratings`).then(x => x.json());
-        enriched.seasons = detail.number_of_seasons;
-        enriched.dur = detail.episode_run_time?.[0] || null;
-        enriched.genres = detail.genres?.map(g => g.name) || [];
-        enriched.rating = extractUKRating(detail.content_ratings?.results) || 'U';
-        enriched.overview = detail.overview;
-      } else if (r.source === 'tmdb' && r.type === 'movie') {
-        const detail = await fetch(`${TMDB_BASE}/movie/${r.tmdbId}?api_key=${TMDB_KEY}&language=en-GB&append_to_response=release_dates`).then(x => x.json());
-        enriched.dur = detail.runtime || null;
-        enriched.genres = detail.genres?.map(g => g.name) || [];
-        enriched.rating = extractUKMovieRating(detail.release_dates?.results) || 'PG';
-        enriched.overview = detail.overview;
+      const r=window._searchResults[i];
+      const box=document.getElementById('search-results');
+      box.innerHTML=`<div class="loading-row"><span class="spinner"></span> Loading details…</div>`;
+      let enriched={...r};
+      if (r.source==='tmdb'&&r.type==='tv') {
+        const d=await fetch(`${TMDB_BASE}/tv/${r.tmdbId}?api_key=${TMDB_KEY}&language=en-GB&append_to_response=content_ratings`).then(x=>x.json());
+        enriched.seasons=d.number_of_seasons;enriched.dur=d.episode_run_time?.[0]||null;
+        enriched.genres=d.genres?.map(g=>g.name)||[];enriched.rating=extractUKRating(d.content_ratings?.results)||'U';enriched.overview=d.overview;
+      } else if (r.source==='tmdb'&&r.type==='movie') {
+        const d=await fetch(`${TMDB_BASE}/movie/${r.tmdbId}?api_key=${TMDB_KEY}&language=en-GB&append_to_response=release_dates`).then(x=>x.json());
+        enriched.dur=d.runtime||null;enriched.genres=d.genres?.map(g=>g.name)||[];
+        enriched.rating=extractUKMovieRating(d.release_dates?.results)||'PG';enriched.overview=d.overview;
       }
-
-      // Quick Claude text score on selection (legacy fast path — no Gemini yet)
-      const box2 = document.getElementById('search-results');
-      if (box2) box2.innerHTML = `<div class="loading-row"><span class="spinner"></span> AI is scoring this title…</div>`;
-      try {
-        const aiScores = await getAIScores(enriched);
-        Object.assign(enriched, aiScores);
-        window._lastAIScores = aiScores;
-      } catch (err) {
-        console.warn('AI scoring failed, using defaults:', err);
-        window._lastAIScores = null;
-      }
-
-      openEditForm(null, enriched);
+      const box2=document.getElementById('search-results');
+      if (box2) box2.innerHTML=`<div class="loading-row"><span class="spinner"></span> AI is scoring this title…</div>`;
+      try{const ai=await getAIScores(enriched);Object.assign(enriched,ai);window._lastAIScores=ai;}
+      catch(err){console.warn('AI scoring failed:',err);window._lastAIScores=null;}
+      openEditForm(null,enriched);
     }
 
-    // ═══════════════ QUICK AI SCORE (selection — text only) ═══════════════
+    // ═══ QUICK AI SCORE ═══
     async function getAIScores(e) {
-      const prompt = `You are a children's content analyst for Glimpsy, a parental guidance platform for families with neurodivergent children. Always address parents, never children.
+      const prompt=`You are a children's content analyst for Glimpsy, a parental guidance platform for families with neurodivergent children. Always address parents, never children.
 
 TITLE: "${e.title}"
 TYPE: ${e.type}
-GENRES: ${(e.genres || []).join(', ')}
-AGE RATING: ${e.rating || 'unknown'}
-SYNOPSIS: "${e.overview || 'not available'}"
+GENRES: ${(e.genres||[]).join(', ')}
+AGE RATING: ${e.rating||'unknown'}
+SYNOPSIS: "${e.overview||'not available'}"
 
 Return ONLY a valid JSON object — no preamble, no markdown fences.
 
-FIELDS AND SCORING GUIDES:
-
-violence (0–5): 0=none, 1=cartoon slapstick only, 2=mild action no injury, 3=some combat/injury not graphic, 4=strong violence serious injury, 5=graphic or sustained
-fear_fantasy (0–5) — cartoon/fantasy threat: 0=nothing scary, 1=mild fantasy peril, 2=some fantasy scary moments, 3=genuinely frightening fantasy, 4=very frightening, 5=extreme fantasy horror
-fear_realistic (0–5) — real-world threat: 0=no realistic threat, 1=mild tension, 2=some peril resolves safely, 3=genuinely frightening, 4=very frightening, 5=extreme
-language_mild (0–5): 0=none, 1=very mild, 2=mild occasional, 3=moderate, 4=strong, 5=very strong or discriminatory
-language_freq (0–5): 0=none, 1=single instance, 2=occasional, 3=recurring, 4=frequent, 5=constant
-sex_nudity (0–5): 0=none, 1=innocent romance, 2=kissing, 3=suggestive, 4=partial nudity, 5=explicit
-social_safety (0–5): 0=respectful, 1=minor friction resolves, 2=some bullying addressed, 3=bullying not always resolved, 4=significant bullying normalised, 5=bullying glorified
-positive_messages (0–5): 0=none, 1=minimal, 2=some, 3=good, 4=strong throughout, 5=exceptional
-role_models (0–5): 0=none, 1=weak, 2=mixed, 3=generally positive, 4=strong, 5=exceptional
-consumerism (0–5): 0=none, 1=minimal, 2=some placement, 3=noticeable, 4=heavy toy tie-ins, 5=entire premise is commercial
-drink_drugs (0–5): 0=none, 1=brief reference, 2=alcohol normalised, 3=shown positively, 4=in detail, 5=glorified
-calm (0–10): 10=very calm like Bluey, 5=average children's TV, 0=extremely chaotic
-cuts (0–10): 0=almost no cuts, 10=very rapid like Peppa Pig
-colour (0–5): 0=greyscale, 1=very muted pastel, 2=soft, 3=normal children's TV, 4=vivid saturated, 5=extremely bright neon
-pace (0–5): 0=static/very slow, 1=very slow, 2=gentle, 3=moderate, 4=fast, 5=very fast
-csm (1–10): overall stimulation — 1=very gentle like Pocoyo, 5=average, 10=very intense
-age: age range string e.g. "2-5", "3-7", "All ages", "10+"
-emoji: single best fitting emoji
-bg: soft muted hex colour fitting the show mood e.g. "#b8d4e8"
-one_line_summary: one sentence max 20 words FOR PARENTS
-themes: array from ONLY: ["death","monsters","bullying","toilet-humour","mild-violence","scary","divorce","grief","guns","educational","positive-friendship","positive-empathy","family-values","family-conflict","mild-language","nudity","sexual-content","drug-use","gambling","social-skills","sensory-friendly","repetitive-structure","clear-narrative","loud-music","flashing-lights","social-exclusion","cyberbullying"]
-neuro_pills: array from ONLY: ["low-sensory-load","autism-friendly","stimming-friendly","adhd-engagement","calming-transition","executive-function","co-viewing-recommended","bedtime-safe"]
-loud_sudden_sounds: true/false
+violence (0–5): 0=none,1=cartoon slapstick,2=mild action,3=some combat,4=strong violence,5=graphic
+fear_fantasy (0–5): 0=nothing scary,1=mild peril,2=some scary moments,3=frightening,4=very frightening,5=extreme
+fear_realistic (0–5): 0=no threat,1=mild tension,2=some peril resolves,3=frightening,4=very frightening,5=extreme
+language_mild (0–5): 0=none,1=very mild,2=mild,3=moderate,4=strong,5=very strong
+language_freq (0–5): 0=none,1=single,2=occasional,3=recurring,4=frequent,5=constant
+sex_nudity (0–5): 0=none,1=innocent romance,2=kissing,3=suggestive,4=partial nudity,5=explicit
+social_safety (0–5): 0=respectful,1=minor friction,2=some bullying addressed,3=unresolved,4=normalised,5=glorified
+positive_messages (0–5): 0=none,1=minimal,2=some,3=good,4=strong,5=exceptional
+role_models (0–5): 0=none,1=weak,2=mixed,3=generally positive,4=strong,5=exceptional
+consumerism (0–5): 0=none,1=minimal,2=some,3=noticeable,4=heavy,5=entire premise commercial
+drink_drugs (0–5): 0=none,1=brief ref,2=normalised,3=shown positively,4=in detail,5=glorified
+calm (0–10): 10=very calm like In the Night Garden,5=average children's TV,0=extremely chaotic
+cuts (0–10): 0=almost no cuts,10=very rapid
+colour (0–10): 0=greyscale,5=normal children's TV,10=extremely bright neon
+pace (0–10): 0=static/very slow,5=moderate,10=very fast
+csm (1–10): 1=very gentle,5=average,10=very intense
+age: e.g. "2-5","3-7","All ages","10+"
+emoji: single emoji
+bg: soft hex e.g. "#b8d4e8"
+one_line_summary: max 20 words for parents
+themes: array from ["death","monsters","bullying","toilet-humour","mild-violence","scary","divorce","grief","guns","educational","positive-friendship","positive-empathy","family-values","family-conflict","mild-language","nudity","sexual-content","drug-use","gambling","social-skills","sensory-friendly","repetitive-structure","clear-narrative","loud-music","flashing-lights","social-exclusion","cyberbullying"]
+neuro_pills: array from ["low-sensory-load","autism-friendly","stimming-friendly","adhd-engagement","calming-transition","executive-function","co-viewing-recommended","bedtime-safe"]
+loud_sudden_sounds: true/false — sudden shocks only, NOT upbeat theme tunes
 flashing_lights: true/false
 violence_detected: true/false
 scary_content_detected: true/false
-sensory_notes: one sentence describing overall sensory experience for parents
+sensory_notes: one sentence for parents
 
-Return JSON with exactly these keys: violence, fear_fantasy, fear_realistic, language_mild, language_freq, sex_nudity, social_safety, positive_messages, role_models, consumerism, drink_drugs, calm, cuts, colour, pace, csm, age, emoji, bg, one_line_summary, themes, neuro_pills, loud_sudden_sounds, flashing_lights, violence_detected, scary_content_detected, sensory_notes`;
+Return JSON with exactly these keys: violence,fear_fantasy,fear_realistic,language_mild,language_freq,sex_nudity,social_safety,positive_messages,role_models,consumerism,drink_drugs,calm,cuts,colour,pace,csm,age,emoji,bg,one_line_summary,themes,neuro_pills,loud_sudden_sounds,flashing_lights,violence_detected,scary_content_detected,sensory_notes`;
 
-      const res = await fetch('/api/score', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
-      });
-      const data = await res.json();
-      const text = data.content?.[0]?.text || '{}';
-      const clean = text.replace(/```json|```/g, '').trim();
-      const r = JSON.parse(clean);
-
+      const res=await fetch('/api/score',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:prompt}]})});
+      const data=await res.json();
+      const text=data.content?.[0]?.text||'{}';
+      const r=JSON.parse(text.replace(/```json|```/g,'').trim());
       return {
-        v: r.violence ?? 0, f: r.fear_fantasy ?? 0, l: r.language_mild ?? 0, s: r.sex_nudity ?? 0,
-        pos: r.positive_messages ?? 3, roles: r.role_models ?? 3, con: r.consumerism ?? 1, dr: r.drink_drugs ?? 0,
-        calm: r.calm ?? 5, cuts: r.cuts ?? 5, colour: r.colour ?? 3, pace: r.pace ?? 3, csm: r.csm ?? 5,
-        age: r.age || 'All ages', emoji: r.emoji || '🎬', bg: r.bg || '#c8d8e8',
-        _fear_realistic: r.fear_realistic ?? 0, _language_freq: r.language_freq ?? 0,
-        _social_safety: r.social_safety ?? 0, _neuro_pills: r.neuro_pills || [],
-        _loud_sudden_sounds: r.loud_sudden_sounds ?? false, _flashing_lights: r.flashing_lights ?? false,
-        _one_line_summary: r.one_line_summary || '', _sensory_notes: r.sensory_notes || '',
-        themes: r.themes || []
+        v:r.violence??0,f:r.fear_fantasy??0,l:r.language_mild??0,s:r.sex_nudity??0,
+        pos:r.positive_messages??3,roles:r.role_models??3,con:r.consumerism??1,dr:r.drink_drugs??0,
+        calm:r.calm??5,cuts:r.cuts??5,colour:r.colour??5,pace:r.pace??5,csm:r.csm??5,
+        age:r.age||'All ages',emoji:r.emoji||'🎬',bg:r.bg||'#c8d8e8',
+        _fear_realistic:r.fear_realistic??0,_language_freq:r.language_freq??0,_social_safety:r.social_safety??0,
+        _neuro_pills:r.neuro_pills||[],_loud_sudden_sounds:r.loud_sudden_sounds??false,_flashing_lights:r.flashing_lights??false,
+        _one_line_summary:r.one_line_summary||'',_sensory_notes:r.sensory_notes||'',themes:r.themes||[]
       };
     }
 
     function extractUKRating(results) {
       if (!results) return null;
-      const uk = results.find(r => r.iso_3166_1 === 'GB');
-      return uk?.rating_descriptions?.[0]?.rating || uk?.ratings?.[0]?.rating || null;
+      const uk=results.find(r=>r.iso_3166_1==='GB');
+      return uk?.rating_descriptions?.[0]?.rating||uk?.ratings?.[0]?.rating||null;
     }
     function extractUKMovieRating(results) {
       if (!results) return null;
-      const uk = results.find(r => r.iso_3166_1 === 'GB');
-      return uk?.release_dates?.[0]?.certification || null;
+      const uk=results.find(r=>r.iso_3166_1==='GB');
+      return uk?.release_dates?.[0]?.certification||null;
     }
 
-    // ═══════════════ FULL AI ASSESSMENT (Gemini + Claude in parallel) ═══════════════
+    // ═══ FULL AI ASSESSMENT ═══
     async function runAIAssessment() {
-      const btn = document.getElementById('btn-ai-assess');
-      const status = document.getElementById('ai-assess-status');
-
-      const title = document.getElementById('f-title')?.value || currentShow?.title || '';
-      const type = document.getElementById('f-type')?.value || 'tv';
-      const synopsis = document.getElementById('f-synopsis')?.value || '';
-      const ageRating = document.getElementById('f-rating')?.value || '';
-      const trailer = document.getElementById('f-trailer')?.value?.trim() || '';
-      const genreVal = document.getElementById('f-genres')?.value || '';
-      const genres = genreVal.split(',').map(g => g.trim()).filter(Boolean);
-
-      if (!title) { toast('Add a title first', 'err'); return; }
-
-      btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span> Analysing…';
-      status.textContent = '';
-
-      const hasVideo = !!trailer;
-      const sourceTier = hasVideo ? 'glimpsy-ai-trailer' : 'glimpsy-ai-text';
-
+      const btn=document.getElementById('btn-ai-assess');
+      const status=document.getElementById('ai-assess-status');
+      const title=document.getElementById('f-title')?.value||currentShow?.title||'';
+      const type=document.getElementById('f-type')?.value||'tv';
+      const synopsis=document.getElementById('f-synopsis')?.value||'';
+      const ageRating=document.getElementById('f-rating')?.value||'';
+      const trailer=document.getElementById('f-trailer')?.value?.trim()||'';
+      const genres=(document.getElementById('f-genres')?.value||'').split(',').map(g=>g.trim()).filter(Boolean);
+      if (!title){toast('Add a title first','err');return;}
+      btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Analysing…';status.textContent='';
+      const hasVideo=!!trailer;
+      const sourceTier=hasVideo?'glimpsy-ai-trailer':'glimpsy-ai-text';
       try {
-        // Fire Claude + Gemini in parallel
-        const requests = [
-          fetch('/api/score', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title, type, synopsis, age_rating: ageRating, genres })
-          }).then(r => r.json())
+        const requests=[
+          fetch('/api/score',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title,type,synopsis,age_rating:ageRating,genres})}).then(r=>r.json())
         ];
-
-        if (hasVideo) {
-          requests.push(
-            fetch('/api/gemini', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ youtubeUrl: trailer, title, type })
-            }).then(r => r.json())
-          );
-        }
-
-        const results = await Promise.allSettled(requests);
-        const claudeResult = results[0].status === 'fulfilled' ? results[0].value : null;
-        console.log('CLAUDE RESULT:', JSON.stringify(claudeResult));
-
-        const geminiResult = hasVideo && results[1]?.status === 'fulfilled' ? results[1].value : null;
-        if (hasVideo && results[1]?.status === 'rejected') {
-          console.log('GEMINI ERROR:', results[1].reason);
-        }
-
+        if (hasVideo) requests.push(fetch('/api/gemini',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({youtubeUrl:trailer,title,type})}).then(r=>r.json()));
+        const results=await Promise.allSettled(requests);
+        const claudeResult=results[0].status==='fulfilled'?results[0].value:null;
+        const geminiResult=hasVideo&&results[1]?.status==='fulfilled'?results[1].value:null;
         if (!claudeResult) throw new Error('Claude scoring failed');
-
-        // Merge + conflict resolution
-        const merged = mergeAssessment(claudeResult, geminiResult, sourceTier);
+        const merged=mergeAssessment(claudeResult,geminiResult,sourceTier);
         prefillSliders(merged);
-
-        // Update _lastAIScores so save picks up the new values
-        window._lastAIScores = {
+        window._lastAIScores={
           ...window._lastAIScores,
-          _neuro_pills: merged._neuro_pills || [],
-          _one_line_summary: merged.one_line_summary || merged._one_line_summary || '',
-          _sensory_notes: merged.sensory_notes || merged._sensory_notes || '',
-          _loud_sudden_sounds: merged.loud_sudden_sounds ?? false,
-          _flashing_lights: merged.flashing_lights ?? false,
-          _fear_realistic: merged.fear_realistic ?? merged.fear_final ?? 0,
-          _social_safety: merged.social_safety ?? 0,
-          _language_freq: merged.language_freq ?? 0
+          _neuro_pills:merged._neuro_pills||[],
+          _one_line_summary:merged.one_line_summary||merged._one_line_summary||'',
+          _sensory_notes:merged.sensory_notes||merged._sensory_notes||'',
+          _loud_sudden_sounds:merged.loud_sudden_sounds??false,
+          _flashing_lights:merged.flashing_lights??false,
+          _fear_realistic:merged.fear_realistic??merged.fear_final??0,
+          _social_safety:merged.social_safety??0,
+          _language_freq:merged.language_freq??0
         };
-
-        // Update AI summary block in the DOM if it exists
-        const summaryBlock = document.getElementById('ai-summary-block');
-        if (summaryBlock && (merged._one_line_summary || merged._sensory_notes)) {
-          summaryBlock.innerHTML = buildAISummaryHTML(merged, currentShow?.id || '');
-          summaryBlock.style.display = '';
-        }
-
-        const tierLabel = {
-          'glimpsy-ai-full-episode': '✓ Measured from full episode',
-          'glimpsy-ai-trailer': '~ Measured from official trailer',
-          'glimpsy-ai-text': '◌ Estimated from synopsis'
-        }[sourceTier];
-
-        status.textContent = tierLabel;
-        status.style.color = 'var(--sage-light)';
-        toast(geminiResult ? '✦ Gemini + Claude complete' : '✦ Claude text assessment complete', 'ok');
-
-      } catch (e) {
-        console.error('AI assessment error:', e);
-        status.textContent = 'Failed — ' + e.message;
-        status.style.color = 'var(--red)';
-        toast('Assessment failed', 'err');
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = '✦ Run AI Assessment';
-      }
+        const summaryBlock=document.getElementById('ai-summary-block');
+        if (summaryBlock){summaryBlock.innerHTML=buildAISummaryHTML(merged,currentShow?.id||'');summaryBlock.style.display='';}
+        const tierLabel={'glimpsy-ai-full-episode':'✓ Measured from full episode','glimpsy-ai-trailer':'~ Measured from official trailer','glimpsy-ai-text':'◌ Estimated from synopsis'}[sourceTier];
+        status.textContent=tierLabel;status.style.color='var(--sage-light)';
+        toast(geminiResult?'✦ Gemini + Claude complete':'✦ Claude text assessment complete','ok');
+      } catch(e) {
+        status.textContent='Failed — '+e.message;status.style.color='var(--red)';
+        toast('Assessment failed','err');
+      } finally {btn.disabled=false;btn.innerHTML='✦ Run AI Assessment';}
     }
 
-    function mergeAssessment(claude, gemini, sourceTier) {
-  const merged = { ...claude, source: sourceTier };
-
-  // Gemini overrides sensory_index sub-scores if available
-  if (gemini?.sensory_index) {
-    merged.calm   = Math.round((gemini.sensory_index.overall_score / 5) * 10); // 5=calm → 10
-    merged.colour = gemini.sensory_index.colour_intensity;
-    merged.pace   = gemini.sensory_index.edit_pace;
-    merged.cuts   = Math.round(gemini.sensory_index.scene_cuts_per_minute * 2);
-    merged._audio_stress = gemini.sensory_index.audio_stress_level;
-  }
-
-  if (gemini?.flags) {
-    merged.loud_sudden_sounds    = gemini.flags.loud_sudden_sounds;
-    merged.flashing_lights       = gemini.flags.flashing_lights;
-    merged.orienting_reflex      = gemini.flags.orienting_reflex;
-    merged._sensory_notes        = gemini.sensory_notes || '';
-    merged._visual_justification = gemini.visual_justifications?.note || '';
-  }
-
-  // Conflict resolution — Gemini audio shock nudges fear up
-  merged.fear_final = Math.max(
-    claude.fear_fantasy  ?? 0,
-    claude.fear_realistic ?? 0,
-    (gemini?.flags?.loud_sudden_sounds) ? 2 : 0
-  );
-
-  // If Gemini detected violence but Claude scored low, nudge up
-  if (gemini?.flags?.violence_detected && (claude.violence ?? 0) < 2) {
-    merged.v = 2;
-  }
-
-  // Text fields from Claude
-  merged._one_line_summary = claude.one_line_summary || '';
-  merged._sensory_notes    = merged._sensory_notes || claude.sensory_notes || '';
-
-  // Derive neuro pills from merged scores
-  const pos = merged.pos ?? merged.positive_messages ?? 0;
-  const pills = [];
-  if (merged.calm >= 7 && merged.colour <= 4)                                        pills.push('low-sensory-load');
-  if (merged.calm >= 7 && merged.colour <= 4 && merged.cuts <= 3)                   pills.push('autism-friendly');
-  if (merged.themes?.includes('repetitive-structure') && merged.calm >= 7)          pills.push('stimming-friendly');
-  if (merged.pace >= 2 && merged.pace <= 5 && !merged.loud_sudden_sounds && pos>=3) pills.push('adhd-engagement');
-  if (merged.calm >= 7 && merged.pace <= 4)                                          pills.push('calming-transition');
-  if (merged.themes?.includes('clear-narrative') && pos >= 3)                       pills.push('executive-function');
-  if (merged.calm <= 4 || (merged.fear_fantasy??0) >= 3 || (merged.fear_realistic??0) >= 3) pills.push('co-viewing-recommended');
-  if (merged.calm >= 8 && merged.pace <= 2)                                          pills.push('bedtime-safe');
-  merged._neuro_pills = pills;
-
-  return merged;
-}
+    function mergeAssessment(claude,gemini,sourceTier) {
+      const merged={...claude,source:sourceTier};
+      if (gemini?.sensory_index) {
+        merged.calm=Math.round((gemini.sensory_index.overall_score/5)*10);
+        merged.colour=Math.round((gemini.sensory_index.colour_intensity/5)*10);
+        merged.pace=Math.round((gemini.sensory_index.edit_pace/5)*10);
+        merged.cuts=Math.round(gemini.sensory_index.scene_cuts_per_minute*2);
+        merged._audio_stress=gemini.sensory_index.audio_stress_level;
+      }
+      if (gemini?.flags) {
+        merged.loud_sudden_sounds=gemini.flags.loud_sudden_sounds;
+        merged.flashing_lights=gemini.flags.flashing_lights;
+        merged.orienting_reflex=gemini.flags.orienting_reflex;
+        merged._sensory_notes=gemini.sensory_notes||'';
+        merged._visual_justification=gemini.visual_justifications?.note||'';
+      }
+      merged.fear_final=Math.max(claude.fear_fantasy??0,claude.fear_realistic??0,(gemini?.flags?.loud_sudden_sounds)?2:0);
+      if (gemini?.flags?.violence_detected&&(claude.violence??0)<2) merged.v=2;
+      merged._one_line_summary=claude.one_line_summary||'';
+      merged._sensory_notes=merged._sensory_notes||claude.sensory_notes||'';
+      const pos=merged.pos??merged.positive_messages??0;
+      const pills=[];
+      if (merged.calm>=7&&merged.colour<=4) pills.push('low-sensory-load');
+      if (merged.calm>=7&&merged.colour<=4&&merged.cuts<=3) pills.push('autism-friendly');
+      if (merged.themes?.includes('repetitive-structure')&&merged.calm>=7) pills.push('stimming-friendly');
+      if (merged.pace>=2&&merged.pace<=5&&!merged.loud_sudden_sounds&&pos>=3) pills.push('adhd-engagement');
+      if (merged.calm>=7&&merged.pace<=4) pills.push('calming-transition');
+      if (merged.themes?.includes('clear-narrative')&&pos>=3) pills.push('executive-function');
+      if (merged.calm<=4||(merged.fear_fantasy??0)>=3||(merged.fear_realistic??0)>=3) pills.push('co-viewing-recommended');
+      if (merged.calm>=8&&merged.pace<=2) pills.push('bedtime-safe');
+      merged._neuro_pills=pills;
+      return merged;
+    }
 
     function prefillSliders(a) {
-      // Handle both key formats:
-      // Legacy (getAIScores): v, f, l, s, pos, roles, con, dr
-      // New (runAIAssessment via score.js structured): violence, fear_fantasy, etc.
-      const map = {
-        v: a.v ?? a.violence ?? null,
-        f: a.f ?? a.fear_fantasy ?? null,
-        l: a.l ?? a.language_mild ?? null,
-        s: a.s ?? a.sex_nudity ?? null,
-        pos: a.pos ?? a.positive_messages ?? null,
-        roles: a.roles ?? a.role_models ?? null,
-        con: a.con ?? a.consumerism ?? null,
-        dr: a.dr ?? a.drink_drugs ?? null,
-        calm: a.calm ?? null,
-        cuts: a.cuts ?? null,
-        colour: a.colour ?? null,
-        pace: a.pace ?? null
+      const map={
+        v:a.v??a.violence??null,f:a.f??a.fear_fantasy??null,l:a.l??a.language_mild??null,s:a.s??a.sex_nudity??null,
+        pos:a.pos??a.positive_messages??null,roles:a.roles??a.role_models??null,con:a.con??a.consumerism??null,dr:a.dr??a.drink_drugs??null,
+        calm:a.calm??null,cuts:a.cuts??null,colour:a.colour??null,pace:a.pace??null
       };
-
-      Object.entries(map).forEach(([k, val]) => {
-        if (val === null || val === undefined) return;
-        const slider = document.getElementById('f-' + k);
+      Object.entries(map).forEach(([k,val])=>{
+        if (val===null||val===undefined) return;
+        const slider=document.getElementById('f-'+k);
         if (!slider) return;
-        slider.value = val;
-        // Force the badge to update — dispatchEvent triggers oninput
+        slider.value=val;
         slider.dispatchEvent(new Event('input'));
       });
-
-      // Age recommendation
-      const ageVal = a.age || a.age_recommendation;
-      if (ageVal) {
-        const el = document.getElementById('f-age');
-        if (el) el.value = ageVal;
-      }
-
-      // Theme chips — reset all first, then turn on matching ones
-      document.querySelectorAll('#themes-wrap .chip').forEach(c => c.classList.remove('on'));
-      if (a.themes?.length) {
-        a.themes.forEach(t => {
-          const chip = document.querySelector(`#themes-wrap .chip[data-theme="${t}"]`);
-          if (chip) chip.classList.add('on');
-        });
-      }
-    function buildAISummaryHTML(e, dbId) {
-  const activePills = e._neuro_pills || [];
-  const activeFlags = {
-    loud_sudden_sounds: e.loud_sudden_sounds ?? e._loud_sudden_sounds ?? false,
-    flashing_lights:    e.flashing_lights    ?? e._flashing_lights    ?? false,
-    orienting_reflex:   e.orienting_reflex   ?? false,
-    scary_content:      e.scary_content      ?? false,
-    violence_detected:  e.violence_detected  ?? false
-  };
-
-  return `
-    ${e._one_line_summary ? `
-      <div style="font-size:.82rem;color:var(--text);margin-bottom:10px;line-height:1.5;">
-        💬 <strong>For parents:</strong> ${e._one_line_summary}
-      </div>` : ''}
-    ${(e._sensory_notes || e._visual_justification) ? `
-      <div style="font-size:.75rem;color:var(--muted);margin-bottom:14px;line-height:1.5;">
-        🧠 <strong>Sensory:</strong> ${e._sensory_notes || ''}
-        ${e._visual_justification ? `<br><span style="opacity:.7">${e._visual_justification}</span>` : ''}
-      </div>` : ''}
-
-    <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--light);margin-bottom:8px;">
-      Neuro pills <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);">— click to toggle</span>
-    </div>
-    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;">
-      ${ALL_NEURO_PILLS.map(p => {
-        const on = activePills.includes(p);
-        return `<button class="chip${on ? ' on sage' : ''}" data-pill="${p}" data-item="${dbId}" onclick="toggleNeuroPillChip(this)">${p}</button>`;
-      }).join('')}
-    </div>
-
-    <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--light);margin-bottom:8px;">
-      Warning flags <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);">— click to toggle</span>
-    </div>
-    <div style="display:flex;flex-wrap:wrap;gap:6px;">
-      ${ALL_WARNING_FLAGS.map(f => {
-        const on = activeFlags[f.id];
-        return `<button class="chip${on ? ' on red' : ''}" data-flag="${f.id}" data-item="${dbId}" onclick="toggleWarningFlag(this)">${f.label}</button>`;
-      }).join('')}
-    </div>`;
-}
-
-function toggleNeuroPillChip(el) {
-  const isOn = el.classList.toggle('on');
-  el.classList.toggle('sage', isOn);
-  if (!window._lastAIScores) window._lastAIScores = {};
-  window._lastAIScores._neuro_pills = [...document.querySelectorAll('[data-pill].on')].map(b => b.dataset.pill);
-}
-
-function toggleWarningFlag(el) {
-  const isOn = el.classList.toggle('on');
-  el.classList.toggle('red', isOn);
-  if (!window._lastAIScores) window._lastAIScores = {};
-  const flag = el.dataset.flag;
-  if (flag === 'loud_sudden_sounds') window._lastAIScores._loud_sudden_sounds = isOn;
-  if (flag === 'flashing_lights')    window._lastAIScores._flashing_lights    = isOn;
-}
-
-    // ═══════════════ EDIT FORM ═══════════════
-    function editShow(id) {
-      const show = SHOWS.find(s => s.id === id);
-      if (!show) return;
-      currentShow = show;
-      renderSidebar();
-      const enriched = {
-        source: 'db', type: show.type, title: show.title, emoji: show.emoji, bg: show.bg,
-        poster: show.poster, posterType: show.poster_type, year: '', seasons: show.seasons,
-        dur: show.dur, rating: show.rating, csm: show.csm, genres: show.genres || [],
-        overview: show.synopsis,
-        v: show.v, f: show.f, l: show.l, s: show.s,
-        pos: show.pos, roles: show.roles, con: show.con, dr: show.dr,
-        calm: show.calm, cuts: show.cuts, colour: show.colour, pace: show.pace,
-        themes: show.themes || [], platforms: show.platforms || [], age: show.age, eps: show.eps || [],
-        dbId: show.id,
-        _neuro_pills: show.neuro_pills || [], _one_line_summary: show.one_line_summary || '',
-        _sensory_notes: show.sensory_notes || '', _loud_sudden_sounds: show.loud_sudden_sounds || false,
-        _flashing_lights: show.flashing_lights || false, neuro_pills_dismissed: show.neuro_pills_dismissed || []
-      };
-      openEditForm(show, enriched);
+      const ageVal=a.age||a.age_recommendation;
+      if (ageVal){const el=document.getElementById('f-age');if(el)el.value=ageVal;}
+      document.querySelectorAll('#themes-wrap .chip').forEach(c=>c.classList.remove('on'));
+      if (a.themes?.length) a.themes.forEach(t=>{const c=document.querySelector(`#themes-wrap .chip[data-theme="${t}"]`);if(c)c.classList.add('on');});
     }
 
-    const ALL_THEMES = [
-      'death', 'monsters', 'bullying', 'toilet-humour', 'mild-violence', 'scary', 'divorce',
-      'grief', 'guns', 'educational', 'positive-friendship', 'positive-empathy', 'family-values',
-      'family-conflict', 'mild-language', 'nudity', 'sexual-content', 'drug-use', 'gambling'
-    ];
-      const ALL_NEURO_PILLS = ['low-sensory-load','autism-friendly','stimming-friendly','adhd-engagement','calming-transition','executive-function','co-viewing-recommended','bedtime-safe'];
+    // ═══ AI SUMMARY ═══
+    function buildAISummaryHTML(e,dbId) {
+      const activePills=e._neuro_pills||[];
+      const activeFlags={
+        loud_sudden_sounds:e.loud_sudden_sounds??e._loud_sudden_sounds??false,
+        flashing_lights:e.flashing_lights??e._flashing_lights??false,
+        orienting_reflex:e.orienting_reflex??false,
+        scary_content:e.scary_content??false,
+        violence_detected:e.violence_detected??false
+      };
+      return `
+        ${e._one_line_summary?`<div style="font-size:.82rem;color:var(--text);margin-bottom:10px;line-height:1.5;">💬 <strong>For parents:</strong> ${e._one_line_summary}</div>`:''}
+        ${(e._sensory_notes||e._visual_justification)?`<div style="font-size:.75rem;color:var(--muted);margin-bottom:14px;line-height:1.5;">🧠 <strong>Sensory:</strong> ${e._sensory_notes||''}${e._visual_justification?`<br><span style="opacity:.7">${e._visual_justification}</span>`:''}</div>`:''}
+        <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--light);margin-bottom:8px;">Neuro pills <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);">— click to toggle</span></div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;">
+          ${ALL_NEURO_PILLS.map(p=>{const on=activePills.includes(p);return `<button class="chip${on?' on sage':''}" data-pill="${p}" data-item="${dbId}" onclick="toggleNeuroPillChip(this)">${p}</button>`;}).join('')}
+        </div>
+        <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--light);margin-bottom:8px;">Warning flags <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);">— click to toggle</span></div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          ${ALL_WARNING_FLAGS.map(f=>{const on=activeFlags[f.id];return `<button class="chip${on?' on red':''}" data-flag="${f.id}" data-item="${dbId}" onclick="toggleWarningFlag(this)">${f.label}</button>`;}).join('')}
+        </div>`;
+    }
 
-const ALL_WARNING_FLAGS = [
-  { id: 'loud_sudden_sounds', label: '⚠ Loud sudden sounds' },
-  { id: 'flashing_lights',    label: '⚠ Flashing lights' },
-  { id: 'orienting_reflex',   label: '⚠ Orienting reflex' },
-  { id: 'scary_content',      label: '⚠ Scary content' },
-  { id: 'violence_detected',  label: '⚠ Violence detected' }
-];
+    function toggleNeuroPillChip(el) {
+      const isOn=el.classList.toggle('on');
+      el.classList.toggle('sage',isOn);
+      if (!window._lastAIScores) window._lastAIScores={};
+      window._lastAIScores._neuro_pills=[...document.querySelectorAll('[data-pill].on')].map(b=>b.dataset.pill);
+    }
 
-    const DEFAULT_PLATFORMS = {
-      tv: [
-        { n: 'BBC iPlayer', i: '📺', t: 'Free', url: 'https://www.bbc.co.uk/iplayer' },
-        { n: 'Netflix', i: '🎬', t: 'Subscription', url: 'https://www.netflix.com' },
-        { n: 'Disney+', i: '✨', t: 'Subscription', url: 'https://www.disneyplus.com' },
-        { n: 'Prime Video', i: '📦', t: 'Subscription', url: 'https://www.amazon.co.uk/primevideo' },
-        { n: 'ITVX', i: '📡', t: 'Free', url: 'https://www.itv.com/watch' },
-        { n: 'YouTube', i: '▶️', t: 'Free', url: 'https://www.youtube.com' },
-      ],
-      movie: [
-        { n: 'Netflix', i: '🎬', t: 'Subscription', url: 'https://www.netflix.com' },
-        { n: 'Disney+', i: '✨', t: 'Subscription', url: 'https://www.disneyplus.com' },
-        { n: 'Prime Video', i: '📦', t: 'Subscription', url: 'https://www.amazon.co.uk/primevideo' },
-        { n: 'BBC iPlayer', i: '📺', t: 'Free', url: 'https://www.bbc.co.uk/iplayer' },
-      ],
-      book: [
-        { n: 'Amazon', i: '📦', t: 'Buy', url: 'https://www.amazon.co.uk' },
-        { n: 'Waterstones', i: '📚', t: 'Buy', url: 'https://www.waterstones.com' },
-        { n: 'Library', i: '🏛️', t: 'Free', url: 'https://www.librarieswest.org.uk' },
-      ]
-    };
+    function toggleWarningFlag(el) {
+      const isOn=el.classList.toggle('on');
+      el.classList.toggle('red',isOn);
+      if (!window._lastAIScores) window._lastAIScores={};
+      const flag=el.dataset.flag;
+      if (flag==='loud_sudden_sounds') window._lastAIScores._loud_sudden_sounds=isOn;
+      if (flag==='flashing_lights') window._lastAIScores._flashing_lights=isOn;
+    }
 
-    function openEditForm(dbRow, enriched) {
-      const isNew = !dbRow;
-      const e = enriched;
-      const themes = e.themes || [];
-      const platforms = e.platforms || DEFAULT_PLATFORMS[e.type] || [];
-      const posterUrl = e.posterType === 'book' ? e.poster : (e.poster ? TMDB_IMG + e.poster : null);
-      const hasSummary = e._one_line_summary || e._sensory_notes || (e._neuro_pills && e._neuro_pills.length) || e._loud_sudden_sounds || e._flashing_lights;
+    // ═══ EDIT FORM ═══
+    function editShow(id) {
+      const show=SHOWS.find(s=>s.id===id);
+      if (!show) return;
+      currentShow=show;renderSidebar();
+      openEditForm(show,{
+        source:'db',type:show.type,title:show.title,emoji:show.emoji,bg:show.bg,
+        poster:show.poster,posterType:show.poster_type,seasons:show.seasons,dur:show.dur,
+        rating:show.rating,csm:show.csm,genres:show.genres||[],overview:show.synopsis,
+        v:show.v,f:show.f,l:show.l,s:show.s,pos:show.pos,roles:show.roles,con:show.con,dr:show.dr,
+        calm:show.calm,cuts:show.cuts,colour:show.colour,pace:show.pace,
+        themes:show.themes||[],platforms:show.platforms||[],age:show.age,eps:show.eps||[],dbId:show.id,
+        trailer:show.trailer||'',
+        _neuro_pills:show.neuro_pills||[],_one_line_summary:show.one_line_summary||'',
+        _sensory_notes:show.sensory_notes||'',_loud_sudden_sounds:show.loud_sudden_sounds||false,
+        _flashing_lights:show.flashing_lights||false
+      });
+    }
 
-      document.getElementById('topbar-title').innerHTML = isNew
-        ? `<strong>New: ${e.title}</strong>`
-        : `<strong>${dbRow.title}</strong> <span style="color:var(--muted);font-weight:300">— editing</span>`;
+    function openEditForm(dbRow,enriched) {
+      const isNew=!dbRow,e=enriched;
+      const themes=e.themes||[],platforms=e.platforms||DEFAULT_PLATFORMS[e.type]||[];
+      const posterUrl=e.posterType==='book'?e.poster:(e.poster?TMDB_IMG+e.poster:null);
+      const hasSummary=e._one_line_summary||e._sensory_notes||(e._neuro_pills&&e._neuro_pills.length);
 
-      document.getElementById('topbar-actions').innerHTML = `
+      document.getElementById('topbar-title').innerHTML=isNew?`<strong>New: ${e.title}</strong>`:`<strong>${dbRow.title}</strong> <span style="color:var(--muted);font-weight:300">— editing</span>`;
+      document.getElementById('topbar-actions').innerHTML=`
         <button class="btn btn-ghost" onclick="showSearch()">← Back</button>
-        <button class="btn btn-primary" id="save-btn" onclick="saveShow()">💾 Save to Supabase</button>
-      `;
+        <button class="btn btn-primary" id="save-btn" onclick="saveShow()">💾 Save to Supabase</button>`;
 
-      const nextId = isNew ? (SHOWS.length ? Math.max(...SHOWS.map(s => s.id)) + 1 : 1) : dbRow.id;
+      const nextId=isNew?(SHOWS.length?Math.max(...SHOWS.map(s=>s.id))+1:1):dbRow.id;
 
-      document.getElementById('content-area').innerHTML = `
+      document.getElementById('content-area').innerHTML=`
         <div class="edit-form">
-
           <div class="section-divider">Basic Info</div>
           <div class="form-grid">
-            <div class="field"><label class="label">Title</label><input class="input" id="f-title" value="${escHtml(e.title || '')}"></div>
+            <div class="field"><label class="label">Title</label><input class="input" id="f-title" value="${escHtml(e.title||'')}"></div>
             <div class="field"><label class="label">Type</label>
               <select class="input" id="f-type">
-                <option value="tv"${e.type === 'tv' ? ' selected' : ''}>TV Show</option>
-                <option value="movie"${e.type === 'movie' ? ' selected' : ''}>Film / Movie</option>
-                <option value="book"${e.type === 'book' ? ' selected' : ''}>Book</option>
-                <option value="youtube"${e.type === 'youtube' ? ' selected' : ''}>YouTube</option>
-                <option value="theatre"${e.type === 'theatre' ? ' selected' : ''}>Theatre</option>
+                <option value="tv"${e.type==='tv'?' selected':''}>TV Show</option>
+                <option value="movie"${e.type==='movie'?' selected':''}>Film / Movie</option>
+                <option value="book"${e.type==='book'?' selected':''}>Book</option>
+                <option value="youtube"${e.type==='youtube'?' selected':''}>YouTube</option>
+                <option value="theatre"${e.type==='theatre'?' selected':''}>Theatre</option>
               </select>
             </div>
-            <div class="field"><label class="label">Age recommendation</label><input class="input" id="f-age" value="${escHtml(e.age || 'All ages')}" placeholder="e.g. 3–7, All ages, 10+"></div>
+            <div class="field"><label class="label">Age recommendation</label><input class="input" id="f-age" value="${escHtml(e.age||'All ages')}" placeholder="e.g. 3–7, All ages, 10+"></div>
             <div class="field"><label class="label">UK Rating</label>
-              <select class="input" id="f-rating">${['U', 'PG', '12', '12A', '15', '18'].map(r => `<option${e.rating === r ? ' selected' : ''}>${r}</option>`).join('')}</select>
+              <select class="input" id="f-rating">${['U','PG','12','12A','15','18'].map(r=>`<option${e.rating===r?' selected':''}>${r}</option>`).join('')}</select>
             </div>
-            <div class="field"><label class="label">Emoji</label><input class="input" id="f-emoji" value="${e.emoji || '🎬'}" maxlength="2" style="font-size:1.2rem;"></div>
-            <div class="field"><label class="label">Background colour</label><input class="input" id="f-bg" value="${e.bg || '#c8d8e8'}" placeholder="#b8d4e8"></div>
-            <div class="field"><label class="label">Seasons (TV only)</label><input class="input" type="number" id="f-seasons" value="${e.seasons || ''}" placeholder="—"></div>
-            <div class="field"><label class="label">Duration (mins)</label><input class="input" type="number" id="f-dur" value="${e.dur || ''}" placeholder="e.g. 25"></div>
-            <div class="field"><label class="label">CSM / Sensory score (1–10)</label><input class="input" type="number" min="1" max="10" id="f-csm" value="${e.csm || 5}"></div>
-            <div class="field"><label class="label">Genres (comma-separated)</label><input class="input" id="f-genres" value="${(e.genres || []).join(', ')}"></div>
+            <div class="field"><label class="label">Emoji</label><input class="input" id="f-emoji" value="${e.emoji||'🎬'}" maxlength="2" style="font-size:1.2rem;"></div>
+            <div class="field"><label class="label">Background colour</label><input class="input" id="f-bg" value="${e.bg||'#c8d8e8'}"></div>
+            <div class="field"><label class="label">Seasons (TV only)</label><input class="input" type="number" id="f-seasons" value="${e.seasons||''}" placeholder="—"></div>
+            <div class="field"><label class="label">Duration (mins)</label><input class="input" type="number" id="f-dur" value="${e.dur||''}" placeholder="e.g. 25"></div>
+            <div class="field"><label class="label">CSM / Sensory score (1–10)</label><input class="input" type="number" min="1" max="10" id="f-csm" value="${e.csm||5}"></div>
+            <div class="field"><label class="label">Genres (comma-separated)</label><input class="input" id="f-genres" value="${(e.genres||[]).join(', ')}"></div>
           </div>
 
           <div class="field full" style="margin-bottom:16px">
             <label class="label">Synopsis</label>
-            <textarea class="input" id="f-synopsis">${escHtml(e.overview || e.synopsis || '')}</textarea>
+            <textarea class="input" id="f-synopsis">${escHtml(e.overview||e.synopsis||'')}</textarea>
           </div>
 
           <div class="field full" style="margin-bottom:16px">
             <label class="label">YouTube trailer / episode URL <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--light);font-size:.65rem;">— used by Gemini for video analysis</span></label>
-            <input class="input" id="f-trailer" value="${escHtml(e.trailerUrl || e.trailer || '')}" placeholder="https://www.youtube.com/watch?v=…">
+            <input class="input" id="f-trailer" value="${escHtml(e.trailerUrl||e.trailer||'')}" placeholder="https://www.youtube.com/watch?v=…">
           </div>
 
           <div class="field full" style="margin-bottom:16px">
             <label class="label">Poster</label>
             <div class="poster-preview-wrap">
-              <div class="poster-preview" id="poster-preview">
-                ${posterUrl ? `<img src="${posterUrl}" onerror="this.parentNode.textContent='${e.emoji || '🎬'}'">` : (e.emoji || '🎬')}
-              </div>
+              <div class="poster-preview" id="poster-preview">${posterUrl?`<img src="${posterUrl}" onerror="this.parentNode.textContent='${e.emoji||'🎬'}'">`:e.emoji||'🎬'}</div>
               <div class="poster-input-wrap">
-                <input class="input" id="f-poster" value="${escHtml(e.poster || '')}" placeholder="TMDB path e.g. /abc123.jpg or full URL for books" oninput="updatePosterPreview(this.value,'${e.posterType || ''}')">
-                <div style="font-size:.62rem;color:var(--muted);margin-top:6px;">TMDB: use the path like <code style="color:var(--terra)">/abc.jpg</code>. Books: paste the full Google Books URL.</div>
+                <input class="input" id="f-poster" value="${escHtml(e.poster||'')}" placeholder="TMDB path e.g. /abc123.jpg" oninput="updatePosterPreview(this.value,'${e.posterType||''}')">
+                <div style="font-size:.62rem;color:var(--muted);margin-top:6px;">TMDB: use path like <code style="color:var(--terra)">/abc.jpg</code>. Books: paste full URL.</div>
                 <div style="margin-top:8px;">
                   <label class="label" style="display:inline;margin-right:8px">Poster type:</label>
                   <select class="input" id="f-poster-type" style="display:inline;width:auto;padding:5px 10px;font-size:.75rem;">
-                    <option value=""${!e.posterType ? ' selected' : ''}>TMDB (default)</option>
-                    <option value="book"${e.posterType === 'book' ? ' selected' : ''}>Book / External URL</option>
+                    <option value=""${!e.posterType?' selected':''}>TMDB (default)</option>
+                    <option value="book"${e.posterType==='book'?' selected':''}>Book / External URL</option>
                   </select>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- ✦ AI ASSESSMENT BANNER -->
           <div class="ai-assess-banner">
             <div class="ai-assess-banner-info">
               <div class="ai-assess-banner-label">✦ Glimpsy AI Assessment</div>
               <div class="ai-assess-banner-sub">
                 Runs Claude (text) + Gemini (video) in parallel and pre-fills all scores below.<br>
-                ${e.trailerUrl || e.trailer ? '📹 Trailer URL detected — Gemini will analyse the video.' : '📄 No trailer URL — Claude text-only scoring will run.'}
+                ${e.trailerUrl||e.trailer?'📹 Trailer URL detected — Gemini will analyse the video.':'📄 No trailer URL — Claude text-only scoring will run.'}
                 Review and adjust before saving.
               </div>
             </div>
@@ -1601,56 +635,43 @@ const ALL_WARNING_FLAGS = [
             </div>
           </div>
 
-          <div class="section-divider">Content Ratings <span>How intense is this content? 0 = none, 5 = extreme</span></div>
+          <div class="section-divider">Content Ratings <span>0 = none, 5 = extreme</span></div>
           <div class="slider-group">
-            ${['v:Violence', 'f:Fear / Scary', 'l:Language', 's:Sexual content'].map(x => {
-        const [k, name] = x.split(':');
-        const val = e[k] ?? 0;
-        return `<div class="slider-row">
-                <div class="slider-top"><span class="slider-name">${name}</span><span class="slider-val sv-${val}" id="sv-${k}">${val}</span></div>
-                <input type="range" min="0" max="5" value="${val}" id="f-${k}" oninput="updateSliderVal('${k}',this.value)">
-              </div>`;
-      }).join('')}
+            ${['v:Violence','f:Fear / Scary','l:Language','s:Sexual content'].map(x=>{
+              const [k,name]=x.split(':'),val=e[k]??0;
+              return `<div class="slider-row"><div class="slider-top"><span class="slider-name">${name}</span><span class="slider-val" id="sv-${k}">${val}</span></div><input type="range" min="0" max="5" value="${val}" id="f-${k}" oninput="updateSliderVal('${k}',this.value)"></div>`;
+            }).join('')}
           </div>
 
           <div class="section-divider">Positive Qualities <span>0 = none, 5 = lots</span></div>
           <div class="slider-group">
-            ${['pos:Positive values', 'roles:Role models', 'con:Consumerism', 'dr:Drinking/drugs'].map(x => {
-        const [k, name] = x.split(':');
-        const val = e[k] ?? 3;
-        return `<div class="slider-row">
-                <div class="slider-top"><span class="slider-name">${name}</span><span class="slider-val sv-${val}" id="sv-${k}">${val}</span></div>
-                <input type="range" min="0" max="5" value="${val}" id="f-${k}" oninput="updateSliderVal('${k}',this.value)">
-              </div>`;
-      }).join('')}
+            ${['pos:Positive values','roles:Role models','con:Consumerism','dr:Drinking/drugs'].map(x=>{
+              const [k,name]=x.split(':'),val=e[k]??3;
+              return `<div class="slider-row"><div class="slider-top"><span class="slider-name">${name}</span><span class="slider-val" id="sv-${k}">${val}</span></div><input type="range" min="0" max="5" value="${val}" id="f-${k}" oninput="updateSliderVal('${k}',this.value)"></div>`;
+            }).join('')}
           </div>
 
           <div class="section-divider">Sensory Index <span>For neurodivergent filtering</span></div>
           <div class="slider-group">
             ${[
-          { k: 'calm', name: 'Calm / Pacing', hint: '10 = very calm like Bluey · 0 = chaotic' },
-          { k: 'cuts', name: 'Cuts per min', hint: '0 = slow/few cuts · 10 = very rapid editing' },
-          {k:'colour', name:'Colour Intensity', hint:'0 = muted/grey · 10 = extremely bright & saturated'},
-          {k:'pace',   name:'Overall Pace',     hint:'0 = very slow · 10 = very fast'}
-        ].map(({ k, name, hint }) => {
-          const val = e[k] ?? 3;
-          return `<div class="slider-row">
-                <div class="slider-top"><span class="slider-name">${name}</span><span class="slider-val sv-${Math.min(5, Math.round(val / 2))}" id="sv-${k}">${val}</span></div>
-                <input type="range" min="0" max="10" value="${val}" id="f-${k}" oninput="updateSliderVal('${k}',this.value)">
-                <div style="font-size:.6rem;color:var(--light);margin-top:3px;">${hint}</div>
-              </div>`;
-        }).join('')}
+              {k:'calm',name:'Calm / Pacing',hint:'10 = very calm like In the Night Garden · 0 = chaotic'},
+              {k:'cuts',name:'Cuts per min',hint:'0 = slow/few cuts · 10 = very rapid editing'},
+              {k:'colour',name:'Colour Intensity',hint:'0 = muted/grey · 10 = extremely bright & saturated'},
+              {k:'pace',name:'Overall Pace',hint:'0 = very slow · 10 = very fast'}
+            ].map(({k,name,hint})=>{
+              const val=e[k]??3;
+              return `<div class="slider-row"><div class="slider-top"><span class="slider-name">${name}</span><span class="slider-val" id="sv-${k}">${val}</span></div><input type="range" min="0" max="10" value="${val}" id="f-${k}" oninput="updateSliderVal('${k}',this.value)"><div style="font-size:.6rem;color:var(--light);margin-top:3px;">${hint}</div></div>`;
+            }).join('')}
           </div>
 
-          ${hasSummary ? `
           <div class="section-divider">AI Assessment Summary</div>
-          <div id="ai-summary-block" style="background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:16px;margin-bottom:16px;">
-            ${buildAISummaryHTML(e, e.dbId || '')}
-          </div>` : `<div id="ai-summary-block" style="display:none;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:16px;margin-bottom:16px;"></div>`}
+          <div id="ai-summary-block" style="background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:16px;margin-bottom:16px;${hasSummary?'':'display:none'}">
+            ${hasSummary?buildAISummaryHTML(e,e.dbId||''):''}
+          </div>
 
           <div class="section-divider">Themes</div>
           <div class="chips-wrap" id="themes-wrap">
-            ${ALL_THEMES.map(t => `<button class="chip${themes.includes(t) ? ' on' : ''}" onclick="toggleTheme(this,'${t}')" data-theme="${t}">${t.replace(/-/g, ' ')}</button>`).join('')}
+            ${ALL_THEMES.map(t=>`<button class="chip${themes.includes(t)?' on':''}" onclick="toggleTheme(this,'${t}')" data-theme="${t}">${t.replace(/-/g,' ')}</button>`).join('')}
           </div>
           <div style="margin-top:10px;display:flex;gap:8px;align-items:center;">
             <input class="input" id="custom-theme" placeholder="Add custom theme…" style="max-width:220px;padding:7px 12px;font-size:.75rem;" onkeydown="if(event.key==='Enter')addCustomTheme()">
@@ -1659,218 +680,179 @@ const ALL_WARNING_FLAGS = [
 
           <div class="section-divider">Platforms <span>Where can this be watched/read?</span></div>
           <div id="platforms-wrap">
-            ${platforms.map((p, i) => `
+            ${platforms.map((p,i)=>`
               <div class="form-grid" style="margin-bottom:8px;align-items:end;" id="plat-${i}">
-                <div class="field"><label class="label">Platform name</label><input class="input plat-name" value="${escHtml(p.n || '')}"></div>
-                <div class="field"><label class="label">Icon emoji</label><input class="input plat-icon" value="${p.i || ''}" style="font-size:1rem;" maxlength="2"></div>
-                <div class="field"><label class="label">Type / price</label><input class="input plat-type" value="${escHtml(p.t || '')}"></div>
-                <div class="field"><label class="label">URL</label><input class="input plat-url" value="${escHtml(p.url || '')}"></div>
-              </div>
-            `).join('')}
+                <div class="field"><label class="label">Platform name</label><input class="input plat-name" value="${escHtml(p.n||'')}"></div>
+                <div class="field"><label class="label">Icon emoji</label><input class="input plat-icon" value="${p.i||''}" style="font-size:1rem;" maxlength="2"></div>
+                <div class="field"><label class="label">Type / price</label><input class="input plat-type" value="${escHtml(p.t||'')}"></div>
+                <div class="field"><label class="label">URL</label><input class="input plat-url" value="${escHtml(p.url||'')}"></div>
+              </div>`).join('')}
           </div>
           <button class="btn btn-ghost" style="font-size:.72rem;padding:7px 14px;margin-top:4px;" onclick="addPlatformRow()">＋ Add platform</button>
 
           <input type="hidden" id="f-id" value="${nextId}">
-          <input type="hidden" id="f-dbid" value="${e.dbId || ''}">
+          <input type="hidden" id="f-dbid" value="${e.dbId||''}">
 
           <div class="form-actions">
-            ${!isNew ? `<button class="btn btn-danger" onclick="deleteShow(${dbRow.id},'${escHtml(dbRow.title)}')">Delete</button>` : ''}
+            ${!isNew?`<button class="btn btn-danger" onclick="deleteShow(${dbRow.id},'${escHtml(dbRow.title)}')">Delete</button>`:''}
             <button class="btn btn-ghost" onclick="showSearch()">Cancel</button>
             <div class="save-status" id="save-status"></div>
             <button class="btn btn-primary" onclick="saveShow()">💾 Save to Supabase</button>
           </div>
-
         </div>`;
+
+      // Initialise badge colours after render
+      setTimeout(()=>{
+        ['calm','cuts','colour','pace','v','f','l','s','pos','roles','con','dr'].forEach(k=>{
+          const el=document.getElementById('f-'+k);
+          if (el) updateSliderVal(k,el.value);
+        });
+      },0);
     }
 
-  
-    function updateSliderVal(key, val) {
-  const el = document.getElementById('sv-' + key);
-  if (!el) return;
-  el.textContent = val;
-  const n = parseInt(val);
+    // ═══ SLIDER + UI HELPERS ═══
+    function updateSliderVal(key,val) {
+      const el=document.getElementById('sv-'+key);
+      if (!el) return;
+      el.textContent=val;
+      const n=parseInt(val);
+      const highIsGood=['calm','pos','roles'];
+      const lowIsGood=['v','f','l','s','con','dr','cuts','colour','pace'];
+      const max10=['calm','cuts','colour','pace'];
+      let level;
+      if (highIsGood.includes(key)){const max=max10.includes(key)?10:5;const pct=n/max;level=pct>=0.6?0:pct>=0.3?1:2;}
+      else if (lowIsGood.includes(key)){const max=max10.includes(key)?10:5;const pct=n/max;level=pct<=0.3?0:pct<=0.6?1:2;}
+      else{level=1;}
+      el.className=`slider-val sv-${level===0?'0':level===1?'2':'4'}`;
+    }
 
-  const highIsGood = ['calm', 'pos', 'roles'];
-  const lowIsGood  = ['v', 'f', 'l', 's', 'con', 'dr', 'cuts', 'colour', 'pace'];
-  const max10      = ['calm', 'cuts', 'colour', 'pace'];
-
-  let level;
-
-  if (highIsGood.includes(key)) {
-    const max = max10.includes(key) ? 10 : 5;
-    const pct = n / max;
-    level = pct >= 0.6 ? 0 : pct >= 0.3 ? 1 : 2;
-  } else if (lowIsGood.includes(key)) {
-    const max = max10.includes(key) ? 10 : 5;
-    const pct = n / max;
-    level = pct <= 0.3 ? 0 : pct <= 0.6 ? 1 : 2;
-  } else {
-    level = 1;
-  }
-
-  el.className = `slider-val sv-${level === 0 ? '0' : level === 1 ? '2' : '4'}`;
-}
-
-    function updatePosterPreview(val, type) {
-      const preview = document.getElementById('poster-preview');
+    function updatePosterPreview(val,type) {
+      const preview=document.getElementById('poster-preview');
       if (!preview) return;
-      const isExternal = type === 'book' || val.startsWith('http');
-      const url = isExternal ? val : (val ? TMDB_IMG + val : null);
-      preview.innerHTML = url ? `<img src="${url}" onerror="this.parentNode.textContent='🎬'">` : '🎬';
+      const isExternal=type==='book'||val.startsWith('http');
+      const url=isExternal?val:(val?TMDB_IMG+val:null);
+      preview.innerHTML=url?`<img src="${url}" onerror="this.parentNode.textContent='🎬'">`:' 🎬';
     }
 
-    function toggleTheme(btn, theme) { btn.classList.toggle('on'); }
+    function toggleTheme(btn){btn.classList.toggle('on');}
 
     function addCustomTheme() {
-      const inp = document.getElementById('custom-theme');
-      const val = inp.value.trim().toLowerCase().replace(/\s+/g, '-');
+      const inp=document.getElementById('custom-theme');
+      const val=inp.value.trim().toLowerCase().replace(/\s+/g,'-');
       if (!val) return;
-      const wrap = document.getElementById('themes-wrap');
-      const btn = document.createElement('button');
-      btn.className = 'chip on'; btn.textContent = val.replace(/-/g, ' ');
-      btn.dataset.theme = val; btn.onclick = () => btn.classList.toggle('on');
-      wrap.appendChild(btn); inp.value = '';
+      const wrap=document.getElementById('themes-wrap');
+      const btn=document.createElement('button');
+      btn.className='chip on';btn.textContent=val.replace(/-/g,' ');btn.dataset.theme=val;btn.onclick=()=>btn.classList.toggle('on');
+      wrap.appendChild(btn);inp.value='';
     }
 
     function addPlatformRow() {
-      const wrap = document.getElementById('platforms-wrap');
-      const i = wrap.children.length;
-      const div = document.createElement('div');
-      div.className = 'form-grid'; div.style.cssText = 'margin-bottom:8px;align-items:end;'; div.id = 'plat-' + i;
-      div.innerHTML = `
-        <div class="field"><label class="label">Platform name</label><input class="input plat-name" value=""></div>
-        <div class="field"><label class="label">Icon emoji</label><input class="input plat-icon" value="" style="font-size:1rem;" maxlength="2"></div>
-        <div class="field"><label class="label">Type / price</label><input class="input plat-type" value=""></div>
-        <div class="field"><label class="label">URL</label><input class="input plat-url" value=""></div>
-      `;
+      const wrap=document.getElementById('platforms-wrap');
+      const i=wrap.children.length;
+      const div=document.createElement('div');
+      div.className='form-grid';div.style.cssText='margin-bottom:8px;align-items:end;';div.id='plat-'+i;
+      div.innerHTML=`<div class="field"><label class="label">Platform name</label><input class="input plat-name" value=""></div><div class="field"><label class="label">Icon emoji</label><input class="input plat-icon" value="" style="font-size:1rem;" maxlength="2"></div><div class="field"><label class="label">Type / price</label><input class="input plat-type" value=""></div><div class="field"><label class="label">URL</label><input class="input plat-url" value=""></div>`;
       wrap.appendChild(div);
     }
 
-    // ═══════════════ SAVE ═══════════════
+    // ═══ SAVE ═══
     async function saveShow() {
-      const statusEl = document.getElementById('save-status');
-      const saveBtn = document.getElementById('save-btn');
-      if (saveBtn) saveBtn.disabled = true;
-      if (statusEl) { statusEl.className = 'save-status'; statusEl.textContent = 'Saving…'; }
-
+      const statusEl=document.getElementById('save-status');
+      const saveBtn=document.getElementById('save-btn');
+      if (saveBtn) saveBtn.disabled=true;
+      if (statusEl){statusEl.className='save-status';statusEl.textContent='Saving…';}
       try {
-        const dbId = document.getElementById('f-dbid').value;
-        const isUpdate = !!dbId;
+        const dbId=document.getElementById('f-dbid').value;
+        const isUpdate=!!dbId;
         let id;
-        if (isUpdate) {
-          id = parseInt(document.getElementById('f-id').value);
-        } else {
-          const maxRes = await sbFetch('shows?select=id&order=id.desc&limit=1');
-          id = maxRes && maxRes.length ? maxRes[0].id + 1 : 1;
-          document.getElementById('f-id').value = id;
-        }
+        if (isUpdate){id=parseInt(document.getElementById('f-id').value);}
+        else{const maxRes=await sbFetch('shows?select=id&order=id.desc&limit=1');id=maxRes&&maxRes.length?maxRes[0].id+1:1;document.getElementById('f-id').value=id;}
 
-        const themes = [...document.querySelectorAll('#themes-wrap .chip.on')].map(c => c.dataset.theme);
-        const platRows = document.querySelectorAll('#platforms-wrap .form-grid');
-        const platforms = [...platRows].map(row => ({
-          n: row.querySelector('.plat-name')?.value?.trim() || '',
-          i: row.querySelector('.plat-icon')?.value?.trim() || '',
-          t: row.querySelector('.plat-type')?.value?.trim() || '',
-          url: row.querySelector('.plat-url')?.value?.trim() || ''
-        })).filter(p => p.n);
+        const themes=[...document.querySelectorAll('#themes-wrap .chip.on')].map(c=>c.dataset.theme);
+        const platRows=document.querySelectorAll('#platforms-wrap .form-grid');
+        const platforms=[...platRows].map(row=>({n:row.querySelector('.plat-name')?.value?.trim()||'',i:row.querySelector('.plat-icon')?.value?.trim()||'',t:row.querySelector('.plat-type')?.value?.trim()||'',url:row.querySelector('.plat-url')?.value?.trim()||''})).filter(p=>p.n);
+        const posterType=document.getElementById('f-poster-type')?.value||null;
+        const activePills=[...document.querySelectorAll('[data-pill].on')].map(b=>b.dataset.pill);
+        const flagOn=(id)=>!!document.querySelector(`[data-flag="${id}"].on`);
+        const ai=window._lastAIScores,cs=currentShow;
 
-        const posterType = document.getElementById('f-poster-type')?.value || null;
-        const editForm = document.querySelector('.edit-form');
-        const neuroPillsDismissed = editForm
-          ? [...editForm.querySelectorAll('.neuro-pill-toggle.dismissed')].map(s => s.dataset.pill)
-          : [];
-
-        const ai = window._lastAIScores;
-        const cs = currentShow;
-
-        const payload = {
-          id,
-          type: document.getElementById('f-type').value,
-          title: document.getElementById('f-title').value.trim(),
-          emoji: document.getElementById('f-emoji').value.trim(),
-          bg: document.getElementById('f-bg').value.trim(),
-          poster: document.getElementById('f-poster').value.trim() || null,
-          poster_type: posterType || null,
-          age: document.getElementById('f-age').value.trim(),
-          seasons: parseInt(document.getElementById('f-seasons').value) || null,
-          dur: parseInt(document.getElementById('f-dur').value) || null,
-          rating: document.getElementById('f-rating').value,
-          csm: parseInt(document.getElementById('f-csm').value) || 5,
-          genres: document.getElementById('f-genres').value.split(',').map(g => g.trim()).filter(Boolean),
-          v: parseInt(document.getElementById('f-v').value),
-          f: parseInt(document.getElementById('f-f').value),
-          l: parseInt(document.getElementById('f-l').value),
-          s: parseInt(document.getElementById('f-s').value),
-          pos: parseInt(document.getElementById('f-pos').value),
-          roles: parseInt(document.getElementById('f-roles').value),
-          con: parseInt(document.getElementById('f-con').value),
-          dr: parseInt(document.getElementById('f-dr').value),
-          calm: parseInt(document.getElementById('f-calm').value),
-          cuts: parseInt(document.getElementById('f-cuts').value),
-          colour: parseInt(document.getElementById('f-colour').value),
-          pace: parseInt(document.getElementById('f-pace').value),
-          themes, platforms,
-          synopsis: document.getElementById('f-synopsis').value.trim(),
-          trailer: document.getElementById('f-trailer').value.trim() || null,
-          eps: [],
-          neuro_pills: ai ? ai._neuro_pills : (cs?.neuro_pills || []),
-          neuro_pills_dismissed: neuroPillsDismissed,
-          one_line_summary: ai ? ai._one_line_summary : (cs?.one_line_summary || null),
-          sensory_notes: ai ? ai._sensory_notes : (cs?.sensory_notes || null),
-          loud_sudden_sounds: ai ? ai._loud_sudden_sounds : (cs?.loud_sudden_sounds ?? false),
-          flashing_lights: ai ? ai._flashing_lights : (cs?.flashing_lights ?? false),
-          fear_realistic: ai ? ai._fear_realistic : (cs?.fear_realistic ?? 0),
-          social_safety: ai ? ai._social_safety : (cs?.social_safety ?? 0),
-          language_freq: ai ? ai._language_freq : (cs?.language_freq ?? 0)
+        const payload={
+          id,type:document.getElementById('f-type').value,
+          title:document.getElementById('f-title').value.trim(),
+          emoji:document.getElementById('f-emoji').value.trim(),
+          bg:document.getElementById('f-bg').value.trim(),
+          poster:document.getElementById('f-poster').value.trim()||null,
+          poster_type:posterType||null,
+          age:document.getElementById('f-age').value.trim(),
+          seasons:parseInt(document.getElementById('f-seasons').value)||null,
+          dur:parseInt(document.getElementById('f-dur').value)||null,
+          rating:document.getElementById('f-rating').value,
+          csm:parseInt(document.getElementById('f-csm').value)||5,
+          genres:document.getElementById('f-genres').value.split(',').map(g=>g.trim()).filter(Boolean),
+          v:parseInt(document.getElementById('f-v').value),
+          f:parseInt(document.getElementById('f-f').value),
+          l:parseInt(document.getElementById('f-l').value),
+          s:parseInt(document.getElementById('f-s').value),
+          pos:parseInt(document.getElementById('f-pos').value),
+          roles:parseInt(document.getElementById('f-roles').value),
+          con:parseInt(document.getElementById('f-con').value),
+          dr:parseInt(document.getElementById('f-dr').value),
+          calm:parseInt(document.getElementById('f-calm').value),
+          cuts:parseInt(document.getElementById('f-cuts').value),
+          colour:parseInt(document.getElementById('f-colour').value),
+          pace:parseInt(document.getElementById('f-pace').value),
+          themes,platforms,
+          synopsis:document.getElementById('f-synopsis').value.trim(),
+          trailer:document.getElementById('f-trailer').value.trim()||null,
+          eps:[],
+          neuro_pills:activePills.length?activePills:(ai?ai._neuro_pills:cs?.neuro_pills||[]),
+          one_line_summary:ai?ai._one_line_summary:cs?.one_line_summary||null,
+          sensory_notes:ai?ai._sensory_notes:cs?.sensory_notes||null,
+          loud_sudden_sounds:flagOn('loud_sudden_sounds')||(ai?ai._loud_sudden_sounds:cs?.loud_sudden_sounds??false),
+          flashing_lights:flagOn('flashing_lights')||(ai?ai._flashing_lights:cs?.flashing_lights??false),
+          fear_realistic:ai?ai._fear_realistic:cs?.fear_realistic??0,
+          social_safety:ai?ai._social_safety:cs?.social_safety??0,
+          language_freq:ai?ai._language_freq:cs?.language_freq??0
         };
 
-        if (isUpdate) {
-          await sbFetch(`shows?id=eq.${dbId}`, { method: 'PATCH', prefer: 'return=minimal', body: JSON.stringify(payload) });
-          const idx = SHOWS.findIndex(s => s.id === parseInt(dbId));
-          if (idx > -1) SHOWS[idx] = { ...SHOWS[idx], ...payload, id: parseInt(dbId) };
-          toast('✅ Saved!', 'ok');
+        if (isUpdate){
+          await sbFetch(`shows?id=eq.${dbId}`,{method:'PATCH',prefer:'return=minimal',body:JSON.stringify(payload)});
+          const idx=SHOWS.findIndex(s=>s.id===parseInt(dbId));
+          if (idx>-1) SHOWS[idx]={...SHOWS[idx],...payload,id:parseInt(dbId)};
+          toast('✅ Saved!','ok');
         } else {
-          await sbFetch('shows', { method: 'POST', prefer: 'return=minimal', body: JSON.stringify(payload) });
-          SHOWS.push({ ...payload }); currentShow = payload;
-          document.getElementById('f-dbid').value = id;
-          toast('✅ Added to Supabase!', 'ok');
+          await sbFetch('shows',{method:'POST',prefer:'return=minimal',body:JSON.stringify(payload)});
+          SHOWS.push({...payload});currentShow=payload;document.getElementById('f-dbid').value=id;
+          toast('✅ Added to Supabase!','ok');
         }
-
-        if (statusEl) { statusEl.className = 'save-status ok'; statusEl.textContent = '✓ Saved successfully'; }
+        if (statusEl){statusEl.className='save-status ok';statusEl.textContent='✓ Saved successfully';}
         renderSidebar();
-      } catch (e) {
-        console.error(e);
-        if (statusEl) { statusEl.className = 'save-status err'; statusEl.textContent = '✕ Error: ' + e.message; }
-        toast('Error saving: ' + e.message, 'err');
+      } catch(e){
+        if (statusEl){statusEl.className='save-status err';statusEl.textContent='✕ Error: '+e.message;}
+        toast('Error saving: '+e.message,'err');
       }
-      if (saveBtn) saveBtn.disabled = false;
+      if (saveBtn) saveBtn.disabled=false;
     }
 
-    // ═══════════════ DELETE ═══════════════
-    async function deleteShow(id, title) {
+    // ═══ DELETE ═══
+    async function deleteShow(id,title) {
       if (!confirm(`Delete "${title}" from Supabase? This cannot be undone.`)) return;
-      try {
-        await sbFetch(`shows?id=eq.${id}`, { method: 'DELETE', prefer: 'return=minimal' });
-        SHOWS = SHOWS.filter(s => s.id !== id);
-        currentShow = null; renderSidebar(); showSearch();
-        toast(`🗑 "${title}" deleted`, 'ok');
-      } catch (e) { toast('Delete failed: ' + e.message, 'err'); }
+      try{
+        await sbFetch(`shows?id=eq.${id}`,{method:'DELETE',prefer:'return=minimal'});
+        SHOWS=SHOWS.filter(s=>s.id!==id);currentShow=null;renderSidebar();showSearch();
+        toast(`🗑 "${title}" deleted`,'ok');
+      } catch(e){toast('Delete failed: '+e.message,'err');}
     }
 
-    // ═══════════════ UTILS ═══════════════
-    function escHtml(str) {
-      return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    function escHtml(str){return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+
+    function toast(msg,type=''){
+      const t=document.getElementById('toast');
+      t.textContent=msg;t.className='toast show'+(type?' '+type:'');
+      clearTimeout(t._timer);t._timer=setTimeout(()=>t.className='toast',2800);
     }
 
-    function toast(msg, type = '') {
-      const t = document.getElementById('toast');
-      t.textContent = msg; t.className = 'toast show' + (type ? ' ' + type : '');
-      clearTimeout(t._timer); t._timer = setTimeout(() => t.className = 'toast', 2800);
-    }
-
-    // ═══════════════ INIT ═══════════════
     loadShows();
   </script>
 </body>
-
 </html>
