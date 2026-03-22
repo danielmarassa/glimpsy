@@ -66,7 +66,9 @@ audio_stress_level (0–5):
   3 = Complex/layered — fast dialogue, multiple audio streams
   4 = High volume sustained — loud but continuous
   5 = Sudden & unpredictable — jump scares, crashes, unexpected loud sounds
-  ALWAYS flag loud_sudden_sounds=true for ANY sudden audio shock.
+  ALWAYS flag loud_sudden_sounds=true for ANY sudden audio shock — e.g. jump scares, crashes,
+  bangs, or unexpected loud noises. Do NOT flag for upbeat theme tunes, cheerful music,
+  or predictable fanfares even if they are energetic.
 
 overall_score (0–5 where 5 = very calm, 0 = very stimulating):
   5 = Very calm, 4 = Mostly calm, 3 = Moderate, 2 = Quite stimulating,
