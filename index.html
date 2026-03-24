@@ -3645,6 +3645,48 @@
 
 
     </script>
+    <!-- ═══ COOKIE BANNER ═══ -->
+<div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#1a1814;border-top:1px solid rgba(255,255,255,.1);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+  <div style="font-size:.78rem;color:#8a8278;line-height:1.6;flex:1;min-width:260px;">
+    We use essential cookies to make Glimpsy work. We don't use tracking or advertising cookies.
+    <a href="/cookies.html" style="color:#d87d4a;text-decoration:none;margin-left:4px;">Cookie Policy</a> ·
+    <a href="/privacy.html" style="color:#d87d4a;text-decoration:none;margin-left:4px;">Privacy Policy</a>
+  </div>
+  <div style="display:flex;gap:10px;flex-shrink:0;">
+    <button onclick="acceptCookies()" style="padding:9px 20px;border-radius:5px;background:#c96a3a;color:white;border:none;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;">Accept</button>
+    <button onclick="declineCookies()" style="padding:9px 20px;border-radius:5px;background:rgba(255,255,255,.06);color:#8a8278;border:1px solid rgba(255,255,255,.14);font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;">Essential only</button>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer style="background:#0f0e0c;border-top:1px solid rgba(255,255,255,.06);padding:24px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+  <div style="font-size:.68rem;color:#5a5650;">© 2025 Glimpsy · For parents and guardians · <a href="mailto:hello@glimpsy.uk" style="color:#5a5650;text-decoration:none;">hello@glimpsy.uk</a></div>
+  <div style="display:flex;gap:20px;flex-wrap:wrap;">
+    <a href="/privacy.html" style="font-size:.68rem;color:#5a5650;text-decoration:none;">Privacy Policy</a>
+    <a href="/terms.html" style="font-size:.68rem;color:#5a5650;text-decoration:none;">Terms of Use</a>
+    <a href="/cookies.html" style="font-size:.68rem;color:#5a5650;text-decoration:none;">Cookie Policy</a>
+    <a href="/about.html" style="font-size:.68rem;color:#5a5650;text-decoration:none;">About</a>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    const consent = localStorage.getItem('glimpsy_cookie_consent');
+    if (!consent) {
+      document.getElementById('cookie-banner').style.display = 'flex';
+    }
+  })();
+
+  function acceptCookies() {
+    localStorage.setItem('glimpsy_cookie_consent', 'accepted');
+    document.getElementById('cookie-banner').style.display = 'none';
+  }
+
+  function declineCookies() {
+    localStorage.setItem('glimpsy_cookie_consent', 'essential');
+    document.getElementById('cookie-banner').style.display = 'none';
+  }
+</script>
 </body>
 
 </html>
