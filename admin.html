@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glimpsy Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0 }
+    body { font-family: 'DM Sans', sans-serif; background: #0f0e0c; color: #f0ede8; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+    .card { width: 100%; max-width: 360px; padding: 40px; background: #1a1814; border: 1px solid rgba(255,255,255,.08); border-radius: 12px; }
+    .brand { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; letter-spacing: .1em; margin-bottom: 8px; }
+    .brand em { font-style: italic; color: #d87d4a; }
+    .sub { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: #8a8278; margin-bottom: 32px; }
+    label { font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #8a8278; display: block; margin-bottom: 6px; }
+    input { width: 100%; padding: 11px 14px; border-radius: 5px; border: 1.5px solid rgba(255,255,255,.14); background: #1e1c18; color: #f0ede8; font-family: 'DM Sans', sans-serif; font-size: .9rem; outline: none; transition: border-color .15s; margin-bottom: 16px; }
+    input:focus { border-color: #c96a3a; }
+    button { width: 100%; padding: 12px; border-radius: 5px; background: #c96a3a; color: white; border: none; font-family: 'DM Sans', sans-serif; font-size: .85rem; font-weight: 700; cursor: pointer; transition: background .18s; }
+    button:hover { background: #d87d4a; }
+    button:disabled { background: #5a5650; cursor: not-allowed; }
+    .error { font-size: .75rem; color: #e08080; margin-top: 12px; text-align: center; min-height: 20px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="brand">glimps<em>y</em></div>
+    <div class="sub">Content Admin</div>
+    <label for="pw">Password</label>
+    <input type="password" id="pw" placeholder="Enter password" onkeydown="if(event.key==='Enter')login()">
+    <button id="btn" onclick="login()">Enter →</button>
+    <div class="error" id="err"></div>
+  </div>
+  <script>
+    // If already authed, go straight to admin
+    if (document.cookie.includes('glimpsy_admin=1')) {
+      window.location.href = '/_admin.html';
+    }
+
+    async function login() {
+      const pw = document.getElementById('pw').value;
+      const btn = document.getElementById('btn');
+      const err = document.getElementById('err');
+      if (!pw) return;
+      btn.disabled = true;
+      btn.textContent = 'Checking…';
+      err.textContent = '';
+      try {
+        const res = await fetch('/api/auth', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: pw })
+        });
+        if (res.ok) {
+          window.location.href = '/_admin.html';
+        } else {
+          err.textContent = 'Incorrect password.';
+          btn.disabled = false;
+          btn.textContent = 'Enter →';
+        }
+      } catch (e) {
+        err.textContent = 'Something went wrong.';
+        btn.disabled = false;
+        btn.textContent = 'Enter →';
+      }
+    }
+  </script>
+</body>
+</html>
