@@ -766,6 +766,17 @@ Return JSON with exactly these keys: violence,fear_fantasy,fear_realistic,langua
               </div>`).join('')}
           </div>
           <button class="btn btn-ghost" style="font-size:.72rem;padding:7px 14px;margin-top:4px;" onclick="addPlatformRow()">＋ Add platform</button>
+          <!-- ═══ EPISODES ═══ -->
+          <div class="section-divider">Episodes <span>From TVmaze — stored for parent-facing display and AI tagging</span></div>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+            <button class="btn btn-ghost" style="font-size:.72rem;padding:7px 14px;" onclick="fetchEpisodes()">
+              📺 Fetch episodes from TVmaze
+            </button>
+            <div id="eps-status" style="font-size:.68rem;color:var(--muted);"></div>
+          </div>
+          <div id="eps-wrap" style="display:${(e.eps && e.eps.length) ? 'block' : 'none'}">
+            ${(e.eps && e.eps.length) ? renderEpisodeList(e.eps) : ''}
+          </div>
 
           <input type="hidden" id="f-id" value="${nextId}">
           <input type="hidden" id="f-dbid" value="${e.dbId || ''}">
@@ -831,6 +842,62 @@ Return JSON with exactly these keys: violence,fear_fantasy,fear_realistic,langua
       wrap.appendChild(div);
     }
 
+    // ═══ TVMAZE EPISODES ═══
+    async function fetchEpisodes() {
+      const title = document.getElementById('f-title')?.value?.trim();
+      const status = document.getElementById('eps-status');
+      const wrap = document.getElementById('eps-wrap');
+      if (!title) { toast('Add a title first', 'err'); return; }
+      status.textContent = 'Fetching from TVmaze…';
+      status.style.color = 'var(--muted)';
+      try {
+        const res = await fetch(`/api/tvmaze?title=${encodeURIComponent(title)}`);
+        const data = await res.json();
+        if (!res.ok) {
+          status.textContent = '✕ ' + (data.error || 'Not found on TVmaze');
+          status.style.color = 'var(--red)';
+          return;
+        }
+        window._lastEpisodes = data.episodes;
+        wrap.style.display = 'block';
+        wrap.innerHTML = renderEpisodeList(data.episodes);
+        status.textContent = `✓ ${data.episode_count} episodes fetched`;
+        status.style.color = 'var(--sage-light)';
+        toast(`📺 ${data.episode_count} episodes loaded from TVmaze`, 'ok');
+      } catch (e) {
+        status.textContent = '✕ Failed: ' + e.message;
+        status.style.color = 'var(--red)';
+      }
+    }
+
+    function renderEpisodeList(episodes) {
+      if (!episodes || !episodes.length) return '<div style="font-size:.75rem;color:var(--muted);">No episodes found.</div>';
+      const seasons = {};
+      episodes.forEach(ep => {
+        const s = ep.season || 1;
+        if (!seasons[s]) seasons[s] = [];
+        seasons[s].push(ep);
+      });
+      return Object.entries(seasons).map(([season, eps]) => `
+        <details style="margin-bottom:8px;" ${season === '1' ? 'open' : ''}>
+          <summary style="cursor:pointer;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:8px 0;list-style:none;display:flex;align-items:center;gap:8px;">
+            <span style="color:var(--terra-light);">▶</span> Season ${season} <span style="font-weight:400;color:var(--light);">(${eps.length} episodes)</span>
+          </summary>
+          <div style="margin-top:4px;border-left:2px solid var(--border2);padding-left:12px;">
+            ${eps.map(ep => `
+              <div style="padding:10px 0;border-bottom:1px solid var(--border);">
+                <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px;">
+                  <span style="font-size:.6rem;font-weight:700;color:var(--light);flex-shrink:0;">S${String(ep.season).padStart(2,'0')}E${String(ep.number).padStart(2,'0')}</span>
+                  <span style="font-size:.8rem;font-weight:500;color:var(--text);">${escHtml(ep.title || 'Untitled')}</span>
+                  ${ep.duration ? `<span style="font-size:.6rem;color:var(--light);margin-left:auto;flex-shrink:0;">${ep.duration}m</span>` : ''}
+                </div>
+                ${ep.synopsis ? `<div style="font-size:.72rem;color:var(--muted);line-height:1.6;">${escHtml(ep.synopsis.slice(0, 200))}${ep.synopsis.length > 200 ? '…' : ''}</div>` : ''}
+                ${ep.airdate ? `<div style="font-size:.62rem;color:var(--light);margin-top:3px;">${ep.airdate}</div>` : ''}
+              </div>`).join('')}
+          </div>
+        </details>`).join('');
+    }
+    
     // ═══ SAVE ═══
     async function saveShow() {
       const statusEl = document.getElementById('save-status');
@@ -880,7 +947,7 @@ Return JSON with exactly these keys: violence,fear_fantasy,fear_realistic,langua
           themes, platforms,
           synopsis: document.getElementById('f-synopsis').value.trim(),
           trailer: document.getElementById('f-trailer').value.trim() || null,
-          eps: [],
+          eps: window._lastEpisodes || (cs?.eps || []),
           neuro_pills: activePills.length ? activePills : (ai ? ai._neuro_pills : cs?.neuro_pills || []),
           one_line_summary: ai ? ai._one_line_summary : cs?.one_line_summary || null,
           sensory_notes: ai ? ai._sensory_notes : cs?.sensory_notes || null,
