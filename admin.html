@@ -191,21 +191,7 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    // ═══════════════ ADMIN AUTH ═══════════════
-    (function () {
-      const ADMIN_PASSWORD = 'M$naiKiK!';
-      const SESSION_KEY = 'glimpsy_admin_auth';
-      if (sessionStorage.getItem(SESSION_KEY) !== ADMIN_PASSWORD) {
-        const input = prompt('Glimpsy Admin — enter password:');
-        if (input !== ADMIN_PASSWORD) {
-          document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;color:#666;background:#0f0e0c;">Access denied.</div>';
-          throw new Error('Unauthorised');
-        }
-        sessionStorage.setItem(SESSION_KEY, ADMIN_PASSWORD);
-      }
-    })();
-
-    // ═══════════════ CONFIG ═══════════════
+        // ═══════════════ CONFIG ═══════════════
     const SUPABASE_URL = 'https://adbhrxslhzevrfkrudvw.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_Z3cI6vhaMUAP-MOo4WH3MQ_wDH_5ikU';
     const TMDB_KEY = 'a7d3cc4ab198a61fd4473e5f90b0c745';
