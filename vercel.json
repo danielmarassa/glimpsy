@@ -4,6 +4,15 @@
   ],
   "routes": [
     {
+      "src": "/_admin.html",
+      "has": [{ "type": "cookie", "key": "glimpsy_admin", "value": "1" }],
+      "dest": "/_admin.html"
+    },
+    {
+      "src": "/_admin.html",
+      "dest": "/admin.html"
+    },
+    {
       "src": "/",
       "has": [{ "type": "host", "value": "admin.glimpsy.uk" }],
       "dest": "/admin.html"
