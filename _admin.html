@@ -772,6 +772,9 @@ Return JSON with exactly these keys: violence,fear_fantasy,fear_realistic,langua
             <button class="btn btn-ghost" style="font-size:.72rem;padding:7px 14px;" onclick="fetchEpisodes()">
               📺 Fetch episodes from TVmaze
             </button>
+            <button class="btn btn-ghost" id="btn-tag-eps" style="font-size:.72rem;padding:7px 14px;" onclick="tagEpisodesWithAI()">
+              ✦ Tag episodes with AI
+            </button>
             <div id="eps-status" style="font-size:.68rem;color:var(--muted);"></div>
           </div>
           <div id="eps-wrap" style="display:${(e.eps && e.eps.length) ? 'block' : 'none'}">
@@ -870,6 +873,73 @@ Return JSON with exactly these keys: violence,fear_fantasy,fear_realistic,langua
       }
     }
 
+    // ═══ EPISODE AI TAGGING ═══
+    async function tagEpisodesWithAI() {
+      const episodes = (window._lastEpisodes || currentShow?.eps || []).map(ep => ({ ...ep }));
+      const btn = document.getElementById('btn-tag-eps');
+      const status = document.getElementById('eps-status');
+      const showTitle = document.getElementById('f-title')?.value || currentShow?.title || '';
+      const toTag = episodes.filter(ep => ep.synopsis && ep.synopsis.trim());
+      if (!toTag.length) { toast('No episodes with synopses to tag', 'err'); return; }
+      btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Tagging…';
+      status.textContent = `0 / ${toTag.length}…`;
+      status.style.color = 'var(--muted)';
+      let done = 0;
+      for (const ep of toTag) {
+        try {
+          const epRef = `S${ep.season}E${ep.number} "${ep.title}"`;
+          const prompt = `You are a children's content analyst for Glimpsy. Tag this single TV episode for parents.
+
+SHOW: "${showTitle}"
+EPISODE: ${epRef}
+SYNOPSIS: "${ep.synopsis}"
+
+Return ONLY valid JSON with exactly these two keys — no preamble, no markdown:
+{
+  "themes": [],
+  "neuro_pills": []
+}
+
+themes — pick only what clearly appears in THIS episode from:
+death, monsters, bullying, toilet-humour, mild-violence, scary, divorce, grief, guns, educational, positive-friendship, positive-empathy, family-values, family-conflict, mild-language, social-skills, sensory-friendly, repetitive-structure, clear-narrative
+
+neuro_pills — pick from:
+low-sensory-load, autism-friendly, stimming-friendly, adhd-engagement, calming-transition, executive-function, co-viewing-recommended, bedtime-safe
+
+Be conservative. Only include tags clearly supported by the synopsis.`;
+          const res = await fetch('/api/score', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
+          });
+          const data = await res.json();
+          const rawText = data?.content?.[0]?.text || '{}';
+          const parsed = JSON.parse(rawText.replace(/```json|```/g, '').trim());
+          ep.th = parsed.themes || [];
+          ep.np = parsed.neuro_pills || [];
+        } catch (err) {
+          console.warn('Failed to tag episode:', ep.title, err);
+        }
+        done++;
+        status.textContent = `${done} / ${toTag.length} tagged…`;
+        await new Promise(r => setTimeout(r, 150));
+      }
+      // Merge tags back into full episodes array (un-tagged eps keep their original data)
+      const tagMap = {};
+      toTag.forEach(ep => { tagMap[ep.tvmaze_id ?? (ep.season + '-' + ep.number)] = ep; });
+      const merged = episodes.map(ep => {
+        const key = ep.tvmaze_id ?? (ep.season + '-' + ep.number);
+        return tagMap[key] || ep;
+      });
+      window._lastEpisodes = merged;
+      const wrap = document.getElementById('eps-wrap');
+      if (wrap) { wrap.style.display = 'block'; wrap.innerHTML = renderEpisodeList(merged); }
+      btn.disabled = false; btn.innerHTML = '✦ Tag episodes with AI';
+      status.textContent = `✓ ${done} episodes tagged`;
+      status.style.color = 'var(--sage-light)';
+      toast(`✦ ${done} episodes tagged — save the show to persist`, 'ok');
+    }
+
     function renderEpisodeList(episodes) {
       if (!episodes || !episodes.length) return '<div style="font-size:.75rem;color:var(--muted);">No episodes found.</div>';
       const seasons = {};
@@ -892,6 +962,8 @@ Return JSON with exactly these keys: violence,fear_fantasy,fear_realistic,langua
                   ${ep.duration ? `<span style="font-size:.6rem;color:var(--light);margin-left:auto;flex-shrink:0;">${ep.duration}m</span>` : ''}
                 </div>
                 ${ep.synopsis ? `<div style="font-size:.72rem;color:var(--muted);line-height:1.6;">${escHtml(ep.synopsis.slice(0, 200))}${ep.synopsis.length > 200 ? '…' : ''}</div>` : ''}
+                ${(ep.th && ep.th.length) ? `<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;">${ep.th.map(t => `<span style="font-size:.58rem;padding:2px 8px;border-radius:10px;background:var(--terra-pale);color:var(--terra-light);border:1px solid rgba(201,106,58,.2);">${t.replace(/-/g,' ')}</span>`).join('')}</div>` : ''}
+                ${(ep.np && ep.np.length) ? `<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;">${ep.np.map(p => `<span style="font-size:.58rem;padding:2px 8px;border-radius:10px;background:var(--sage-pale);color:var(--sage-light);border:1px solid rgba(74,112,85,.2);">🧠 ${p.replace(/-/g,' ')}</span>`).join('')}</div>` : ''}
                 ${ep.airdate ? `<div style="font-size:.62rem;color:var(--light);margin-top:3px;">${ep.airdate}</div>` : ''}
               </div>`).join('')}
           </div>
