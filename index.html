@@ -1816,6 +1816,12 @@
             border: 1.5px solid;
         }
 
+        .ep-pill-neuro {
+            background: var(--green-pale);
+            color: var(--green);
+            border-color: rgba(45, 74, 53, .2);
+        }
+
         .ep-caret {
             font-size: .6rem;
             color: var(--muted);
@@ -3302,30 +3308,48 @@
         }
 
         // ═══════════════ DETAIL ═══════════════
+        function normalizeEp(ep) {
+            // Handle both TVmaze format (season/number/title/duration) and legacy format (n/t/d)
+            return {
+                n: ep.n || ('S' + String(ep.season || 1).padStart(2, '0') + 'E' + String(ep.number || 0).padStart(2, '0')),
+                t: ep.t || ep.title || 'Untitled',
+                d: ep.d != null ? ep.d : (ep.duration != null ? ep.duration : null),
+                th: ep.th || [],
+                np: ep.np || [],
+                synopsis: ep.synopsis || ''
+            };
+        }
+
         function buildEpSection(item) {
             const rows = item.eps.map(function (ep, ei) {
-                const epId = 'ep-' + item.id + '-' + ei;
-                const dots = (ep.th || []).map(function (t) {
+                const e = normalizeEp(ep);
+                const dots = e.th.map(function (t) {
                     const ts = themeStatus(t);
                     const col = ts === 'ok' ? '#2e7a4a' : ts === 'block' ? '#c03838' : '#e09018';
                     return '<div class="ep-dot" style="background:' + col + '"></div>';
                 }).join('');
-                const pills = (ep.th || []).map(function (t) {
+                const themePills = e.th.map(function (t) {
                     const ts = themeStatus(t);
                     const cls = ts === 'ok' ? 'tp-ok' : ts === 'block' ? 'tp-block' : 'tp-warn';
                     const icon = ts === 'ok' ? '&#10003;' : ts === 'block' ? '&#10007;' : '&#9888;';
                     return '<span class="ep-pill ' + cls + '">' + icon + ' ' + t.replace(/-/g, ' ') + '</span>';
                 }).join('');
-                const synopsis = ep.synopsis ? '<div class="ep-synopsis">' + ep.synopsis + '</div>' : '';
+                const neuroPills = e.np.length ? e.np.map(function (p) {
+                    return '<span class="ep-pill ep-pill-neuro">🧠 ' + p.replace(/-/g, ' ') + '</span>';
+                }).join('') : '';
+                const synopsis = e.synopsis ? '<div class="ep-synopsis">' + e.synopsis + '</div>' : '';
+                const pillSection = (themePills || neuroPills)
+                    ? '<div class="ep-theme-pills">' + themePills + neuroPills + '</div>'
+                    : '';
                 return '<div class="ep-row" onclick="toggleEp(event)">'
                     + '<div class="ep-header">'
-                    + '<span class="ep-n">' + ep.n + '</span>'
-                    + '<span class="ep-t">' + ep.t + '</span>'
-                    + '<span class="ep-d">' + ep.d + 'm</span>'
+                    + '<span class="ep-n">' + e.n + '</span>'
+                    + '<span class="ep-t">' + e.t + '</span>'
+                    + (e.d != null ? '<span class="ep-d">' + e.d + 'm</span>' : '')
                     + '<div class="ep-dots">' + dots + '</div>'
                     + '<span class="ep-caret">&#9660;</span>'
                     + '</div>'
-                    + '<div class="ep-expand">' + synopsis + '<div class="ep-theme-pills">' + pills + '</div></div>'
+                    + '<div class="ep-expand">' + synopsis + pillSection + '</div>'
                     + '</div>';
             }).join('');
             return '<div class="d-section"><div class="d-section-title">Episodes</div><div class="ep-list">' + rows + '</div></div>';
