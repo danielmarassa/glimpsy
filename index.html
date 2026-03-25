@@ -3378,7 +3378,7 @@
             const groups = seasonNums.map(function(sNum, si) {
                 const eps = seasonMap[sNum];
                 const rows = eps.map(buildEpRow).join('');
-                return '<div class="ep-season-group' + (si === 0 ? ' open' : '') + '">'
+                return '<div class="ep-season-group">'
                     + '<div class="ep-season-hdr" onclick="this.parentElement.classList.toggle(\'open\')">'
                     + '<span class="ep-season-caret">▶</span>'
                     + 'Season ' + sNum
